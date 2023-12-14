@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "@react-email/components": "^0.0.12",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
     "firebase": "^10.7.1",

@@ -1,4 +1,4 @@
-import { EmailTemplate } from "@/app/components/EmailTemplate";
+import { YelpRecentLoginEmail } from "@/app/components/EmailTemplate";
 import { Resend } from "resend";
 import Newsletter from "@/models/Newsletter";
 import connectMongoDB from "@/libs/mongodb";
@@ -17,8 +17,8 @@ export async function POST(req: any) {
         from: "test-admincp <newsletter@ludwikfaron.com>",
         to: [e.email],
         subject: subject,
-        // react: EmailTemplate({ content }) as React.ReactElement,
-        html: content,
+        react: YelpRecentLoginEmail({ userFirstName: "john" }),
+        // html: content,
       });
       return data;
     });
