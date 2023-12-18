@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import Navbar from "../components/Navbar";
 import UserProfile from "../components/UserProfile";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "@/libs/authOptions";
 import Head from "next/head";
 
 const SS3 = Roboto({ subsets: ["latin"], weight: "400" });
@@ -26,7 +26,9 @@ export default async function RootLayout({
     redirect("/");
   }
 
-  if (session.user.role != "admin") {
+  const { user } = session;
+
+  if (user && "role" in user && user.role !== "admin") {
     redirect("/playground");
   }
 

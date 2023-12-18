@@ -1,9 +1,18 @@
+import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import User from "@/models/User";
 import connectMongoDB from "@/libs/mongodb";
+import { Session } from "next-auth";
 
-export const authOptions = {
+interface CustomUser {
+  name?: string | null | undefined;
+  email?: string | null | undefined;
+  image?: string | null | undefined;
+  role?: string | null | undefined;
+}
+
+export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       id: "credentials",
@@ -13,6 +22,10 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        if (!credentials) {
+          throw new Error("Credentials are missing.");
+        }
+
         await connectMongoDB();
         try {
           const user = await User.findOne({ email: credentials.email });
@@ -26,20 +39,24 @@ export const authOptions = {
               return user;
             }
           }
-        } catch (error) {
+        } catch (error: any) {
           throw new Error(error);
         }
       },
     }),
   ],
   callbacks: {
-    async session({ session }) {
-      const user = await User.findOne({
-        email: session.user.email,
-      });
+    async session({ session }: { session: Session & { user?: CustomUser } }) {
+      if (session && session.user && session.user.email) {
+        const user = await User.findOne({
+          email: session.user.email,
+        });
 
-      const { password, ...userData } = user.toObject();
-      session.user = userData;
+        if (user) {
+          const { password, ...userData } = user.toObject();
+          session.user = userData;
+        }
+      }
 
       return session;
     },
