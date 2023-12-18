@@ -29,10 +29,10 @@
     ".next/types/**/*.ts",
     "app/api/register/route.js",
     "app/components/Navbar.tsx",
-    "app/api/auth/[...nextauth]/route.js",
-    "app/api/auth/[...nextauth]/route.js",
+    "app/api/auth/[...nextauth]/route.ts",
+    "app/api/auth/[...nextauth]/route.ts",
     "app/api/delete-user/route.ts",
-    "libs/authOptions.js"
+    "libs/authOptions.ts"
   ],
   "exclude": ["node_modules"]
 }
