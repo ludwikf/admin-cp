@@ -3,9 +3,8 @@ import connectMongoDB from "@/libs/mongodb";
 import { NextResponse } from "next/server";
 
 export const POST = async (req: any) => {
-  const { email } = await req.json();
-
   await connectMongoDB();
+  const { email } = await req.json();
 
   const newNewsletter = new Newsletter({
     email,

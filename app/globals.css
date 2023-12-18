@@ -27,3 +27,22 @@ body {
 .rotate:hover .w-8 {
   animation: rotate360 0.3s ease;
 }
+
+.loader {
+  border: 4px solid #ffa60065;
+  border-left: 4px solid #ffa500;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

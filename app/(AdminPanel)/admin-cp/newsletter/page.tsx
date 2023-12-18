@@ -1,10 +1,34 @@
 "use client";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function Newsletter() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [preview, setPreview] = useState<string>("");
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [iframeHeight, setIframeHeight] = useState<number | null>(null);
+  const [templates, setTemplates] = useState<any[]>([]);
+  const [useTemplate, setUseTemplate] = useState<any>("");
+  const [subject, setSubject] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const fetchTemplates = async () => {
+    try {
+      const res = await fetch("/api/templates");
+
+      if (res.ok) {
+        const data = await res.json();
+        setTemplates(data);
+      }
+    } catch (error: any) {
+      throw new Error("failed to fetch templates", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -27,7 +51,7 @@ export default function Newsletter() {
         throw new Error("Error sending newsletter");
       }
       if (res.status === 200) {
-        console.log("worked");
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);
@@ -38,6 +62,48 @@ export default function Newsletter() {
     const content = textareaRef.current?.value || "";
     setPreview(content);
   };
+
+  const deleteHandler = async (id: any) => {
+    try {
+      const res = await fetch(`/api/delete-template?id=${id}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        fetchTemplates();
+      }
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };
+
+  useEffect(() => {
+    const iframe = iframeRef.current;
+    if (iframe) {
+      iframe.addEventListener("load", () => {
+        const iframeDocument = iframe.contentDocument;
+        if (iframeDocument) {
+          const body = iframeDocument.body;
+          if (body) {
+            const newHeight = body.scrollHeight;
+            setIframeHeight(newHeight);
+          }
+        }
+      });
+    }
+  }, [preview]);
+
+  useEffect(() => {
+    fetchTemplates();
+  }, []);
+
+  useEffect(() => {
+    if (useTemplate && useTemplate.content) {
+      setPreview(useTemplate.content);
+      setSubject(useTemplate.subject || "");
+      setContent(useTemplate.content || "");
+    }
+  }, [useTemplate]);
 
   return (
     <main className="flex min-h-screen">
@@ -60,6 +126,10 @@ export default function Newsletter() {
                     Subject
                   </label>
                   <input
+                    onChange={(e) => {
+                      setSubject(e.target.value);
+                    }}
+                    value={subject}
                     className="bg-inherit text-2xl bg-secondTheme focus:outline-none p-2 rounded-xl"
                     type="text"
                     id="subject"
@@ -71,11 +141,15 @@ export default function Newsletter() {
                     Content
                   </label>
                   <textarea
+                    value={content}
                     autoCorrect="off"
-                    onChange={handleContentChange}
+                    onChange={(e) => {
+                      handleContentChange();
+                      setContent(e.target.value);
+                    }}
                     ref={textareaRef}
                     id="content"
-                    className="rounded-xl w-full h-[350px] p-2 bg-inherit text-lg bg-secondTheme focus:outline-none resize-none"
+                    className="rounded-xl w-full h-[300px] p-2 bg-inherit text-lg bg-secondTheme focus:outline-none resize-none"
                   />
                 </div>
 
@@ -88,34 +162,61 @@ export default function Newsletter() {
               </form>
             </div>
             <div className="w-[30%] flex flex-col items-end">
-              <div className="flex justify-between">
-                <Link
-                  href={"/admin-cp/new-template"}
-                  className="bg-white text-black px-3 py-2 rounded-xl hover:brightness-50 transition-all mb-3"
-                >
-                  Create Template
-                </Link>
+              <div className="w-[90%]  flex flex-col justify-center items-center">
+                <div className="flex justify-between mt-7">
+                  <Link
+                    href={"/admin-cp/newsletter/new-template"}
+                    className="bg-white text-black px-3 py-2 rounded-xl hover:brightness-50 transition-all mb-3"
+                  >
+                    Create Template
+                  </Link>
+                </div>
+                <ul className="w-ful flex flex-col items-center">
+                  {isLoading ? (
+                    <div className="mt-2 w-12 h-12">
+                      <LoadingSpinner />
+                    </div>
+                  ) : (
+                    templates.map((t) => (
+                      <div key={t._id} className="flex gap-1.5">
+                        <li
+                          onClick={() => setUseTemplate(t)}
+                          className="w-[100%] break-all text-center my-2 text-lg hover:text-mainTheme cursor-pointer select-none"
+                        >
+                          {t.title}
+                        </li>
+                        <Link
+                          rel="stylesheet"
+                          href={`/admin-cp/newsletter/edit-template/${t._id}`}
+                          className="cursor-pointer flex hover:text-mainTheme"
+                        >
+                          <PencilSquareIcon className="w-5" />
+                        </Link>
+
+                        <TrashIcon
+                          onClick={() => deleteHandler(t._id)}
+                          className="w-7 cursor-pointer hover:text-mainTheme"
+                        />
+                      </div>
+                    ))
+                  )}
+                </ul>
               </div>
-              <ul>
-                <li>asdsds</li>
-                <li>asdsds</li>
-                <li>asdsds</li>
-              </ul>
             </div>
           </div>
-          <div className="w-full flex flex-col items-center min-h-[110vh]">
-            <h1 className="text-2xl text-mainTheme font-bold mb-5">Preview</h1>
-            <div className="w-[60%] min-h-[95vh] border border-[#222]">
+          <div className="w-full flex flex-col items-center">
+            <h1 className="text-2xl text-mainTheme font-bold mb-5">Preview</h1>{" "}
+            <div className="w-[100%] border-t-2 border-[#222] mb-10 ">
               {preview && (
-                <div
-                  className="flex items-center justify-center h-full bg-white"
-                  style={{ transform: "scale(0.9)" }}
-                >
+                <div className="flex items-center justify-start bg-white">
                   <iframe
                     title="Preview"
-                    className="w-full h-full"
-                    style={{ border: "none" }}
-                    srcDoc={`<!DOCTYPE html><html><head><style>body { margin: 0; }</style></head><body>${preview}</body></html>`}
+                    ref={iframeRef}
+                    className="w-full border-none "
+                    style={{
+                      height: iframeHeight ? `${iframeHeight}px` : "100%",
+                    }}
+                    srcDoc={`<!DOCTYPE html><html><head><style>body { margin: 0; word-wrap: break-word; }</style></head><body>${preview}</body></html>`}
                   />
                 </div>
               )}

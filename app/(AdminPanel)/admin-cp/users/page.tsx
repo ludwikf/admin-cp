@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { UserPlusIcon } from "@heroicons/react/24/outline";
 import { signOut, useSession } from "next-auth/react";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function Users() {
   const [users, setUsers] = useState<any[]>([]);
@@ -19,20 +20,22 @@ export default function Users() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [sortBy, setSortBy] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const { data: session, status }: any = useSession();
 
   const fetchUsers = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch("/api/users");
       if (response.ok) {
         const data = await response.json();
         setUsers(data);
-      } else {
-        throw new Error("Failed to fetch users");
       }
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      throw new Error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -340,69 +343,81 @@ export default function Users() {
             </div>
           </div>
 
-          <table className="w-[100%]">
-            <tbody className="trTable">
-              <tr className="bg-[#ffa60040] h-10 font-bold w-[100%] select-none">
-                <td className="w-[30%] pl-10 rounded-s-3xl ">
-                  <p
-                    onClick={() => {
-                      toggleSortOrder("username");
-                    }}
-                    className="w-[40px] cursor-pointer "
-                  >
-                    Username
-                  </p>
-                </td>
-                <td className="w-[30%] ">
-                  <p
-                    onClick={() => {
-                      toggleSortOrder("email");
-                    }}
-                    className="w-[40px] cursor-pointer"
-                  >
-                    Email
-                  </p>
-                </td>
-                <td className="w-[20%] ">
-                  <p
-                    onClick={() => {
-                      toggleSortOrder("createdAt");
-                    }}
-                    className="w-[80px] cursor-pointer "
-                  >
-                    Created At
-                  </p>
-                </td>
-                <td className="w-[15%] ">
-                  <p
-                    onClick={() => {
-                      toggleSortOrder("role");
-                    }}
-                    className="w-[30px] cursor-pointer "
-                  >
-                    Role
-                  </p>
-                </td>
-                <td className="rounded-e-3xl">
-                  <TrashIcon className="w-5 hidden" />
-                </td>
-              </tr>
-              {filterUsers(searchQuery).map((user) => (
-                <tr key={user._id} className="trTable h-10 rounded-3xl">
-                  <td className="pl-10 rounded-s-3xl">{user.username}</td>
-                  <td>{user.email}</td>
-                  <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-                  <td>{user.role}</td>
+          <div className="w-full h-full relative">
+            {isLoading && (
+              <div className="absolute -translate-x-1/2 left-1/2 top-[75px]">
+                <div className="w-24 h-24">
+                  <LoadingSpinner />
+                </div>
+              </div>
+            )}
+            <table className="w-[100%]">
+              <tbody className="trTable">
+                <tr className="bg-[#ffa60040] h-10 font-bold w-[100%] select-none">
+                  <td className="w-[30%] pl-10 rounded-s-3xl ">
+                    <p
+                      onClick={() => {
+                        toggleSortOrder("username");
+                      }}
+                      className="w-[40px] cursor-pointer "
+                    >
+                      Username
+                    </p>
+                  </td>
+                  <td className="w-[30%] ">
+                    <p
+                      onClick={() => {
+                        toggleSortOrder("email");
+                      }}
+                      className="w-[40px] cursor-pointer"
+                    >
+                      Email
+                    </p>
+                  </td>
+                  <td className="w-[20%] ">
+                    <p
+                      onClick={() => {
+                        toggleSortOrder("createdAt");
+                      }}
+                      className="w-[80px] cursor-pointer "
+                    >
+                      Created At
+                    </p>
+                  </td>
+                  <td className="w-[15%] ">
+                    <p
+                      onClick={() => {
+                        toggleSortOrder("role");
+                      }}
+                      className="w-[30px] cursor-pointer "
+                    >
+                      Role
+                    </p>
+                  </td>
                   <td className="rounded-e-3xl">
-                    <TrashIcon
-                      onClick={() => deleteUser(user._id)}
-                      className="w-5 cursor-pointer select-none"
-                    />
+                    <TrashIcon className="w-5 hidden" />
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+
+                {isLoading
+                  ? null
+                  : filterUsers(searchQuery).map((user) => (
+                      <tr key={user._id} className="trTable h-10 rounded-3xl">
+                        <td className="pl-10 rounded-s-3xl">{user.username}</td>
+                        <td>{user.email}</td>
+                        <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                        <td>{user.role}</td>
+                        <td className="rounded-e-3xl">
+                          <TrashIcon
+                            onClick={() => deleteUser(user._id)}
+                            className="w-5 cursor-pointer select-none"
+                          />
+                        </td>
+                      </tr>
+                    ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </main>

@@ -3,21 +3,28 @@ import React, { useEffect, useState } from "react";
 import { ArrowPathIcon, TrashIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function Posts() {
   const [file, setFile] = useState<File | null>(null);
   const [media, setMedia] = useState<string>("");
   const [posts, setPosts] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchPosts = async () => {
-    const res = await fetch("/api/posts");
+    setIsLoading(true);
+    try {
+      const res = await fetch("/api/posts");
 
-    if (res.ok) {
-      const data = await res.json();
-      setPosts(data);
-    } else {
-      throw new Error("failed to fetch users");
+      if (res.ok) {
+        const data = await res.json();
+        setPosts(data);
+      }
+    } catch (error: any) {
+      throw new Error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -91,54 +98,67 @@ export default function Posts() {
               Create post
             </Link>
           </div>
-
-          <table className="w-[100%]">
-            <tbody className="trTable">
-              <tr className="bg-[#ffa60040] h-10 font-bold w-[100%] select-none">
-                <td className="w-[30%] pl-10 rounded-s-3xl ">
-                  <p className="w-[40px] cursor-pointer ">Image</p>
-                </td>
-                <td className="w-[30%] ">
-                  <p className="w-[40px] cursor-pointer">Title</p>
-                </td>
-                <td className="w-[20%] ">
-                  <p className="w-[80px] cursor-pointer ">Author</p>
-                </td>
-                <td className="w-[15%] ">
-                  <p className="w-[80px] cursor-pointer ">Created At</p>
-                </td>
-                <td className="rounded-e-3xl">
-                  <TrashIcon className="w-5 hidden" />
-                </td>
-              </tr>
-              {filterPosts(searchQuery).map((post) => (
-                <tr key={post._id} className="trTable h-[100px] rounded-3xl">
-                  <td className="pl-3 rounded-s-3xl w-[70px] h-">
-                    <div className="w-[150px] h-[80px] relative">
-                      <Image
-                        src={post.image}
-                        alt="img"
-                        layout="fill"
-                        objectFit="cover"
-                        objectPosition="left"
-                        priority
-                        className="rounded-xl"
-                      />
-                    </div>
+          <div className="w-full h-full relative">
+            {isLoading && (
+              <div className="absolute -translate-x-1/2 left-1/2 top-[75px]">
+                <div className="w-24 h-24">
+                  <LoadingSpinner />
+                </div>
+              </div>
+            )}
+            <table className="w-[100%]">
+              <tbody className="trTable">
+                <tr className="bg-[#ffa60040] h-10 font-bold w-[100%] select-none">
+                  <td className="w-[30%] pl-10 rounded-s-3xl ">
+                    <p className="w-[40px] cursor-pointer ">Image</p>
                   </td>
-                  <td>{post.title}</td>
-                  <td>{post.author}</td>
-                  <td>{new Date().toLocaleDateString()}</td>
+                  <td className="w-[30%] ">
+                    <p className="w-[40px] cursor-pointer">Title</p>
+                  </td>
+                  <td className="w-[20%] ">
+                    <p className="w-[80px] cursor-pointer ">Author</p>
+                  </td>
+                  <td className="w-[15%] ">
+                    <p className="w-[80px] cursor-pointer ">Created At</p>
+                  </td>
                   <td className="rounded-e-3xl">
-                    <TrashIcon
-                      onClick={() => deletePost(post._id)}
-                      className="w-5 cursor-pointer select-none"
-                    />
+                    <TrashIcon className="w-5 hidden" />
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+                {isLoading
+                  ? null
+                  : filterPosts(searchQuery).map((post) => (
+                      <tr
+                        key={post._id}
+                        className="trTable h-[100px] rounded-3xl"
+                      >
+                        <td className="pl-3 rounded-s-3xl w-[70px] h-">
+                          <div className="w-[150px] h-[80px] relative">
+                            <Image
+                              src={post.image}
+                              alt="img"
+                              layout="fill"
+                              objectFit="cover"
+                              objectPosition="left"
+                              priority
+                              className="rounded-xl"
+                            />
+                          </div>
+                        </td>
+                        <td>{post.title}</td>
+                        <td>{post.author}</td>
+                        <td>{new Date().toLocaleDateString()}</td>
+                        <td className="rounded-e-3xl">
+                          <TrashIcon
+                            onClick={() => deletePost(post._id)}
+                            className="w-5 cursor-pointer select-none"
+                          />
+                        </td>
+                      </tr>
+                    ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </main>

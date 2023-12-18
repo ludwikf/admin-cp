@@ -8,6 +8,7 @@ import {
   UsersIcon,
   NewspaperIcon,
   BookOpenIcon,
+  ChartBarIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -60,6 +61,15 @@ export default function Navbar() {
             >
               <NewspaperIcon className="w-5 mr-1.5" />
               Newsletter
+            </Link>
+            <Link
+              href={"/admin-cp/analytics"}
+              className={`flex hover:text-mainTheme ${isActive(
+                "/admin-cp/analytics"
+              )} `}
+            >
+              <ChartBarIcon className="w-5 mr-1.5" />
+              Analytics
             </Link>
           </div>
           <div className="my-10 flex flex-col gap-2">

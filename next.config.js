@@ -5,6 +5,17 @@ module.exports = nextConfig;
 
 module.exports = {
   images: {
-    domains: ["firebasestorage.googleapis.com", "static-00.iconduck.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "static-00.iconduck.com",
+        pathname: "**",
+      },
+    ],
   },
 };
