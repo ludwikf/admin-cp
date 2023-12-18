@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 
-export default function page() {
+export default function Playground() {
   const [posts, setPosts] = useState<any[]>([]);
   const { data: session }: any = useSession();
 
