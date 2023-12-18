@@ -31,7 +31,8 @@
     "app/components/Navbar.tsx",
     "app/api/auth/[...nextauth]/route.js",
     "app/api/auth/[...nextauth]/route.js",
-    "app/api/delete-user/route.ts"
+    "app/api/delete-user/route.ts",
+    "libs/authOptions.js"
   ],
   "exclude": ["node_modules"]
 }
