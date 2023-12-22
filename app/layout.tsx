@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
+import PlausibleProvider from "next-plausible";
 
 import { getServerSession } from "next-auth/next";
 import SessionProvider from "@/libs/SessionProvider";
@@ -21,6 +22,13 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <PlausibleProvider
+          domain="ludwikfaron.com"
+          trackLocalhost={true}
+          enabled={true}
+        />
+      </head>
       <body className={SS3.className}>
         <SessionProvider session={session}>{children}</SessionProvider>
       </body>
