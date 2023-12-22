@@ -26,9 +26,7 @@ export default async function RootLayout({
     redirect("/");
   }
 
-  const { user } = session;
-
-  if (user && "role" in user && user.role !== "admin") {
+  if ((session.user as { role?: string })?.role !== "admin") {
     redirect("/playground");
   }
 
