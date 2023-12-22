@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { getServerSession } from "next-auth/next";
 import SessionProvider from "@/libs/SessionProvider";
+import Head from "next/head";
 
 const SS3 = Roboto({ subsets: ["latin"], weight: "400" });
 
@@ -21,6 +22,13 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <Head>
+        <script
+          defer
+          data-domain="ludwikfaron.com"
+          src="https://plausible.io/js/script.js"
+        ></script>
+      </Head>
       <body className={SS3.className}>
         <SessionProvider session={session}>{children}</SessionProvider>
       </body>
