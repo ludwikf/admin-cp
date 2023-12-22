@@ -58,7 +58,7 @@ export default function Playground() {
           href="/admin-cp/posts"
           className="absolute left-12 top-10 flex gap-0.5"
         >
-          <ArrowLeftIcon className="w-4" /> Go back
+          <ArrowLeftIcon className="w-4" /> Admin Panel
         </Link>
       )}
 

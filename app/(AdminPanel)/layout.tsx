@@ -6,7 +6,6 @@ import { redirect } from "next/navigation";
 import Navbar from "../components/Navbar";
 import UserProfile from "../components/UserProfile";
 import { authOptions } from "@/libs/authOptions";
-import Head from "next/head";
 
 const SS3 = Roboto({ subsets: ["latin"], weight: "400" });
 
@@ -32,20 +31,6 @@ export default async function RootLayout({
 
   return (
     <main className={SS3.className}>
-      <Head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-NVFL8C3ZCT');
-            `,
-          }}
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-NVFL8C3ZCT"
-        />
-      </Head>
       <UserProfile />
       <Navbar />
       {children}
