@@ -23,7 +23,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
-        <PlausibleProvider domain="ludwikfaron.com" />
+        <PlausibleProvider
+          domain="ludwikfaron.com"
+          trackLocalhost={true}
+          enabled={true}
+        />
       </head>
       <body className={SS3.className}>
         <SessionProvider session={session}>{children}</SessionProvider>

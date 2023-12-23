@@ -1,36 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ChartCountry from "@/app/components/ChartCountry";
+import {
+  ChartVisitor,
+  ChartCountry,
+  ChartDevice,
+  ChartPage,
+  GeneralData,
+} from "@/app/components/Chart";
 
 export default function Analytics() {
-  const [visitors, setVisitors] = useState(null);
-
-  const fetchVisitors = async () => {
-    try {
-      const res = await fetch(
-        "https://plausible.io/api/v1/stats/aggregate?site_id=ludwikfaron.com&period=12mo&metrics=visitors",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_PLAUSIBLE}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (!res.ok) {
-        throw new Error("Plausible response error");
-      }
-
-      const data = await res.json();
-      setVisitors(data.results.visitors.value);
-    } catch (error) {
-      console.log("Error fetching data:", error);
-    }
-  };
-  useEffect(() => {
-    fetchVisitors();
-  }, []);
-
   return (
     <main className="flex min-h-screen">
       <div className="w-screen flex my-[25px] justify-center items-center flex-col">
@@ -40,8 +18,24 @@ export default function Analytics() {
             <p className="text-mainTheme">Monitor your website performance</p>
           </div>
         </div>
-        <div className="w-[90%] h-[100vh] flex">
-          <ChartCountry />
+        <div className="w-[90%] h-[54vh] flex justify-evenly">
+          <div className="w-[700px]">
+            <ChartVisitor />
+          </div>
+          <div>
+            <GeneralData />
+          </div>
+        </div>
+        <div className="w-[90%] h-[30vh] flex justify-evenly">
+          <div className="w-[320px]">
+            <ChartCountry />
+          </div>
+          <div className="w-[320px]">
+            <ChartDevice />
+          </div>
+          <div className="w-[320px]">
+            <ChartPage />
+          </div>
         </div>
       </div>
     </main>
