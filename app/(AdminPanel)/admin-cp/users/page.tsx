@@ -188,14 +188,14 @@ export default function Users() {
     fetchUsers();
   }, []);
 
-  if (status === "loading") {
-    return null;
-  }
+  // if (status === "loading") {
+  //   return null;
+  // }
   return (
     <main className="flex h-screen">
       <div className="my-[25px] flex w-screen flex-col justify-center items-center">
         {showConfirm && (
-          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
+          <div className="z-10 absolute top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
             <div className="bg-secondTheme p-4 rounded">
               <p>Are you sure you want to delete this user?</p>
               <div className="flex justify-center mt-4">
@@ -216,7 +216,7 @@ export default function Users() {
           </div>
         )}
         {userForm && (
-          <div>
+          <div className="z-10 ">
             <div
               onClick={() => {
                 setError("");

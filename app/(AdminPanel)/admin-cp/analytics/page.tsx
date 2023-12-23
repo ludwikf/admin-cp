@@ -1,8 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import ChartCountry from "@/app/components/ChartCountry";
 
 export default function Analytics() {
   const [visitors, setVisitors] = useState(null);
+
   const fetchVisitors = async () => {
     try {
       const res = await fetch(
@@ -39,7 +41,7 @@ export default function Analytics() {
           </div>
         </div>
         <div className="w-[90%] h-[100vh] flex">
-          <p>All visitors: {visitors}</p>
+          <ChartCountry />
         </div>
       </div>
     </main>

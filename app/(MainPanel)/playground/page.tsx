@@ -37,7 +37,7 @@ export default function Playground() {
           href={"/"}
           className="absolute left-12 top-10 flex gap-0.5 hover:text-mainTheme"
         >
-          Login
+          Log in
         </Link>
       )}
 
@@ -49,7 +49,7 @@ export default function Playground() {
           }}
         >
           <ArrowLeftOnRectangleIcon className="w-5 mr-1.5" />
-          Logout
+          Log out
         </button>
       )}
 
