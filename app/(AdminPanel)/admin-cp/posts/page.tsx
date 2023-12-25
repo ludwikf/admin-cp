@@ -1,6 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { ArrowPathIcon, TrashIcon } from "@heroicons/react/24/solid";
+import {
+  ArrowPathIcon,
+  PencilSquareIcon,
+  TrashIcon,
+} from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
@@ -147,10 +151,19 @@ export default function Posts() {
                         <td>{post.author}</td>
                         <td>{new Date().toLocaleDateString()}</td>
                         <td className="rounded-e-3xl">
-                          <TrashIcon
-                            onClick={() => deletePost(post._id)}
-                            className="w-5 cursor-pointer select-none"
-                          />
+                          <div className="flex gap-1">
+                            <Link
+                              rel="stylesheet"
+                              href={`/admin-cp/posts/edit-post/${post._id}`}
+                              className="cursor-pointer select-none hover:text-mainTheme"
+                            >
+                              <PencilSquareIcon className="w-5" />
+                            </Link>
+                            <TrashIcon
+                              onClick={() => deletePost(post._id)}
+                              className="w-5 cursor-pointer select-none hover:text-mainTheme"
+                            />
+                          </div>
                         </td>
                       </tr>
                     ))}

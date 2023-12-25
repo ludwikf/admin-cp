@@ -1,4 +1,5 @@
 "use client";
+import { ChartPage, GeneralData } from "@/app/components/Chart";
 import { useSession } from "next-auth/react";
 import React from "react";
 

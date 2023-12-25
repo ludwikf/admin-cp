@@ -90,12 +90,9 @@ export default function Users() {
   };
   const handleDeleteUser = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/delete-user?id=${userToDelete}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`/api/delete-user?id=${userToDelete}`, {
+        method: "DELETE",
+      });
       if (response.ok) {
         setUsers((prevUsers) =>
           prevUsers.filter((user) => user._id !== userToDelete)
@@ -283,30 +280,6 @@ export default function Users() {
         <div className="w-[90%] h-[90%] flex flex-col items-end">
           <div className="flex justify-between w-full ">
             <div className="flex items-center mb-3 gap-3 select-none">
-              {/* {showFilter && (
-                <div
-                  onClick={() => setShowFilter(false)}
-                  className="absolute left-0 top-0 w-full h-full"
-                ></div>
-              )}
-              <div className="relative">
-                <AdjustmentsHorizontalIcon
-                  onClick={() => {
-                    setShowFilter(true);
-                    if (showFilter) {
-                      setShowFilter(false);
-                    }
-                  }}
-                  className="w-10 cursor-pointer"
-                />
-                {showFilter && (
-                  <div className="absolute left-1 mt-3 w-[245px] h-[500px] bg-[#161616] border-2 rounded-2xl border-white">
-                    <div className="flex w-full h-full justify-center">
-                      <div className="w-[150px] mt-5 font-bold">Role</div>
-                    </div>
-                  </div>
-                )}
-              </div> */}
               <button
                 onClick={handleRefreshUsers}
                 className=" text-white rounded-full hover:brightness-50 transition-all rotate"

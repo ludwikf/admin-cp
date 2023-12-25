@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 export const PUT = async (req: any) => {
   const id = req.nextUrl.searchParams.get("id");
   const { title, subject, content } = await req.json();
-  console.log(title);
   await connectMongoDB();
   const template = await EmailTemplate.findByIdAndUpdate(id, {
     title: title,
@@ -13,7 +12,7 @@ export const PUT = async (req: any) => {
     content: content,
   });
   if (!template) {
-    console.log("errr");
+    return new NextResponse("Template is already deleted", { status: 400 });
   }
   try {
     return new NextResponse("Template updated", { status: 200 });

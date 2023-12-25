@@ -16,9 +16,8 @@ import { usePathname } from "next/navigation";
 export default function Navbar() {
   const pathName = usePathname();
 
-  // Function to check if the link is active
   const isActive = (href: any) => {
-    return pathName === href ? "text-mainTheme" : ""; // Change the classes as per your styling
+    return pathName === href ? "text-mainTheme" : "";
   };
   return (
     <main className="w-[200px] h-screen float-left">
@@ -34,6 +33,15 @@ export default function Navbar() {
             >
               <HomeIcon className="w-5 mr-1.5" />
               Dashboard
+            </Link>
+            <Link
+              href={"/admin-cp/analytics"}
+              className={`mb-4 flex hover:text-mainTheme ${isActive(
+                "/admin-cp/analytics"
+              )} `}
+            >
+              <ChartBarIcon className="w-5 mr-1.5" />
+              Analytics
             </Link>
             <Link
               href={"/admin-cp/users"}
@@ -61,15 +69,6 @@ export default function Navbar() {
             >
               <NewspaperIcon className="w-5 mr-1.5" />
               Newsletter
-            </Link>
-            <Link
-              href={"/admin-cp/analytics"}
-              className={`flex hover:text-mainTheme ${isActive(
-                "/admin-cp/analytics"
-              )} `}
-            >
-              <ChartBarIcon className="w-5 mr-1.5" />
-              Analytics
             </Link>
           </div>
           <div className="my-10 flex flex-col gap-2">

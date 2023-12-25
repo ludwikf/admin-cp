@@ -44,6 +44,7 @@ export default function NewTemplate() {
       console.log(error);
     }
   };
+
   const fetchTemplateDetails = async () => {
     if (!id) {
       return router.push("/admin-cp/newsletter");
