@@ -6,8 +6,6 @@ import Link from "next/link";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function Posts() {
-  const [file, setFile] = useState<File | null>(null);
-  const [media, setMedia] = useState<string>("");
   const [posts, setPosts] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);

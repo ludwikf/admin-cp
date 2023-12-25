@@ -37,6 +37,7 @@ export default function Playground() {
           href={"/"}
           className="absolute left-12 top-10 flex gap-0.5 hover:text-mainTheme"
         >
+          <ArrowRightOnRectangleIcon className="w-5 mr-1.5" />
           Log in
         </Link>
       )}

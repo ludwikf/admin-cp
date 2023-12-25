@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 export const DELETE = async (req: any) => {
   try {
     const templateId = req.nextUrl.searchParams.get("id");
-    console.log(templateId);
     await connectMongoDB();
 
     const deletedTemplate = await EmailTemplate.findByIdAndDelete(templateId);

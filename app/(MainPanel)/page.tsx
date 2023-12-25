@@ -10,10 +10,13 @@ import Link from "next/link";
 export default function Admincp() {
   const router = useRouter();
   const [error, setError] = useState("");
-  const { status: sessionStatus } = useSession();
+  const { status: sessionStatus, data: session }: any = useSession();
 
   useEffect(() => {
     if (sessionStatus === "authenticated") {
+      if (session && session.user.role === "admin") {
+        return router.replace("/admin-cp");
+      }
       router.replace("/playground");
     }
   }, [sessionStatus, router]);

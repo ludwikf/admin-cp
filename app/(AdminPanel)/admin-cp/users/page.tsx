@@ -1,11 +1,6 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
-import {
-  TrashIcon,
-  ArrowPathIcon,
-  XMarkIcon,
-  AdjustmentsHorizontalIcon,
-} from "@heroicons/react/24/solid";
+import React, { useEffect, useState } from "react";
+import { TrashIcon, ArrowPathIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { UserPlusIcon } from "@heroicons/react/24/outline";
 import { signOut, useSession } from "next-auth/react";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
@@ -15,7 +10,6 @@ export default function Users() {
   const [userForm, setUserForm] = useState(false);
   const [error, setError] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
-  // const [showFilter, setShowFilter] = useState(false);
   const [userToDelete, setUserToDelete] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("");
@@ -187,10 +181,6 @@ export default function Users() {
   useEffect(() => {
     fetchUsers();
   }, []);
-
-  // if (status === "loading") {
-  //   return null;
-  // }
   return (
     <main className="flex h-screen">
       <div className="my-[25px] flex w-screen flex-col justify-center items-center">

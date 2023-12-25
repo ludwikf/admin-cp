@@ -26,8 +26,8 @@ export const authOptions: AuthOptions = {
           throw new Error("Credentials are missing.");
         }
 
-        await connectMongoDB();
         try {
+          await connectMongoDB();
           const user = await User.findOne({ email: credentials.email });
 
           if (user) {
@@ -48,6 +48,7 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async session({ session }: { session: Session & { user?: CustomUser } }) {
       if (session && session.user && session.user.email) {
+        await connectMongoDB();
         const user = await User.findOne({
           email: session.user.email,
         });
