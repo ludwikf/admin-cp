@@ -5,21 +5,21 @@ import PlausibleProvider from "next-plausible";
 
 import { getServerSession } from "next-auth/next";
 import SessionProvider from "@/libs/SessionProvider";
-// import { getWebSettings } from "./components/WebSettings";
+import { getWebSettings } from "./components/WebSettings";
 
 const SS3 = Roboto({ subsets: ["latin"], weight: "400" });
 
-export const metadata: Metadata = {
-  title: "Cp ",
-  description: "cp",
-};
+// export const metadata: Metadata = {
+//   title: "Cp ",
+//   description: "cp",
+// };
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // const webProps = await getWebSettings();
+  const webProps = await getWebSettings();
   const session = await getServerSession();
 
   return (
@@ -30,8 +30,8 @@ export default async function RootLayout({
           trackLocalhost={true}
           enabled={true}
         />
-        {/* <title>{webProps.websiteTitle || "Ludwik's Cp"}</title> */}
-        {/* <meta name="description" content={webProps.websiteDescription} /> */}
+        <title>{webProps.websiteTitle || "Ludwik's Cp"}</title>
+        <meta name="description" content={webProps.websiteDescription} />
       </head>
       <body className={SS3.className}>
         <SessionProvider session={session}>{children}</SessionProvider>
