@@ -9,11 +9,6 @@ import { getWebSettings } from "./components/WebSettings";
 
 const SS3 = Roboto({ subsets: ["latin"], weight: "400" });
 
-// export const metadata: Metadata = {
-//   title: "Cp ",
-//   description: "cp",
-// };
-
 export default async function RootLayout({
   children,
 }: {

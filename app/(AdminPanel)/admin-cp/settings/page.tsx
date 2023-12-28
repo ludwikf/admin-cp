@@ -1,5 +1,4 @@
 "use client";
-import { getWebSettings } from "@/app/components/WebSettings";
 import React, { useEffect, useRef, useState } from "react";
 
 export default function Settings() {
@@ -32,8 +31,12 @@ export default function Settings() {
   useEffect(() => {
     const fetchWebSettings = async () => {
       try {
-        const settings = await getWebSettings();
-        setWebProps(settings);
+        const res = await fetch("/api/get-settings");
+        if (!res.ok) {
+          throw new Error("Error fetching data");
+        }
+        const data = await res.json();
+        setWebProps(data[0]);
       } catch (error: any) {
         throw new Error(error);
       }
