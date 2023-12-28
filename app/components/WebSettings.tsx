@@ -1,5 +1,7 @@
 export async function getWebSettings() {
-  const res = await fetch(`https://www.ludwikfaron.com/api/get-settings`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-settings`
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch data");
