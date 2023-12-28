@@ -72,10 +72,15 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="my-10 flex flex-col gap-2">
-            <li className="flex">
+            <Link
+              href={"/admin-cp/settings"}
+              className={`flex hover:text-mainTheme ${isActive(
+                "/admin-cp/settings"
+              )} `}
+            >
               <Cog6ToothIcon className="w-5 mr-1.5" />
               Settings
-            </li>
+            </Link>
             <button
               className="flex items-center hover:text-mainTheme"
               onClick={() => {

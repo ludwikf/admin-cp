@@ -84,6 +84,7 @@ export default function Posts() {
               </button>
               <div>
                 <input
+                  id="search"
                   type="text"
                   placeholder="Search..."
                   value={searchQuery}
@@ -137,13 +138,14 @@ export default function Posts() {
                         <td className="pl-3 rounded-s-3xl w-[70px] h-">
                           <div className="w-[150px] h-[80px] relative">
                             <Image
+                              rel="stylesheet preload prefetch"
                               src={post.image}
                               alt="img"
-                              layout="fill"
-                              objectFit="cover"
-                              objectPosition="left"
+                              width={0}
+                              height={0}
+                              sizes="100vw"
                               priority
-                              className="rounded-xl"
+                              className="rounded-xl object-cover object-left w-full h-full"
                             />
                           </div>
                         </td>

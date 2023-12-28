@@ -286,8 +286,9 @@ export default function Users() {
               >
                 <ArrowPathIcon className="w-8" />
               </button>
-              <div className="">
+              <div>
                 <input
+                  id="search"
                   type="text"
                   placeholder="Search..."
                   value={searchQuery}

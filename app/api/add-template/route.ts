@@ -1,5 +1,6 @@
 import connectMongoDB from "@/libs/mongodb";
 import EmailTemplate from "@/models/EmailTemplate";
+import Settings from "@/models/Settings";
 import { NextResponse } from "next/server";
 
 export const POST = async (req: any) => {
