@@ -9,7 +9,10 @@ const logSchema = new mongoose.Schema({
     email: String,
     username: String,
   },
-  actiontype: String,
+  actionType: {
+    type: String,
+    enum: ["ContentAction", "UserActivity", "Other"],
+  },
   details: String,
   createdAt: {
     type: Date,
@@ -17,6 +20,6 @@ const logSchema = new mongoose.Schema({
   },
 });
 
-logSchema.index({ createdAt: 1 }, { expireAfterSeconds: 604800 });
+logSchema.index({ createdAt: 1 }, { expireAfterSeconds: 86400 });
 
 export default mongoose.models.Log || mongoose.model("Log", logSchema);

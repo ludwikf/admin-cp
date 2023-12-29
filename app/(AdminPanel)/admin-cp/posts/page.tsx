@@ -8,11 +8,13 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
+import { useSession } from "next-auth/react";
 
 export default function Posts() {
   const [posts, setPosts] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const { data: session }: any = useSession();
 
   const fetchPosts = async () => {
     setIsLoading(true);
@@ -48,6 +50,10 @@ export default function Posts() {
   const deletePost = async (postId: any) => {
     const res = await fetch(`/api/delete-post?id=${postId}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Session: JSON.stringify(session),
+      },
     });
     if (res.ok) {
       fetchPosts();

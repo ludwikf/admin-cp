@@ -92,6 +92,10 @@ export default function Users() {
     try {
       const response = await fetch(`/api/delete-user?id=${userToDelete}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Session: JSON.stringify(session),
+        },
       });
       if (response.ok) {
         setUsers((prevUsers) =>

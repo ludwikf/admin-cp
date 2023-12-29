@@ -43,7 +43,7 @@ export default function Navbar() {
                 Dashboard
               </div>
             </Link>
-            <span className="my-4"></span>
+            <span className="my-2"></span>
             <Link
               href={"/admin-cp/users"}
               className={`hover:bg-mainTheme hover:text-black ${isActive(
@@ -77,7 +77,7 @@ export default function Navbar() {
                 Reviews
               </div>
             </Link>
-            <span className="my-4"></span>
+            <span className="my-2"></span>
             <Link
               href={"/admin-cp/newsletter"}
               className={`hover:bg-mainTheme hover:text-black ${isActive(

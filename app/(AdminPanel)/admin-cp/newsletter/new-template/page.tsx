@@ -28,7 +28,7 @@ export default function NewTemplate() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, subject, content }),
+        body: JSON.stringify({ title, subject, content, session }),
       });
 
       if (!res.ok) {

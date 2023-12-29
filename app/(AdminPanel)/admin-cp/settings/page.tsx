@@ -1,8 +1,10 @@
 "use client";
+import { useSession } from "next-auth/react";
 import React, { useEffect, useRef, useState } from "react";
 
 export default function Settings() {
   const [webProps, setWebProps] = useState<any>("");
+  const { data: session }: any = useSession();
 
   const handleSave = async () => {
     const websiteTitle =
@@ -20,7 +22,12 @@ export default function Settings() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ websiteTitle, websiteDescription, domain }),
+        body: JSON.stringify({
+          websiteTitle,
+          websiteDescription,
+          domain,
+          session,
+        }),
       });
       if (!response.ok) {
         throw new Error("Failed to update settings");

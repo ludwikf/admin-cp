@@ -46,3 +46,11 @@ body {
     transform: rotate(360deg);
   }
 }
+
+.hideScrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hideScrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

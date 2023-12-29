@@ -42,7 +42,7 @@ export default function NewPost() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, content, author, image }),
+        body: JSON.stringify({ title, content, author, image, session }),
       });
 
       if (!res.ok) {

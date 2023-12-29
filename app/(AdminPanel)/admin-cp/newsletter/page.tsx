@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
+import { useSession } from "next-auth/react";
 
 export default function Newsletter() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -14,6 +15,7 @@ export default function Newsletter() {
   const [subject, setSubject] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { data: session }: any = useSession();
 
   const fetchTemplates = async () => {
     try {
@@ -44,6 +46,7 @@ export default function Newsletter() {
         body: JSON.stringify({
           subject,
           content,
+          session,
         }),
       });
 
@@ -67,6 +70,10 @@ export default function Newsletter() {
     try {
       const res = await fetch(`/api/delete-template?id=${id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Session: JSON.stringify(session),
+        },
       });
 
       if (res.ok) {

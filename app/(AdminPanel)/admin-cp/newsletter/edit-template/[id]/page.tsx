@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function NewTemplate() {
   const [title, setTitle] = useState("");
@@ -9,6 +10,8 @@ export default function NewTemplate() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
   const { id } = useParams();
+
+  const { data: session }: any = useSession();
 
   const adjustTextareaHeight = () => {
     const textarea = textareaRef.current;
@@ -29,7 +32,7 @@ export default function NewTemplate() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, subject, content }),
+        body: JSON.stringify({ title, subject, content, session }),
       });
 
       if (!res.ok) {
