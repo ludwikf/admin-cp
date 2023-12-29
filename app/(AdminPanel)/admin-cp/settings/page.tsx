@@ -11,13 +11,16 @@ export default function Settings() {
     const websiteDescription =
       (document.getElementById("webDescription") as HTMLInputElement)?.value ||
       webProps.websiteDescription;
+    const domain =
+      (document.getElementById("domain") as HTMLInputElement)?.value ||
+      webProps.websiteDescription;
     try {
       const response = await fetch("/api/edit-settings", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ websiteTitle, websiteDescription }),
+        body: JSON.stringify({ websiteTitle, websiteDescription, domain }),
       });
       if (!response.ok) {
         throw new Error("Failed to update settings");
@@ -55,7 +58,7 @@ export default function Settings() {
         <div className="w-[90%] h-full flex flex-col items-center">
           <div className="bg-secondTheme w-4/5 h-full rounded-3xl flex justify-center">
             <div className="w-4/5">
-              <div className="flex flex-col my-5">
+              <div className="flex flex-col my-10">
                 <label htmlFor="webTitle" className="text-lg">
                   Website Title
                 </label>
@@ -68,7 +71,7 @@ export default function Settings() {
                   spellCheck={false}
                 />
               </div>
-              <div className="flex flex-col my-5">
+              <div className="flex flex-col my-10">
                 <label htmlFor="webDescription" className="text-lg">
                   Website Description
                 </label>
@@ -81,9 +84,22 @@ export default function Settings() {
                   spellCheck={false}
                 />
               </div>
+              <div className="flex flex-col my-10">
+                <label htmlFor="webDescription" className="text-lg">
+                  Email Domain
+                </label>
+                <input
+                  id="domain"
+                  placeholder="Change domain"
+                  defaultValue={webProps.domain}
+                  type="text"
+                  className="bg-secondTheme shadow-[0_4px_0px_-2px_rgba(100,100,100,1)] text-[#777]  placeholder:text-[#777] rounded-3xl py-1 px-4 mt-2 transition focus:outline-none focus:text-[#fff] focus:shadow-white"
+                  spellCheck={false}
+                />
+              </div>
               <button
                 onClick={handleSave}
-                className="bg-mainTheme select-none text-black py-2 px-5 rounded-xl hover:brightness-75 transition "
+                className="bg-mainTheme mt-5 select-none text-black py-2 px-5 rounded-xl hover:brightness-75 transition "
               >
                 Save
               </button>

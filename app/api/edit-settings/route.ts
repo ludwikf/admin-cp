@@ -4,11 +4,12 @@ import { NextResponse } from "next/server";
 
 export const PUT = async (req: any) => {
   try {
-    const { websiteTitle, websiteDescription } = await req.json();
+    const { websiteTitle, websiteDescription, domain } = await req.json();
     await connectMongoDB();
     const res = await Settings.updateMany({
       websiteTitle: websiteTitle,
       websiteDescription: websiteDescription,
+      domain: domain,
     });
     if (!res) {
       return new NextResponse("Updating error", { status: 400 });

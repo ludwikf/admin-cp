@@ -12,6 +12,11 @@ const settingsSchema = new mongoose.Schema({
     default:
       "Flexible admin panel for websites, providing full functionality and easy integration",
   },
+  domain: {
+    type: String,
+    required: true,
+    default: "ludwikfaron.com",
+  },
   mainTheme: {
     type: String,
     default: "#FFA500",
