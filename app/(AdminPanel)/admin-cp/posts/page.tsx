@@ -126,9 +126,13 @@ export default function Posts() {
   }, []);
 
   useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+      return;
+    }
     fetchHandler();
     console.log("useEffect check");
-  }, [page, initialRender]);
+  }, [page]); //problem w tym że local host wywoluje 2 razy a przegladarka tylko raz wiec trzeba jakos to wywolac 2 razy
 
   return (
     <main className="flex h-screen">
