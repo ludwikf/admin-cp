@@ -46,19 +46,18 @@ export default function Posts() {
     }
   };
 
-  const fetchHandler = () => {
+  const fetchHandler = async () => {
     console.log("fetchHandler start");
-
-    if (initialRender.current) {
-      initialRender.current = false;
+    if (!initialRender.current) {
+      try {
+        await fetchPosts(page);
+        console.log("fetchHandler end with no initial");
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
     } else {
-      fetchPosts(page)
-        .then(() => {
-          console.log("fetchHandler end");
-        })
-        .catch((error) => {
-          console.error("Error fetching posts:", error);
-        });
+      initialRender.current = false;
+      console.log("fetchHandler end with initial");
     }
   };
 
