@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 
 export default function Posts() {
   const [posts, setPosts] = useState<any[]>([]);
+  const [posts2, setPosts2] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const { data: session }: any = useSession();
@@ -41,6 +42,25 @@ export default function Posts() {
     }
   };
 
+  const fetchPosts2 = async (page: number) => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`/api/get-posts`);
+
+      if (!res.ok) {
+        throw new Error("Error fetching posts");
+      }
+
+      const data = await res.json();
+
+      setPosts2(data);
+    } catch (error: any) {
+      throw new Error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const fetchHandler = () => {
     if (initialRender.current) {
       initialRender.current = false;
@@ -51,7 +71,7 @@ export default function Posts() {
 
   const filterPosts = (query: string) => {
     if (query) {
-      return posts.filter(
+      return posts2.filter(
         (post) =>
           (post.title || "").toLowerCase().includes(query.toLowerCase()) ||
           (post.author || "").toLowerCase().includes(query.toLowerCase())
@@ -116,6 +136,10 @@ export default function Posts() {
   useEffect(() => {
     fetchHandler();
   }, [page]);
+
+  useEffect(() => {
+    fetchPosts2;
+  }, []);
 
   return (
     <main className="flex h-screen">
