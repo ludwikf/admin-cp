@@ -18,6 +18,7 @@ export default function Posts() {
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const initialRender = useRef(true);
+  const [initialFetchComplete, setInitialFetchComplete] = useState(false);
 
   const fetchPosts = async (page: number) => {
     setIsLoading(true);
@@ -126,13 +127,18 @@ export default function Posts() {
   }, []);
 
   useEffect(() => {
-    if (initialRender.current) {
-      initialRender.current = false;
-      return;
+    if (!initialFetchComplete) {
+      fetchHandler();
+      setInitialFetchComplete(true);
     }
-    fetchHandler();
+  }, []);
+
+  useEffect(() => {
+    if (initialFetchComplete) {
+      fetchHandler();
+    }
     console.log("useEffect check");
-  }, [page]); //problem w tym że local host wywoluje 2 razy a przegladarka tylko raz wiec trzeba jakos to wywolac 2 razy
+  }, [page, initialFetchComplete]); //problem w tym że local host wywoluje 2 razy a przegladarka tylko raz wiec trzeba jakos to wywolac 2 razy
 
   return (
     <main className="flex h-screen">
