@@ -21,18 +21,23 @@ export default function Posts() {
 
   const fetchPosts = async (page: number) => {
     setIsLoading(true);
+
     try {
-      const res = await fetch(`/api/posts?page=${page}`);
+      console.log("fetching...");
+      const res = await fetch(`/api/get-posts?page=${page}`);
 
       if (!res.ok) {
         throw new Error("Error fetching posts");
       }
+
+      console.log("res is ok");
 
       const data = await res.json();
       if (data.length === 0) {
         setHasMore(false);
       } else {
         setPosts((prevPosts) => [...prevPosts, ...data]);
+        console.log("posts fetched to setPosts");
       }
     } catch (error: any) {
       throw new Error(error);
@@ -115,6 +120,7 @@ export default function Posts() {
 
   useEffect(() => {
     fetchHandler();
+    console.log("useEffect check");
   }, [page]);
 
   return (
