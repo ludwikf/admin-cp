@@ -46,17 +46,19 @@ export default function Posts() {
     }
   };
 
-  const fetchHandler = async () => {
+  const fetchHandler = () => {
     console.log("fetchHandler start");
-    if (!initialRender.current) {
-      try {
-        await fetchPosts(page);
-        console.log("fetchHandler end");
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      }
-    } else {
+
+    if (initialRender.current) {
       initialRender.current = false;
+    } else {
+      fetchPosts(page)
+        .then(() => {
+          console.log("fetchHandler end");
+        })
+        .catch((error) => {
+          console.error("Error fetching posts:", error);
+        });
     }
   };
 
