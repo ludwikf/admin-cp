@@ -128,7 +128,7 @@ export default function Posts() {
   useEffect(() => {
     fetchHandler();
     console.log("useEffect check");
-  }, [page]);
+  }, [page, initialRender]);
 
   return (
     <main className="flex h-screen">
