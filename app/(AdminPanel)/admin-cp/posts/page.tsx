@@ -45,7 +45,7 @@ export default function Posts() {
   const fetchPosts2 = async (page: number) => {
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/get-posts`);
+      const res = await fetch(`/api/posts`);
 
       if (!res.ok) {
         throw new Error("Error fetching posts");
