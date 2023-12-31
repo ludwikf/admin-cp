@@ -20,30 +20,29 @@ export default function Posts() {
   const [hasMore, setHasMore] = useState<boolean>(true);
   const initialRender = useRef(true);
 
-  const fetchPosts = async (page: number) => {
-    setIsLoading(true);
-    try {
-      const res = await fetch(`/api/get-posts?page=${page}`);
+  // const fetchPosts = async (page: number) => {
+  //   setIsLoading(true);
+  //   try {
+  //     const res = await fetch(`/api/get-posts?page=${page}`);
 
-      if (!res.ok) {
-        throw new Error("Error fetching posts");
-      }
+  //     if (!res.ok) {
+  //       throw new Error("Error fetching posts");
+  //     }
 
-      const data = await res.json();
-      if (data.length === 0) {
-        setHasMore(false);
-      } else {
-        setPosts((prevPosts) => [...prevPosts, ...data]);
-      }
-    } catch (error: any) {
-      throw new Error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //     const data = await res.json();
+  //     if (data.length === 0) {
+  //       setHasMore(false);
+  //     } else {
+  //       setPosts((prevPosts) => [...prevPosts, ...data]);
+  //     }
+  //   } catch (error: any) {
+  //     throw new Error(error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
-  const fetchPosts2 = async (page: number) => {
-    setIsLoading(true);
+  const fetchPosts2 = async () => {
     try {
       const res = await fetch(`/api/posts`);
 
@@ -61,13 +60,13 @@ export default function Posts() {
     }
   };
 
-  const fetchHandler = () => {
-    if (initialRender.current) {
-      initialRender.current = false;
-    } else {
-      fetchPosts(page);
-    }
-  };
+  // const fetchHandler = () => {
+  //   if (initialRender.current) {
+  //     initialRender.current = false;
+  //   } else {
+  //     fetchPosts(page);
+  //   }
+  // };
 
   const filterPosts = (query: string) => {
     if (query) {
@@ -88,7 +87,7 @@ export default function Posts() {
       setPage(1);
       setHasMore(true);
 
-      fetchHandler();
+      // fetchHandler();
     } catch (error) {
       console.error("Error refreshing posts:", error);
     } finally {
@@ -96,14 +95,14 @@ export default function Posts() {
     }
   };
 
-  const handleScroll = () => {
-    const { scrollTop, clientHeight, scrollHeight } =
-      document.documentElement || document.body;
+  // const handleScroll = () => {
+  //   const { scrollTop, clientHeight, scrollHeight } =
+  //     document.documentElement || document.body;
 
-    if (scrollTop + clientHeight >= scrollHeight - 20) {
-      setPage((prevPage) => prevPage + 1);
-    }
-  };
+  //   if (scrollTop + clientHeight >= scrollHeight - 20) {
+  //     setPage((prevPage) => prevPage + 1);
+  //   }
+  // };
 
   const deletePost = async (postId: any) => {
     try {
@@ -126,19 +125,20 @@ export default function Posts() {
     }
   };
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   fetchHandler();
+  // }, [page]);
 
   useEffect(() => {
-    fetchHandler();
-  }, [page]);
-
-  useEffect(() => {
-    fetchPosts2;
+    fetchPosts2();
+    console.log(posts2);
   }, []);
 
   return (
@@ -205,7 +205,44 @@ export default function Posts() {
                     <TrashIcon className="w-5 hidden" />
                   </td>
                 </tr>
-                {filterPosts(searchQuery).map((post, index) => (
+                {posts2.map((post, index) => (
+                  <tr key={index} className="trTable h-[100px] rounded-3xl">
+                    <td className="pl-3 rounded-s-3xl w-[70px] h-">
+                      <div className="w-[150px] h-[80px] relative">
+                        <Image
+                          rel="stylesheet preload prefetch"
+                          src={post.image}
+                          alt="img"
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          priority
+                          className="rounded-xl object-cover object-left w-full h-full"
+                        />
+                      </div>
+                    </td>
+                    <td>{post.title}</td>
+                    <td>{post.author}</td>
+                    <td>{new Date().toLocaleDateString()}</td>
+                    <td className="rounded-e-3xl">
+                      <div className="flex gap-1">
+                        <Link
+                          rel="stylesheet"
+                          href={`/admin-cp/posts/edit-post/${post._id}`}
+                          className="cursor-pointer select-none hover:text-mainTheme"
+                        >
+                          <PencilSquareIcon className="w-5" />
+                        </Link>
+                        <TrashIcon
+                          onClick={() => deletePost(post._id)}
+                          className="w-5 cursor-pointer select-none hover:text-mainTheme"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+
+                {/* {filterPosts(searchQuery).map((post, index) => (
                   <tr key={index} className="trTable h-[100px] rounded-3xl">
                     <td className="pl-3 rounded-s-3xl w-[70px] h-">
                       <div className="w-[150px] h-[80px] relative">
@@ -259,7 +296,7 @@ export default function Posts() {
                       </div>
                     </td>
                   </tr>
-                )}
+                )} */}
               </tbody>
             </table>
           </div>
