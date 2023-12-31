@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export const GET = async (req: any) => {
   try {
     const page = parseInt(req.nextUrl.searchParams.get("page")) || 1;
-    const pageSize = 3;
+    const pageSize = 6;
 
     await connectMongoDB();
 
