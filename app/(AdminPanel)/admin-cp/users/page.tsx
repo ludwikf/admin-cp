@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { TrashIcon, ArrowPathIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { UserPlusIcon } from "@heroicons/react/24/outline";
 import { signOut, useSession } from "next-auth/react";
@@ -15,21 +15,63 @@ export default function Users() {
   const [sortOrder, setSortOrder] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const initialRender = useRef(true);
 
-  const { data: session, status }: any = useSession();
+  const { data: session }: any = useSession();
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (page: number) => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/users");
-      if (response.ok) {
-        const data = await response.json();
-        setUsers(data);
+      const res = await fetch(`/api/get-users?page=${page}`);
+
+      if (!res.ok) {
+        throw new Error("Error fetching posts");
+      }
+
+      const data = await res.json();
+      if (data.length === 0) {
+        setHasMore(false);
+      } else {
+        setUsers((prevUsers) => [...prevUsers, ...data]);
       }
     } catch (error: any) {
       throw new Error(error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchHandler = () => {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      fetchUsers(page);
+    }
+  };
+
+  const handleRefreshUsers = async () => {
+    setIsLoading(true);
+    try {
+      setUsers([]);
+      setPage(1);
+      setHasMore(true);
+
+      fetchHandler();
+    } catch (error) {
+      console.error("Error refreshing posts:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleScroll = () => {
+    const { scrollTop, clientHeight, scrollHeight } =
+      document.documentElement || document.body;
+
+    if (scrollTop + clientHeight >= scrollHeight - 20) {
+      setPage((prevPage) => prevPage + 1);
     }
   };
 
@@ -114,10 +156,6 @@ export default function Users() {
     }
   };
 
-  const handleRefreshUsers = async () => {
-    fetchUsers();
-  };
-
   const isValidEmail = (email: string) => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return emailRegex.test(email);
@@ -172,7 +210,7 @@ export default function Users() {
         }
         setError("");
         setUserForm(false);
-        fetchUsers();
+        fetchHandler();
       }
     } catch (error: any) {
       setError(error);
@@ -180,13 +218,21 @@ export default function Users() {
   };
 
   useEffect(() => {
-    fetchUsers();
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
+
+  useEffect(() => {
+    fetchHandler();
+  }, [page]);
+
   return (
     <main className="flex h-screen">
       <div className="my-[25px] flex w-screen flex-col justify-center items-center">
         {showConfirm && (
-          <div className="z-10 absolute top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
+          <div className="z-10 fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
             <div className="bg-secondTheme p-4 rounded">
               <p>Are you sure you want to delete this user?</p>
               <div className="flex justify-center mt-4">
@@ -286,6 +332,7 @@ export default function Users() {
             <div className="flex items-center mb-3 gap-3 select-none">
               <button
                 onClick={handleRefreshUsers}
+                disabled={isLoading}
                 className=" text-white rounded-full hover:brightness-50 transition-all rotate"
               >
                 <ArrowPathIcon className="w-8" />
@@ -312,13 +359,6 @@ export default function Users() {
           </div>
 
           <div className="w-full h-full relative">
-            {isLoading && (
-              <div className="absolute -translate-x-1/2 left-1/2 top-[75px]">
-                <div className="w-24 h-24">
-                  <LoadingSpinner />
-                </div>
-              </div>
-            )}
             <table className="w-[100%]">
               <tbody className="trTable">
                 <tr className="bg-[#ffa60040] h-10 font-bold w-[100%] select-none">
@@ -366,23 +406,39 @@ export default function Users() {
                     <TrashIcon className="w-5 hidden" />
                   </td>
                 </tr>
-
-                {isLoading
-                  ? null
-                  : filterUsers(searchQuery).map((user) => (
-                      <tr key={user._id} className="trTable h-10 rounded-3xl">
-                        <td className="pl-10 rounded-s-3xl">{user.username}</td>
-                        <td>{user.email}</td>
-                        <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-                        <td>{user.role}</td>
-                        <td className="rounded-e-3xl">
-                          <TrashIcon
-                            onClick={() => deleteUser(user._id)}
-                            className="w-5 cursor-pointer select-none"
-                          />
-                        </td>
-                      </tr>
-                    ))}
+                {filterUsers(searchQuery).map((user, index) => (
+                  <tr key={index} className="trTable h-10 rounded-3xl">
+                    <td className="pl-10 rounded-s-3xl">{user.username}</td>
+                    <td>{user.email}</td>
+                    <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                    <td>{user.role}</td>
+                    <td className="rounded-e-3xl">
+                      <TrashIcon
+                        onClick={() => deleteUser(user._id)}
+                        className="w-5 cursor-pointer select-none"
+                      />
+                    </td>
+                  </tr>
+                ))}
+                {!hasMore && (
+                  <tr className="mb-4 py-4 ">
+                    <td
+                      colSpan={5}
+                      className="text-center py-2 text-mainTheme border-t-2 border-mainTheme"
+                    >
+                      No More Posts to Display
+                    </td>
+                  </tr>
+                )}
+                {isLoading && hasMore && (
+                  <tr>
+                    <td colSpan={5} className="w-full h-full relative">
+                      <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
+                        <LoadingSpinner />
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

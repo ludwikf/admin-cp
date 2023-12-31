@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ArrowPathIcon,
   PencilSquareIcon,
@@ -15,20 +15,37 @@ export default function Posts() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const { data: session }: any = useSession();
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const initialRender = useRef(true);
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (page: number) => {
     setIsLoading(true);
     try {
-      const res = await fetch("/api/posts");
+      const res = await fetch(`/api/get-posts?page=${page}`);
 
-      if (res.ok) {
-        const data = await res.json();
-        setPosts(data);
+      if (!res.ok) {
+        throw new Error("Error fetching posts");
+      }
+
+      const data = await res.json();
+      if (data.length === 0) {
+        setHasMore(false);
+      } else {
+        setPosts((prevPosts) => [...prevPosts, ...data]);
       }
     } catch (error: any) {
       throw new Error(error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchHandler = () => {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      fetchPosts(page);
     }
   };
 
@@ -43,26 +60,62 @@ export default function Posts() {
       return posts;
     }
   };
+
   const handleRefreshPosts = async () => {
-    fetchPosts();
+    setIsLoading(true);
+    try {
+      setPosts([]);
+      setPage(1);
+      setHasMore(true);
+
+      fetchHandler();
+    } catch (error) {
+      console.error("Error refreshing posts:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleScroll = () => {
+    const { scrollTop, clientHeight, scrollHeight } =
+      document.documentElement || document.body;
+
+    if (scrollTop + clientHeight >= scrollHeight - 20) {
+      setPage((prevPage) => prevPage + 1);
+    }
   };
 
   const deletePost = async (postId: any) => {
-    const res = await fetch(`/api/delete-post?id=${postId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Session: JSON.stringify(session),
-      },
-    });
-    if (res.ok) {
-      fetchPosts();
+    try {
+      const res = await fetch(`/api/delete-post?id=${postId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Session: JSON.stringify(session),
+        },
+      });
+      if (res.ok) {
+        setPosts((prevPosts) =>
+          prevPosts.filter((user) => user._id !== postId)
+        );
+      } else {
+        throw new Error("Failed to delete post");
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
   useEffect(() => {
-    fetchPosts();
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
+
+  useEffect(() => {
+    fetchHandler();
+  }, [page]);
 
   return (
     <main className="flex h-screen">
@@ -84,6 +137,7 @@ export default function Posts() {
             <div className="flex items-center mb-3 gap-3 select-none">
               <button
                 onClick={handleRefreshPosts}
+                disabled={isLoading}
                 className=" text-white rounded-full hover:brightness-50 transition-all rotate"
               >
                 <ArrowPathIcon className="w-8" />
@@ -108,13 +162,6 @@ export default function Posts() {
             </Link>
           </div>
           <div className="w-full h-full relative">
-            {isLoading && (
-              <div className="absolute -translate-x-1/2 left-1/2 top-[75px]">
-                <div className="w-24 h-24">
-                  <LoadingSpinner />
-                </div>
-              </div>
-            )}
             <table className="w-[100%]">
               <tbody className="trTable">
                 <tr className="bg-[#ffa60040] h-10 font-bold w-[100%] select-none">
@@ -134,47 +181,61 @@ export default function Posts() {
                     <TrashIcon className="w-5 hidden" />
                   </td>
                 </tr>
-                {isLoading
-                  ? null
-                  : filterPosts(searchQuery).map((post) => (
-                      <tr
-                        key={post._id}
-                        className="trTable h-[100px] rounded-3xl"
-                      >
-                        <td className="pl-3 rounded-s-3xl w-[70px] h-">
-                          <div className="w-[150px] h-[80px] relative">
-                            <Image
-                              rel="stylesheet preload prefetch"
-                              src={post.image}
-                              alt="img"
-                              width={0}
-                              height={0}
-                              sizes="100vw"
-                              priority
-                              className="rounded-xl object-cover object-left w-full h-full"
-                            />
-                          </div>
-                        </td>
-                        <td>{post.title}</td>
-                        <td>{post.author}</td>
-                        <td>{new Date().toLocaleDateString()}</td>
-                        <td className="rounded-e-3xl">
-                          <div className="flex gap-1">
-                            <Link
-                              rel="stylesheet"
-                              href={`/admin-cp/posts/edit-post/${post._id}`}
-                              className="cursor-pointer select-none hover:text-mainTheme"
-                            >
-                              <PencilSquareIcon className="w-5" />
-                            </Link>
-                            <TrashIcon
-                              onClick={() => deletePost(post._id)}
-                              className="w-5 cursor-pointer select-none hover:text-mainTheme"
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                {filterPosts(searchQuery).map((post, index) => (
+                  <tr key={index} className="trTable h-[100px] rounded-3xl">
+                    <td className="pl-3 rounded-s-3xl w-[70px] h-">
+                      <div className="w-[150px] h-[80px] relative">
+                        <Image
+                          rel="stylesheet preload prefetch"
+                          src={post.image}
+                          alt="img"
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          priority
+                          className="rounded-xl object-cover object-left w-full h-full"
+                        />
+                      </div>
+                    </td>
+                    <td>{post.title}</td>
+                    <td>{post.author}</td>
+                    <td>{new Date().toLocaleDateString()}</td>
+                    <td className="rounded-e-3xl">
+                      <div className="flex gap-1">
+                        <Link
+                          rel="stylesheet"
+                          href={`/admin-cp/posts/edit-post/${post._id}`}
+                          className="cursor-pointer select-none hover:text-mainTheme"
+                        >
+                          <PencilSquareIcon className="w-5" />
+                        </Link>
+                        <TrashIcon
+                          onClick={() => deletePost(post._id)}
+                          className="w-5 cursor-pointer select-none hover:text-mainTheme"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                {!hasMore && (
+                  <tr className="mb-4 py-4 ">
+                    <td
+                      colSpan={5}
+                      className="text-center py-2 text-mainTheme border-t-2 border-mainTheme"
+                    >
+                      No More Posts to Display
+                    </td>
+                  </tr>
+                )}
+                {isLoading && hasMore && (
+                  <tr>
+                    <td colSpan={5} className="w-full h-full relative">
+                      <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
+                        <LoadingSpinner />
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

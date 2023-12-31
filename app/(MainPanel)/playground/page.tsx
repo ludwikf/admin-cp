@@ -16,7 +16,7 @@ export default function Playground() {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch("/api/posts");
+      const res = await fetch("/api/get-posts");
       if (res.ok) {
         const data = await res.json();
         setPosts(data);

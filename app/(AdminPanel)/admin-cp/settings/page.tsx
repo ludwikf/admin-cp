@@ -106,7 +106,7 @@ export default function Settings() {
               </div>
               <button
                 onClick={handleSave}
-                className="bg-mainTheme mt-5 select-none text-black py-2 px-5 rounded-xl hover:brightness-75 transition "
+                className="bg-mainTheme select-none text-black py-2 px-5 rounded-xl hover:brightness-75 transition "
               >
                 Save
               </button>

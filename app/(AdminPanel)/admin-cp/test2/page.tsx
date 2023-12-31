@@ -4,13 +4,12 @@ import { ArrowPathIcon } from "@heroicons/react/20/solid";
 import React, { useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-export default function Logs() {
+export default function Test2() {
   const [logs, setLogs] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
   const logContainerRef = useRef<HTMLDivElement | null>(null);
-  const initialRender = useRef(true);
 
   const fetchData = async (pageNumber: number) => {
     setIsLoading(true);
@@ -18,10 +17,10 @@ export default function Logs() {
       const res = await fetch(`/api/get-logs?page=${pageNumber}`);
 
       if (!res.ok) {
-        throw new Error("Error fetching logs");
+        throw new Error("Response not OK");
       }
 
-      const data = (await res.json()) as any[];
+      const data = await res.json();
       if (data.length === 0) {
         setHasMore(false);
       } else {
@@ -35,21 +34,13 @@ export default function Logs() {
     }
   };
 
-  const fetchHandler = () => {
-    if (initialRender.current) {
-      initialRender.current = false;
-    } else {
-      fetchData(page);
-    }
-  };
-
   const refreshLogs = async () => {
     setIsLoading(true);
     try {
       setLogs([]);
       setPage(1);
 
-      fetchHandler();
+      await fetchData(1);
     } catch (error) {
       console.error("Error refreshing logs:", error);
     } finally {
@@ -64,7 +55,7 @@ export default function Logs() {
   };
 
   useEffect(() => {
-    fetchHandler();
+    fetchData(page);
   }, [page]);
 
   useEffect(() => {
@@ -120,7 +111,7 @@ export default function Logs() {
 
                     return (
                       <div
-                        key={index}
+                        key={logIndex}
                         style={{
                           backgroundColor:
                             logIndex % 2 === 0 ? "#191919" : "transparent",
