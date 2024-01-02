@@ -22,23 +22,18 @@ export default function Posts() {
 
   const fetchPosts = async (page: number) => {
     setIsLoading(true);
-
     try {
-      console.log("fetching...");
       const res = await fetch(`/api/get-posts?page=${page}`);
 
       if (!res.ok) {
         throw new Error("Error fetching posts");
       }
 
-      console.log("res is ok");
-
       const data = await res.json();
       if (data.length === 0) {
         setHasMore(false);
       } else {
         setPosts((prevPosts) => [...prevPosts, ...data]);
-        console.log("posts fetched to setPosts");
       }
     } catch (error: any) {
       throw new Error(error);
@@ -48,17 +43,16 @@ export default function Posts() {
   };
 
   const fetchHandler = async () => {
-    console.log("fetchHandler start");
-    if (!initialRender.current) {
-      try {
-        await fetchPosts(page);
-        console.log("fetchHandler end with no initial");
-      } catch (error) {
-        console.error("Error fetching posts:", error);
+    if (hasMore) {
+      if (!initialRender.current) {
+        try {
+          await fetchPosts(page);
+        } catch (error) {
+          console.error("Error fetching posts:", error);
+        }
+      } else {
+        initialRender.current = false;
       }
-    } else {
-      initialRender.current = false;
-      console.log("fetchHandler end with initial");
     }
   };
 
@@ -137,8 +131,7 @@ export default function Posts() {
     if (initialFetchComplete) {
       fetchHandler();
     }
-    console.log("useEffect check");
-  }, [page, initialFetchComplete]); //problem w tym że local host wywoluje 2 razy a przegladarka tylko raz wiec trzeba jakos to wywolac 2 razy
+  }, [page, initialFetchComplete]);
 
   return (
     <main className="flex h-screen">

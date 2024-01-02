@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import PlausibleProvider from "next-plausible";
@@ -6,6 +5,7 @@ import PlausibleProvider from "next-plausible";
 import { getServerSession } from "next-auth/next";
 import SessionProvider from "@/libs/SessionProvider";
 import { getWebSettings } from "./components/WebSettings";
+import React from "react";
 
 const SS3 = Roboto({ subsets: ["latin"], weight: "400" });
 

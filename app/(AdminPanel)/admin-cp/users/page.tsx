@@ -18,6 +18,7 @@ export default function Users() {
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const initialRender = useRef(true);
+  const [initialFetchComplete, setInitialFetchComplete] = useState(false);
 
   const { data: session }: any = useSession();
 
@@ -43,11 +44,15 @@ export default function Users() {
     }
   };
 
-  const fetchHandler = () => {
-    if (initialRender.current) {
-      initialRender.current = false;
+  const fetchHandler = async () => {
+    if (!initialRender.current) {
+      try {
+        await fetchUsers(page);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
     } else {
-      fetchUsers(page);
+      initialRender.current = false;
     }
   };
 
@@ -225,8 +230,17 @@ export default function Users() {
   }, []);
 
   useEffect(() => {
-    fetchHandler();
-  }, [page]);
+    if (!initialFetchComplete) {
+      fetchHandler();
+      setInitialFetchComplete(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (initialFetchComplete) {
+      fetchHandler();
+    }
+  }, [page, initialFetchComplete]);
 
   return (
     <main className="flex h-screen">
