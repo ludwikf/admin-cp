@@ -11,6 +11,7 @@ export default function Logs() {
   const [page, setPage] = useState<number>(1);
   const logContainerRef = useRef<HTMLDivElement | null>(null);
   const initialRender = useRef(true);
+  const [initialFetchComplete, setInitialFetchComplete] = useState(false);
 
   const fetchData = async (pageNumber: number) => {
     setIsLoading(true);
@@ -48,6 +49,7 @@ export default function Logs() {
     try {
       setLogs([]);
       setPage(1);
+      setHasMore(true);
 
       fetchHandler();
     } catch (error) {
@@ -64,8 +66,17 @@ export default function Logs() {
   };
 
   useEffect(() => {
-    fetchHandler();
-  }, [page]);
+    if (!initialFetchComplete) {
+      fetchHandler();
+      setInitialFetchComplete(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (initialFetchComplete) {
+      fetchHandler();
+    }
+  }, [page, initialFetchComplete]);
 
   useEffect(() => {
     if (logContainerRef.current) {

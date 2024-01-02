@@ -267,7 +267,7 @@ export default function Users() {
           </div>
         )}
         {userForm && (
-          <div className="z-10 ">
+          <div className="z-10 fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
             <div
               onClick={() => {
                 setError("");

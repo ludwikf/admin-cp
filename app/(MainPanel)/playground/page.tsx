@@ -9,10 +9,11 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
+import Rating from "@/app/components/Rating";
 
 export default function Playground() {
   const [posts, setPosts] = useState<any[]>([]);
-  const { data: session }: any = useSession();
+  const { data: session, status }: any = useSession();
 
   const fetchPosts = async () => {
     try {
@@ -26,9 +27,17 @@ export default function Playground() {
     }
   };
 
+  const handleReviewSubmit = async () => {
+    await fetchPosts();
+  };
+
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  if (status === "loading") {
+    return null;
+  }
 
   return (
     <main className="max-w-screen min-h-screen flex justify-center overflow-hidden">
@@ -63,7 +72,7 @@ export default function Playground() {
         </Link>
       )}
 
-      <div className="flex flex-col gap-3 mt-[100px]">
+      <div className="flex flex-col gap-5 mt-[100px]">
         {posts.map((post, index) => (
           <div
             key={index}
@@ -82,14 +91,17 @@ export default function Playground() {
                 />
               </div>
             </div>
-            <div className="ml-5 h-[180px] flex flex-col justify-between">
+            <div className="ml-5 mr-5 h-[180px] w-[400px] flex flex-col justify-between">
               <div>
                 <div className="font-bold text-xl">{post.title}</div>
                 <div className="text-[#bbb] max-w-[400px] max-h-[75px] overflow-hidden">
                   {post.content}
                 </div>
               </div>
-              <div className="font-bold text-lg">{post.author}</div>
+              <div className="flex justify-between">
+                <p className="font-bold text-lg">{post.author}</p>
+                <Rating postId={post._id} />
+              </div>
             </div>
           </div>
         ))}

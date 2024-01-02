@@ -202,7 +202,7 @@ export default function Newsletter() {
 
                         <TrashIcon
                           onClick={() => deleteHandler(t._id)}
-                          className="w-7 cursor-pointer hover:text-mainTheme"
+                          className="w-11 cursor-pointer hover:text-mainTheme"
                         />
                       </div>
                     ))

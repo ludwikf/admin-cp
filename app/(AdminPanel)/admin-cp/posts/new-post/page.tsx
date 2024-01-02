@@ -53,8 +53,8 @@ export default function NewPost() {
       if (res.status === 200) {
         router.push("/admin-cp/posts");
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      throw new Error(error);
     }
   };
 
