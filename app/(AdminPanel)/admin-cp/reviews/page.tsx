@@ -65,7 +65,9 @@ export default function Posts() {
     if (query) {
       filteredPosts = filteredPosts.filter(
         (review) =>
-          (review.author || "").toLowerCase().includes(query.toLowerCase()) ||
+          (review.user.username || "")
+            .toLowerCase()
+            .includes(query.toLowerCase()) ||
           (review.comment || "").toLowerCase().includes(query.toLowerCase())
       );
     }
@@ -104,9 +106,9 @@ export default function Posts() {
     }
   };
 
-  const deletePost = async (postId: any) => {
+  const deleteReview = async (reviewId: any) => {
     try {
-      const res = await fetch(`/api/delete-post?id=${postId}`, {
+      const res = await fetch(`/api/delete-review?id=${reviewId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -115,7 +117,7 @@ export default function Posts() {
       });
       if (res.ok) {
         setReviews((prevPosts) =>
-          prevPosts.filter((user) => user._id !== postId)
+          prevPosts.filter((user) => user._id !== reviewId)
         );
       } else {
         throw new Error("Failed to delete post");
@@ -192,9 +194,32 @@ export default function Posts() {
                   >
                     <div className="flex justify-between mx-7 my-5">
                       <div>
-                        <p className="text-xl font-bold mb-1">
-                          {rev.user.username}
-                        </p>
+                        <div className="flex ">
+                          <p className="text-xl font-bold mb-1 mr-5">
+                            {rev.user.username}{" "}
+                          </p>
+                          {[...Array(5)].map((star, index) => {
+                            const currentRating = index + 1;
+                            return (
+                              <label key={index}>
+                                <input
+                                  type="radio"
+                                  name="rating"
+                                  value={currentRating}
+                                  className="hidden"
+                                />
+                                <StarIcon
+                                  className="w-[25px]"
+                                  color={
+                                    currentRating <= rev.rating
+                                      ? "#ffc107"
+                                      : "#393939"
+                                  }
+                                />
+                              </label>
+                            );
+                          })}
+                        </div>
                         <p className="text-[#777]">
                           {new Date(rev.createdAt).toLocaleDateString("en-GB", {
                             day: "2-digit",
@@ -204,27 +229,10 @@ export default function Posts() {
                         </p>
                       </div>
                       <div className="flex items-center">
-                        {[...Array(5)].map((star, index) => {
-                          const currentRating = index + 1;
-                          return (
-                            <label key={index}>
-                              <input
-                                type="radio"
-                                name="rating"
-                                value={currentRating}
-                                className="hidden"
-                              />
-                              <StarIcon
-                                className="w-[25px] cursor-pointer star"
-                                color={
-                                  currentRating <= rev.rating
-                                    ? "#ffc107"
-                                    : "#393939"
-                                }
-                              />
-                            </label>
-                          );
-                        })}
+                        <TrashIcon
+                          onClick={() => deleteReview(rev._id)}
+                          className="w-5 cursor-pointer select-none hover:text-mainTheme"
+                        />
                       </div>
                     </div>
                     {rev.comment !== "" && (
