@@ -45,14 +45,16 @@ export default function Users() {
   };
 
   const fetchHandler = async () => {
-    if (!initialRender.current) {
-      try {
-        await fetchUsers(page);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
+    if (hasMore) {
+      if (!initialRender.current) {
+        try {
+          await fetchUsers(page);
+        } catch (error) {
+          console.error("Error fetching posts:", error);
+        }
+      } else {
+        initialRender.current = false;
       }
-    } else {
-      initialRender.current = false;
     }
   };
 
@@ -215,7 +217,7 @@ export default function Users() {
         }
         setError("");
         setUserForm(false);
-        fetchHandler();
+        window.location.reload();
       }
     } catch (error: any) {
       setError(error);

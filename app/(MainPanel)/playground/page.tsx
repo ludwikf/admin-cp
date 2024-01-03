@@ -6,34 +6,78 @@ import {
 } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import Rating from "@/app/components/Rating";
 
 export default function Playground() {
   const [posts, setPosts] = useState<any[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const initialRender = useRef(true);
+  const [initialFetchComplete, setInitialFetchComplete] = useState(false);
+
   const { data: session, status }: any = useSession();
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (page: number) => {
     try {
-      const res = await fetch("/api/get-posts");
+      const res = await fetch(`/api/get-posts?page=${page}`);
       if (res.ok) {
         const data = await res.json();
-        setPosts(data);
+        if (data.length === 0) {
+          setHasMore(false);
+        } else {
+          setPosts((prevPosts) => [...prevPosts, ...data]);
+        }
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
   };
 
-  const handleReviewSubmit = async () => {
-    await fetchPosts();
+  const fetchHandler = async () => {
+    if (hasMore) {
+      if (!initialRender.current) {
+        try {
+          await fetchPosts(page);
+        } catch (error) {
+          console.error("Error fetching posts:", error);
+        }
+      } else {
+        initialRender.current = false;
+      }
+    }
+  };
+
+  const handleScroll = () => {
+    const { scrollTop, clientHeight, scrollHeight } =
+      document.documentElement || document.body;
+
+    if (scrollTop + clientHeight >= scrollHeight - 20) {
+      setPage((prevPage) => prevPage + 1);
+    }
   };
 
   useEffect(() => {
-    fetchPosts();
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
+
+  useEffect(() => {
+    if (!initialFetchComplete) {
+      fetchHandler();
+      setInitialFetchComplete(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (initialFetchComplete) {
+      fetchHandler();
+    }
+  }, [page, initialFetchComplete]);
 
   if (status === "loading") {
     return null;

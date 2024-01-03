@@ -20,9 +20,7 @@ export default function Reviews() {
           </div>
         </div>
         <div className="w-[90%] h-[84%] flex flex-col items-end">
-          <div className="flex justify-between w-full ">
-            <Rating postId="658a72399f3190193110f83f" />
-          </div>
+          <div className="flex justify-between w-full "></div>
         </div>
       </div>
     </main>
