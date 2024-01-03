@@ -10,6 +10,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import Rating from "@/app/components/Rating";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function Playground() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -31,8 +32,8 @@ export default function Playground() {
           setPosts((prevPosts) => [...prevPosts, ...data]);
         }
       }
-    } catch (error) {
-      console.error("Error fetching posts:", error);
+    } catch (error: any) {
+      throw new Error(error);
     }
   };
 
@@ -149,6 +150,13 @@ export default function Playground() {
             </div>
           </div>
         ))}
+        {!hasMore && (
+          <div className="mb-4 py-4 ">
+            <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
+              No More Posts to Display
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );
