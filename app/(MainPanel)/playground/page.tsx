@@ -10,7 +10,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import Rating from "@/app/components/Rating";
-import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function Playground() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -18,6 +17,7 @@ export default function Playground() {
   const [hasMore, setHasMore] = useState<boolean>(true);
   const initialRender = useRef(true);
   const [initialFetchComplete, setInitialFetchComplete] = useState(false);
+  const postIdsSet = useRef<Set<string>>(new Set());
 
   const { data: session, status }: any = useSession();
 
@@ -25,11 +25,15 @@ export default function Playground() {
     try {
       const res = await fetch(`/api/get-posts?page=${page}`);
       if (res.ok) {
-        const data = await res.json();
+        const data: any[] = await res.json();
         if (data.length === 0) {
           setHasMore(false);
         } else {
-          setPosts((prevPosts) => [...prevPosts, ...data]);
+          const uniquePosts = data.filter(
+            (post) => !postIdsSet.current.has(post._id)
+          );
+          setPosts((prevPosts) => [...prevPosts, ...uniquePosts]);
+          uniquePosts.forEach((post) => postIdsSet.current.add(post._id));
         }
       }
     } catch (error: any) {

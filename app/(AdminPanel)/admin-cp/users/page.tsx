@@ -64,6 +64,9 @@ export default function Users() {
       setUsers([]);
       setPage(1);
       setHasMore(true);
+      setSearchQuery("");
+      setSortOrder("");
+      setSortBy("");
 
       fetchHandler();
     } catch (error) {
@@ -118,6 +121,7 @@ export default function Users() {
 
   const filterUsers = (query: string) => {
     let filteredUsers = users;
+
     if (query) {
       filteredUsers = users.filter((user) => {
         return (
@@ -127,10 +131,16 @@ export default function Users() {
         );
       });
     }
+
+    const uniqueUsers = filteredUsers.filter(
+      (user, index) =>
+        index === filteredUsers.findIndex((u) => u._id === user._id)
+    );
+
     if (sortBy === "createdAt") {
-      return sortUsersByCreatedAt(filteredUsers);
+      return sortUsersByCreatedAt(uniqueUsers);
     }
-    return sortUsersByColumn(sortBy, filteredUsers);
+    return sortUsersByColumn(sortBy, uniqueUsers);
   };
 
   const deleteUser = async (userId: any) => {
@@ -426,7 +436,13 @@ export default function Users() {
                   <tr key={index} className="trTable h-10 rounded-3xl">
                     <td className="pl-10 rounded-s-3xl">{user.username}</td>
                     <td>{user.email}</td>
-                    <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                    <td>
+                      {new Date(user.createdAt).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </td>
                     <td>{user.role}</td>
                     <td className="rounded-e-3xl">
                       <TrashIcon

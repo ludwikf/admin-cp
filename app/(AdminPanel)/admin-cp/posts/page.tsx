@@ -13,6 +13,8 @@ import { useSession } from "next-auth/react";
 export default function Posts() {
   const [posts, setPosts] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
+  const [sortBy, setSortBy] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const { data: session }: any = useSession();
   const [page, setPage] = useState<number>(1);
@@ -56,16 +58,59 @@ export default function Posts() {
     }
   };
 
+  const toggleSortOrder = (columnName: string) => {
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    setSortBy(columnName);
+  };
+
+  const sortByColumn = (columnName: string, usersArray: any[]) => {
+    return usersArray.sort((a, b) => {
+      const valueA = (a[columnName] || "").toLowerCase();
+      const valueB = (b[columnName] || "").toLowerCase();
+
+      if (sortOrder === "asc") {
+        if (valueA < valueB) return -1;
+        if (valueA > valueB) return 1;
+      } else {
+        if (valueA > valueB) return -1;
+        if (valueA < valueB) return 1;
+      }
+      return 0;
+    });
+  };
+
+  const sortByCreatedAt = (usersArray: any[]) => {
+    return usersArray.sort((a, b) => {
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+
+      if (sortOrder === "asc") {
+        return dateA.getTime() - dateB.getTime();
+      } else {
+        return dateB.getTime() - dateA.getTime();
+      }
+    });
+  };
+
   const filterPosts = (query: string) => {
+    let filteredPosts = posts;
+
     if (query) {
-      return posts.filter(
+      filteredPosts = filteredPosts.filter(
         (post) =>
           (post.title || "").toLowerCase().includes(query.toLowerCase()) ||
           (post.author || "").toLowerCase().includes(query.toLowerCase())
       );
-    } else {
-      return posts;
     }
+    const uniquePosts = filteredPosts.filter(
+      (post, index) =>
+        index === filteredPosts.findIndex((p) => p._id === post._id)
+    );
+
+    if (sortBy === "createdAt") {
+      return sortByCreatedAt(uniquePosts);
+    }
+    return sortByColumn(sortBy, uniquePosts);
   };
 
   const handleRefreshPosts = async () => {
@@ -74,6 +119,9 @@ export default function Posts() {
       setPosts([]);
       setPage(1);
       setHasMore(true);
+      setSearchQuery("");
+      setSortOrder("");
+      setSortBy("");
 
       fetchHandler();
     } catch (error) {
@@ -108,8 +156,8 @@ export default function Posts() {
       } else {
         throw new Error("Failed to delete post");
       }
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      throw new Error(error);
     }
   };
 
@@ -182,16 +230,37 @@ export default function Posts() {
               <tbody className="trTable">
                 <tr className="bg-[#ffa60040] h-10 font-bold w-[100%] select-none">
                   <td className="w-[30%] pl-10 rounded-s-3xl ">
-                    <p className="w-[40px] cursor-pointer ">Image</p>
+                    <p className="w-[40px]">Image</p>
                   </td>
                   <td className="w-[30%] ">
-                    <p className="w-[40px] cursor-pointer">Title</p>
+                    <p
+                      onClick={() => {
+                        toggleSortOrder("title");
+                      }}
+                      className="w-[40px] cursor-pointer"
+                    >
+                      Title
+                    </p>
                   </td>
                   <td className="w-[20%] ">
-                    <p className="w-[80px] cursor-pointer ">Author</p>
+                    <p
+                      onClick={() => {
+                        toggleSortOrder("author");
+                      }}
+                      className="w-[80px] cursor-pointer "
+                    >
+                      Author
+                    </p>
                   </td>
                   <td className="w-[15%] ">
-                    <p className="w-[80px] cursor-pointer ">Created At</p>
+                    <p
+                      onClick={() => {
+                        toggleSortOrder("createdAt");
+                      }}
+                      className="w-[80px] cursor-pointer "
+                    >
+                      Created At
+                    </p>
                   </td>
                   <td className="rounded-e-3xl">
                     <TrashIcon className="w-5 hidden" />
@@ -215,7 +284,13 @@ export default function Posts() {
                     </td>
                     <td>{post.title}</td>
                     <td>{post.author}</td>
-                    <td>{new Date().toLocaleDateString()}</td>
+                    <td>
+                      {new Date(post.createdAt).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </td>
                     <td className="rounded-e-3xl">
                       <div className="flex gap-1">
                         <Link
