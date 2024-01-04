@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { TrashIcon, ArrowPathIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { UserPlusIcon } from "@heroicons/react/24/outline";
 import { signOut, useSession } from "next-auth/react";
-import LoadingSpinner from "@/app/components/LoadingSpinner";
+import { LoadingSpinner } from "@/app/components/LoadingSpinner";
 
 export default function Users() {
   const [users, setUsers] = useState<any[]>([]);

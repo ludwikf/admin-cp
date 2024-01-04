@@ -1,5 +1,5 @@
 "use client";
-import LoadingSpinner from "@/app/components/LoadingSpinner";
+import { LoadingSpinner } from "@/app/components/LoadingSpinner";
 import { ArrowPathIcon } from "@heroicons/react/20/solid";
 import React, { useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";

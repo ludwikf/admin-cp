@@ -1,7 +1,9 @@
 import React from "react";
 
-const LoadingSpinner: React.FC = () => {
+export const LoadingSpinner: React.FC = () => {
   return <div className="loader"></div>;
 };
 
-export default LoadingSpinner;
+export const ButtonSpinner: React.FC = () => {
+  return <div className="loader2"></div>;
+};

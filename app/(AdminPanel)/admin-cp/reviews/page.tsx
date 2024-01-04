@@ -1,47 +1,44 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
 import {
+  ArrowLeftIcon,
+  ArrowLeftOnRectangleIcon,
   ArrowPathIcon,
-  PencilSquareIcon,
-  StarIcon,
-  TrashIcon,
+  ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
-import LoadingSpinner from "@/app/components/LoadingSpinner";
+import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+import Rating from "@/app/components/Rating";
 
-export default function Posts() {
-  const [review, setReviews] = useState<any[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortOrder, setSortOrder] = useState("");
-  const [sortBy, setSortBy] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const { data: session }: any = useSession();
+export default function Reviews() {
+  const [posts, setPosts] = useState<any[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const initialRender = useRef(true);
   const [initialFetchComplete, setInitialFetchComplete] = useState(false);
+  const postIdsSet = useRef<Set<string>>(new Set());
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchReviews = async (page: number) => {
-    setIsLoading(true);
+  const fetchPosts = async (page: number) => {
     try {
-      const res = await fetch(`/api/get-reviews-page?page=${page}`);
-
-      if (!res.ok) {
-        throw new Error("Error fetching reviews");
-      }
-
-      const data = await res.json();
-      if (data.length === 0) {
-        setHasMore(false);
-      } else {
-        setReviews((prevReviews) => [...prevReviews, ...data]);
+      const res = await fetch(`/api/get-posts?page=${page}`);
+      if (res.ok) {
+        const data: any[] = await res.json();
+        if (data.length === 0) {
+          setHasMore(false);
+        } else {
+          const uniquePosts = data.filter(
+            (post) => !postIdsSet.current.has(post._id)
+          );
+          setPosts((prevPosts) => [...prevPosts, ...uniquePosts]);
+          uniquePosts.forEach((post) => postIdsSet.current.add(post._id));
+        }
       }
     } catch (error: any) {
       throw new Error(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -49,7 +46,7 @@ export default function Posts() {
     if (hasMore) {
       if (!initialRender.current) {
         try {
-          await fetchReviews(page);
+          await fetchPosts(page);
         } catch (error) {
           console.error("Error fetching posts:", error);
         }
@@ -59,16 +56,14 @@ export default function Posts() {
     }
   };
 
-  const filterReviews = (query: string) => {
-    let filteredPosts = review;
+  const filterPosts = (query: string) => {
+    let filteredPosts = posts;
 
     if (query) {
       filteredPosts = filteredPosts.filter(
-        (review) =>
-          (review.user.username || "")
-            .toLowerCase()
-            .includes(query.toLowerCase()) ||
-          (review.comment || "").toLowerCase().includes(query.toLowerCase())
+        (post) =>
+          (post.title || "").toLowerCase().includes(query.toLowerCase()) ||
+          (post.author || "").toLowerCase().includes(query.toLowerCase())
       );
     }
     const uniquePosts = filteredPosts.filter(
@@ -82,12 +77,10 @@ export default function Posts() {
   const handleRefreshPosts = async () => {
     setIsLoading(true);
     try {
-      setReviews([]);
+      setPosts([]);
       setPage(1);
       setHasMore(true);
       setSearchQuery("");
-      setSortOrder("");
-      setSortBy("");
 
       fetchHandler();
     } catch (error) {
@@ -103,27 +96,6 @@ export default function Posts() {
 
     if (scrollTop + clientHeight >= scrollHeight - 20) {
       setPage((prevPage) => prevPage + 1);
-    }
-  };
-
-  const deleteReview = async (reviewId: any) => {
-    try {
-      const res = await fetch(`/api/delete-review?id=${reviewId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Session: JSON.stringify(session),
-        },
-      });
-      if (res.ok) {
-        setReviews((prevPosts) =>
-          prevPosts.filter((user) => user._id !== reviewId)
-        );
-      } else {
-        throw new Error("Failed to delete post");
-      }
-    } catch (error: any) {
-      throw new Error(error);
     }
   };
 
@@ -187,75 +159,44 @@ export default function Posts() {
           <div className="w-full h-full relative">
             <div className="w-[100%]">
               <div className="flex flex-col gap-5">
-                {filterReviews(searchQuery).map((rev, index) => (
-                  <div
+                {filterPosts(searchQuery).map((post, index) => (
+                  <Link
+                    href={`/admin-cp/reviews/post-review/${post._id}`}
                     key={index}
-                    className="bg-secondTheme min-h-[100px] rounded-xl flex flex-col justify-start"
+                    className="flex w-[100%] h-[200px] bg-[#282828] rounded-xl overflow-hidden items-center hover:bg-[#222]"
                   >
-                    <div className="flex justify-between mx-7 my-5">
-                      <div>
-                        <div className="flex ">
-                          <p className="text-xl font-bold mb-1 mr-5">
-                            {rev.user.username}{" "}
-                          </p>
-                          {[...Array(5)].map((star, index) => {
-                            const currentRating = index + 1;
-                            return (
-                              <label key={index}>
-                                <input
-                                  type="radio"
-                                  name="rating"
-                                  value={currentRating}
-                                  className="hidden"
-                                />
-                                <StarIcon
-                                  className="w-[25px]"
-                                  color={
-                                    currentRating <= rev.rating
-                                      ? "#ffc107"
-                                      : "#393939"
-                                  }
-                                />
-                              </label>
-                            );
-                          })}
-                        </div>
-                        <p className="text-[#777]">
-                          {new Date(rev.createdAt).toLocaleDateString("en-GB", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                          })}
-                        </p>
-                      </div>
-                      <div className="flex items-center">
-                        <TrashIcon
-                          onClick={() => deleteReview(rev._id)}
-                          className="w-5 cursor-pointer select-none hover:text-mainTheme"
+                    <div className="ml-3 flex items-start w-[300px]">
+                      <div className="w-[400px] h-[180px] relative">
+                        <Image
+                          src={post.image}
+                          alt="img"
+                          layout="fill"
+                          objectFit="cover"
+                          objectPosition="left"
+                          priority
+                          className="rounded-xl"
                         />
                       </div>
                     </div>
-                    {rev.comment !== "" && (
-                      <div className="flex justify-between mx-7 my-5">
-                        <div>{rev.comment}</div>
+                    <div className="ml-5 mr-5 h-[180px] w-[100%] flex flex-col justify-between">
+                      <div>
+                        <div className="font-bold text-xl">{post.title}</div>
+                        <div className="text-[#bbb] max-w-[400px] max-h-[75px] overflow-hidden">
+                          {post.content}
+                        </div>
                       </div>
-                    )}
-                  </div>
+                      <div className="flex justify-between">
+                        <p className="font-bold text-lg">{post.author}</p>
+                        <Rating postId={post._id} readOnly={true} />
+                      </div>
+                    </div>
+                  </Link>
                 ))}
               </div>
               {!hasMore && (
                 <div className="mb-4 py-4 ">
                   <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
-                    No more reviews to display
-                  </div>
-                </div>
-              )}
-              {isLoading && hasMore && (
-                <div>
-                  <div className="w-full h-full relative">
-                    <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
-                      <LoadingSpinner />
-                    </div>
+                    No More Posts to Display
                   </div>
                 </div>
               )}

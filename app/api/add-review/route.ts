@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import Review from "@/models/Review";
 import connectMongoDB from "@/libs/mongodb";
+import Log from "@/models/Log";
 
 export const POST = async (req: any) => {
   try {
-    const { post, user, rating, comment } = await req.json();
+    const { post, user, rating, comment, session } = await req.json();
     await connectMongoDB();
 
     const existingReview = await Review.findOne({ post: post, user: user });
@@ -13,7 +14,23 @@ export const POST = async (req: any) => {
       existingReview.rating = rating;
       existingReview.comment = comment;
 
-      await existingReview.save();
+      const savedReview = await existingReview.save();
+
+      if (!savedReview) {
+        return new NextResponse("Error saving review", { status: 400 });
+      }
+
+      const newLog = new Log({
+        user: {
+          id: session.user._id,
+          email: session.user.email,
+          username: session.user.username,
+        },
+        actionType: "Other",
+        details: "Review modified",
+      });
+
+      await newLog.save();
 
       return new NextResponse("Review created", { status: 200 });
     } else {
@@ -24,7 +41,23 @@ export const POST = async (req: any) => {
         comment: comment,
       });
 
-      await newReview.save();
+      const savedReview = await newReview.save();
+
+      if (!savedReview) {
+        return new NextResponse("Error saving review", { status: 400 });
+      }
+
+      const newLog = new Log({
+        user: {
+          id: session.user._id,
+          email: session.user.email,
+          username: session.user.username,
+        },
+        actionType: "Other",
+        details: "Review created",
+      });
+
+      await newLog.save();
 
       return new NextResponse(newReview, { status: 200 });
     }

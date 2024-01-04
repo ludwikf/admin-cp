@@ -6,11 +6,39 @@ import Image from "next/image";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import Icon from "@/public/fav.png";
 import Link from "next/link";
+import { ButtonSpinner } from "../components/LoadingSpinner";
 
 export default function Admincp() {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [error, setError] = useState("");
   const { status: sessionStatus, data: session }: any = useSession();
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const email = e.target[0].value;
+    const password = e.target[1].value;
+
+    setLoading(true);
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+
+      if (res?.error) {
+        setError("Invalid email or password");
+      } else {
+        setError("");
+        router.replace("/admin-cp");
+      }
+    } catch (error) {
+      setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (sessionStatus === "authenticated") {
@@ -21,51 +49,17 @@ export default function Admincp() {
     }
   }, [sessionStatus, router]);
 
-  const isValidEmail = (email: string) => {
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    return emailRegex.test(email);
-  };
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    const email = e.target[0].value;
-    const password = e.target[1].value;
-
-    if (!isValidEmail(email)) {
-      setError("Email is invalid");
-      return;
-    }
-
-    if (!password || password.length < 3) {
-      setError("Password is too short");
-      return;
-    }
-
-    const res = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
-
-    if (res?.error) {
-      setError("Invalid email or password");
-    } else {
-      setError("");
-      router.replace("/admin-cp");
-    }
-  };
-
   if (sessionStatus === "authenticated" || sessionStatus === "loading") {
     return null;
   }
 
   return (
     <main className="tCenter">
-      <div className="bg-secondTheme w-[400px] h-[400px] rounded-2xl flex flex-col items-center ">
+      <div className="bg-secondTheme w-[400px] h-[400px] rounded-2xl flex flex-col items-center justify-between">
         <Image src={Icon} alt="icon" className="w-[100px] my-5" />
         <form
           onSubmit={handleSubmit}
-          className="w-[90%] flex flex-col items-center"
+          className="w-[90%] h-[60%] flex flex-col items-center"
         >
           <input
             id="email"
@@ -77,29 +71,36 @@ export default function Admincp() {
           <input
             id="password"
             type="password"
-            className="w-full border-0 bg-[#353535] placeholder:text-[#bebebe82] text-[#BEBEBE] rounded-full px-3 py-2 mb-5 focus:outline-none"
+            className="w-full border-0 bg-[#353535] placeholder:text-[#bebebe82] text-[#BEBEBE] rounded-full px-3 py-2 mb-6 focus:outline-none"
             placeholder="Password"
             required
           />
           <button
             type="submit"
-            className="w-3/4 tracking-wider font-bold text-md bg-mainTheme text- text-white py-2 rounded-full hover:bg-[#ea851998]"
+            disabled={loading}
+            className="w-[40%] tracking-wider font-bold text-md bg-mainTheme flex justify-center text-white py-2 rounded-full hover:bg-[#ea851998]"
           >
-            {" "}
-            Login
+            {loading ? (
+              <div className="w-6 h-6">
+                <ButtonSpinner />
+              </div>
+            ) : (
+              <p className="text-black">Login</p>
+            )}
           </button>
           <p className="text-red-600 mt-4 ">{error && error}</p>
         </form>
-        <Link href={"/add-admin"} className="text-mainTheme mt-3">
-          Create admin account
-        </Link>
+        <div className="flex justify-center items-center my-2">
+          <Link href={"/add-admin"} className="text-mainTheme">
+            Create admin account
+          </Link>
+          <span className="mx-5 text-[#666]">||</span>
+          <Link href={"/playground"} className="text-mainTheme flex gap-0.5">
+            Playground
+          </Link>
+        </div>
       </div>
-      <div className="w-full flex justify-center mt-2">
-        <Link href={"/playground"} className="text-mainTheme flex gap-0.5">
-          Playground
-          <ArrowRightIcon className="w-4" />
-        </Link>
-      </div>
+      <div className="w-full flex justify-center mt-2"></div>
     </main>
   );
 }

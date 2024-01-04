@@ -4,9 +4,11 @@ import React, { useEffect, useState } from "react";
 
 import Icon from "@/public/fav.png";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { ButtonSpinner } from "@/app/components/LoadingSpinner";
 
 export default function Register() {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
   const { status: sessionStatus } = useSession();
@@ -39,6 +41,7 @@ export default function Register() {
       return;
     }
 
+    setLoading(true);
     try {
       const res = await fetch("/api/register", {
         method: "POST",
@@ -71,10 +74,17 @@ export default function Register() {
           }
         }
         setError("");
-        router.push("/");
+        await signIn("credentials", {
+          redirect: false,
+          email,
+          password,
+        });
+        router.push("/admin-cp");
       }
     } catch (error) {
       setError("Error, try again");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -124,10 +134,16 @@ export default function Register() {
           </div>
           <button
             type="submit"
-            className="w-3/4 tracking-wider font-bold text-md bg-mainTheme text- text-white py-2 rounded-full hover:bg-[#ea851998]"
+            disabled={loading}
+            className="w-3/4 tracking-wider font-bold text-md flex justify-center bg-mainTheme text- text-white py-2 rounded-full hover:bg-[#ea851998]"
           >
-            {" "}
-            Register
+            {loading ? (
+              <div className="w-6 h-6">
+                <ButtonSpinner />
+              </div>
+            ) : (
+              <p className="text-black">Register</p>
+            )}
           </button>
           <p className="text-red-600 mt-4 ">{error && error}</p>
         </form>

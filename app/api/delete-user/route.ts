@@ -1,6 +1,9 @@
 import connectMongoDB from "@/libs/mongodb";
 import Log from "@/models/Log";
 import User from "@/models/User";
+import Post from "@/models/Post";
+import Newsletter from "@/models/Newsletter";
+import Review from "@/models/Review";
 import { NextResponse } from "next/server";
 
 export const DELETE = async (req: any) => {
@@ -10,12 +13,17 @@ export const DELETE = async (req: any) => {
     const session = JSON.parse(sessionData);
     await connectMongoDB();
 
-    const deletedPost = await User.findByIdAndDelete(userId);
-    if (!deletedPost) {
+    const deletedUser = await User.findByIdAndDelete(userId);
+    if (!deletedUser) {
       return new NextResponse("User is already deleted", {
         status: 400,
       });
     }
+    await Post.deleteMany({ author: deletedUser.username });
+
+    await Review.deleteMany({ user: deletedUser._id });
+
+    await Newsletter.deleteMany({ email: deletedUser.email });
 
     const newLog = new Log({
       user: {

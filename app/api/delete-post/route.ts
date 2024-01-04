@@ -1,6 +1,7 @@
 import connectMongoDB from "@/libs/mongodb";
 import Log from "@/models/Log";
 import Post from "@/models/Post";
+import Review from "@/models/Review";
 import { NextResponse } from "next/server";
 
 export const DELETE = async (req: any) => {
@@ -14,6 +15,8 @@ export const DELETE = async (req: any) => {
     if (!deletedPost) {
       return new NextResponse("Post is already deleted", { status: 400 });
     }
+
+    await Review.deleteMany({ post: deletedPost._id });
 
     const newLog = new Log({
       user: {

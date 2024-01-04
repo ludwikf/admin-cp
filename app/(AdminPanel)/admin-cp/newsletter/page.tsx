@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
-import LoadingSpinner from "@/app/components/LoadingSpinner";
+import { LoadingSpinner } from "@/app/components/LoadingSpinner";
 import { useSession } from "next-auth/react";
 
 export default function Newsletter() {

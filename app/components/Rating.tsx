@@ -3,7 +3,7 @@ import { StarIcon } from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-export default function Rating({ postId }: any) {
+export default function Rating({ postId, readOnly = false }: any) {
   const [ratingValue, setRatingValue] = useState<any>(null);
   const [hover, setHover] = useState<any>(null);
   const [reviews, SetReviews] = useState<any[]>([]);
@@ -26,7 +26,7 @@ export default function Rating({ postId }: any) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ post, user, rating, comment }),
+        body: JSON.stringify({ post, user, rating, comment, session }),
       });
 
       if (!res.ok) {
@@ -93,16 +93,21 @@ export default function Rating({ postId }: any) {
                 value={currentRating}
                 onClick={() => handleStarClick(currentRating)}
                 className="hidden"
+                disabled={readOnly}
               />
               <StarIcon
-                className="w-[25px] cursor-pointer star"
+                className={`w-[25px] ${
+                  readOnly ? "cursor-default" : "cursor-pointer"
+                }`}
                 color={
                   currentRating <= (hover || ratingValue)
                     ? "#ffc107"
                     : "#393939"
                 }
-                onMouseEnter={() => setHover(currentRating)}
-                onMouseLeave={() => setHover(null)}
+                onMouseEnter={
+                  readOnly ? undefined : () => setHover(currentRating)
+                }
+                onMouseLeave={readOnly ? undefined : () => setHover(null)}
               />
             </label>
           );
