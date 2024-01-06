@@ -53,7 +53,7 @@ export default function Admincp() {
   }
 
   return (
-    <main className="h-screen w-screen flex justify-center items-center">
+    <main className="h-[100dvh] w-[100dvw] flex justify-center items-center">
       <div className="h-[100%] w-[100%] bg-secondTheme sm:w-[400px] sm:h-[400px] sm:rounded-2xl flex flex-col items-center justify-between">
         <FontAwesomeIcon
           className="w-[100px] h-[100px] text-mainTheme my-5"
