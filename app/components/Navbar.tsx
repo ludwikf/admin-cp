@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { signOut } from "next-auth/react";
 import {
   HomeIcon,
@@ -10,6 +10,7 @@ import {
   BookOpenIcon,
   ChartBarIcon,
   FireIcon,
+  Bars3Icon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -17,6 +18,7 @@ import { CommandLineIcon } from "@heroicons/react/24/outline";
 
 export default function Navbar() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [expand, setExpand] = useState(false);
   const pathName = usePathname();
 
   const handleLogout = async () => {
@@ -32,121 +34,215 @@ export default function Navbar() {
     }
   };
 
+  const handleResize = () => {
+    if (window.innerWidth >= 1024) {
+      setExpand(true);
+    } else {
+      setExpand(false);
+    }
+  };
+
+  const toggleExpand = () => {
+    setExpand(!expand);
+  };
+
   const isActive = (href: any) => {
     return pathName === href ? "bg-mainTheme text-black" : "";
   };
   const isActive2 = (href: any) => {
     return pathName === href ? "text-mainTheme" : "";
   };
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (window.innerWidth < 1024) {
+      setExpand(false);
+    }
+  }, [pathName]);
+
   return (
-    <main className="w-[200px] h-screen float-left">
-      <div className="fixed bg-secondTheme w-[200px] flex flex-col list-none items-center rounded-r-3xl">
-        <div className="flex flex-col justify-between h-screen">
-          <div className="my-10 ml-2">
-            <h1 className="font-bold text-[#888] text-xl">Admin Panel</h1>
-          </div>
-          <div className="flex-1 flex flex-col gap-1">
-            <Link
-              href={"/admin-cp"}
-              className={`hover:bg-mainTheme hover:text-black ${isActive(
-                "/admin-cp"
-              )}  w-[150px] h-[35px] flex justify-start items-center rounded-xl`}
-            >
-              <div className={`flex ml-2`}>
-                <HomeIcon className="w-5 mr-1.5" />
-                Dashboard
-              </div>
-            </Link>
-            <span className="my-2"></span>
-            <Link
-              href={"/admin-cp/users"}
-              className={`hover:bg-mainTheme hover:text-black ${isActive(
-                "/admin-cp/users"
-              )}  w-[150px] h-[35px] flex justify-start items-center rounded-xl`}
-            >
-              <div className={`flex ml-2`}>
-                <UsersIcon className="w-5 mr-1.5" />
-                Users
-              </div>
-            </Link>
-            <Link
-              href={"/admin-cp/posts"}
-              className={`hover:bg-mainTheme hover:text-black ${isActive(
-                "/admin-cp/posts"
-              )}  w-[150px] h-[35px] flex justify-start items-center rounded-xl`}
-            >
-              <div className={`flex ml-2`}>
-                <BookOpenIcon className="w-5 mr-1.5" />
-                Posts
-              </div>
-            </Link>
-            <Link
-              href={"/admin-cp/reviews"}
-              className={`hover:bg-mainTheme hover:text-black ${isActive(
-                "/admin-cp/reviews"
-              )}  w-[150px] h-[35px] flex justify-start items-center rounded-xl`}
-            >
-              <div className={`flex ml-2`}>
-                <FireIcon className="w-5 mr-1.5" />
-                Reviews
-              </div>
-            </Link>
-            <span className="my-2"></span>
-            <Link
-              href={"/admin-cp/newsletter"}
-              className={`hover:bg-mainTheme hover:text-black ${isActive(
-                "/admin-cp/newsletter"
-              )}  w-[150px] h-[35px] flex justify-start items-center rounded-xl`}
-            >
-              <div className={`flex ml-2`}>
-                <NewspaperIcon className="w-5 mr-1.5" />
-                Newsletter
-              </div>
-            </Link>
-            <Link
-              href={"/admin-cp/analytics"}
-              className={`hover:bg-mainTheme hover:text-black ${isActive(
-                "/admin-cp/analytics"
-              )}  w-[150px] h-[35px] flex justify-start items-center rounded-xl`}
-            >
-              <div className={`flex ml-2`}>
-                <ChartBarIcon className="w-5 mr-1.5" />
-                Analytics
-              </div>
-            </Link>
-            <Link
-              href={"/admin-cp/logs"}
-              className={`hover:bg-mainTheme hover:text-black ${isActive(
-                "/admin-cp/logs"
-              )}  w-[150px] h-[35px] flex justify-start items-center rounded-xl`}
-            >
-              <div className={`flex ml-2`}>
-                <CommandLineIcon className="w-5 mr-1.5" />
-                Logs
-              </div>
-            </Link>
-          </div>
-          <div className="flex flex-col gap-3 my-10 ml-2">
-            <Link
-              className={`flex hover:text-mainTheme w-[90px] ${isActive2(
-                "/admin-cp/settings"
-              )}`}
-              href={"/admin-cp/settings"}
-            >
-              <Cog6ToothIcon className="w-5 mr-1.5" />
-              Settings
-            </Link>
-            <button
-              className="flex items-center hover:text-mainTheme w-[80px] "
-              disabled={isSubmitting}
-              onClick={handleLogout}
-            >
-              <ArrowLeftOnRectangleIcon className="w-5 mr-1.5" />
-              Logout
-            </button>
+    <>
+      <div
+        className={`${
+          expand ? "block" : "hidden"
+        } w-[100dvw] h-[100dvh] lg:hidden absolute backdrop-blur-md z-10`}
+        onClick={toggleExpand}
+      >
+        fsdfdsdfs
+      </div>
+      <div className="absolute top-7 left-7 block lg:hidden">
+        <Bars3Icon className="w-7 cursor-pointer" onClick={toggleExpand} />
+      </div>
+      <main
+        className={`z-20 hidden lg:block absolute lg:static ${
+          expand ? "w-[200px]" : "w-[50px]"
+        } 
+        ${expand ? "displayBlock" : "hidden"}
+        h-screen float-left`}
+      >
+        <div
+          className={`${
+            expand ? "w-[200px]" : "w-[50px]"
+          } fixed bg-secondTheme flex flex-col list-none items-center rounded-r-2xl`}
+        >
+          <div className="flex flex-col justify-between items-center h-screen w-[100%]">
+            <div className="my-10 flex gap-2 items-center">
+              <Bars3Icon
+                className="w-7 cursor-pointer"
+                onClick={toggleExpand}
+              />
+              <h1
+                className={`${
+                  expand ? "block" : "hidden"
+                } font-bold text-[#888] text-xl select-none`}
+              >
+                Admin Panel
+              </h1>
+            </div>
+            <div className="flex-1 flex flex-col gap-1">
+              <Link
+                href={"/admin-cp"}
+                className={`hover:bg-mainTheme hover:text-black ${isActive(
+                  "/admin-cp"
+                )}  ${
+                  expand ? "w-[150px]" : "w-[36px]"
+                } h-[35px] flex justify-start items-center rounded-xl`}
+              >
+                <div className={`flex ml-2`}>
+                  <HomeIcon className="w-5 mr-1.5" />
+                  <p className={`${expand ? "block" : "hidden"} select-none`}>
+                    Dashboard
+                  </p>
+                </div>
+              </Link>
+              <span className="my-2"></span>
+              <Link
+                href={"/admin-cp/users"}
+                className={`hover:bg-mainTheme hover:text-black ${isActive(
+                  "/admin-cp/users"
+                )}  ${
+                  expand ? "w-[150px]" : "w-[36px]"
+                } h-[35px] flex justify-start items-center rounded-xl`}
+              >
+                <div className={`flex ml-2`}>
+                  <UsersIcon className="w-5 mr-1.5" />
+                  <p className={`${expand ? "block" : "hidden"} select-none`}>
+                    Users
+                  </p>
+                </div>
+              </Link>
+              <Link
+                href={"/admin-cp/posts"}
+                className={`hover:bg-mainTheme hover:text-black ${isActive(
+                  "/admin-cp/posts"
+                )}  ${
+                  expand ? "w-[150px]" : "w-[36px]"
+                } h-[35px] flex justify-start items-center rounded-xl`}
+              >
+                <div className={`flex ml-2`}>
+                  <BookOpenIcon className="w-5 mr-1.5" />
+                  <p className={`${expand ? "block" : "hidden"} select-none`}>
+                    Posts
+                  </p>
+                </div>
+              </Link>
+              <Link
+                href={"/admin-cp/reviews"}
+                className={`hover:bg-mainTheme hover:text-black ${isActive(
+                  "/admin-cp/reviews"
+                )}  ${
+                  expand ? "w-[150px]" : "w-[36px]"
+                } h-[35px] flex justify-start items-center rounded-xl`}
+              >
+                <div className={`flex ml-2`}>
+                  <FireIcon className="w-5 mr-1.5" />
+                  <p className={`${expand ? "block" : "hidden"} select-none`}>
+                    Reviews
+                  </p>
+                </div>
+              </Link>
+              <span className="my-2"></span>
+              <Link
+                href={"/admin-cp/newsletter"}
+                className={`hover:bg-mainTheme hover:text-black ${isActive(
+                  "/admin-cp/newsletter"
+                )}  ${
+                  expand ? "w-[150px]" : "w-[36px]"
+                } h-[35px] flex justify-start items-center rounded-xl`}
+              >
+                <div className={`flex ml-2`}>
+                  <NewspaperIcon className="w-5 mr-1.5" />
+                  <p className={`${expand ? "block" : "hidden"} select-none`}>
+                    Newsletter
+                  </p>
+                </div>
+              </Link>
+              <Link
+                href={"/admin-cp/analytics"}
+                className={`hover:bg-mainTheme hover:text-black ${isActive(
+                  "/admin-cp/analytics"
+                )}  ${
+                  expand ? "w-[150px]" : "w-[36px]"
+                } h-[35px] flex justify-start items-center rounded-xl`}
+              >
+                <div className={`flex ml-2`}>
+                  <ChartBarIcon className="w-5 mr-1.5" />
+                  <p className={`${expand ? "block" : "hidden"} select-none`}>
+                    Analytics
+                  </p>
+                </div>
+              </Link>
+              <Link
+                href={"/admin-cp/logs"}
+                className={`hover:bg-mainTheme hover:text-black ${isActive(
+                  "/admin-cp/logs"
+                )}  ${
+                  expand ? "w-[150px]" : "w-[36px]"
+                } h-[35px] flex justify-start items-center rounded-xl`}
+              >
+                <div className={`flex ml-2`}>
+                  <CommandLineIcon className="w-5 mr-1.5" />
+                  <p className={`${expand ? "block" : "hidden"} select-none`}>
+                    Logs
+                  </p>
+                </div>
+              </Link>
+            </div>
+            <div className="flex flex-col items-center gap-3 my-10">
+              <Link
+                className={`ml-1 flex hover:text-mainTheme ${
+                  expand ? "w-[150px]" : "w-[26px]"
+                } ${isActive2("/admin-cp/settings")}`}
+                href={"/admin-cp/settings"}
+              >
+                <Cog6ToothIcon className="w-5 mr-1.5" />
+                <p className={`${expand ? "block" : "hidden"} select-none`}>
+                  Settings
+                </p>
+              </Link>
+              <button
+                className={`ml-1 flex items-center hover:text-mainTheme ${
+                  expand ? "w-[150px]" : "w-[26px]"
+                } `}
+                disabled={isSubmitting}
+                onClick={handleLogout}
+              >
+                <ArrowLeftOnRectangleIcon className="w-5 mr-1.5" />
+                <p className={`${expand ? "block" : "hidden"} select-none`}>
+                  Logout
+                </p>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }

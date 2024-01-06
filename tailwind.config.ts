@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       screens: {
         tall: { raw: "(min-height: 1500px)" },
+        xs: "400px",
       },
       colors: {
         secondTheme: "#282828",

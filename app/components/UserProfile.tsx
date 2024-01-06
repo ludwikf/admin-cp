@@ -15,7 +15,7 @@ export default function UserProfile() {
     return null;
   }
   return (
-    <nav className="text-xl absolute right-[30px] top-[25px]">
+    <nav className="hidden lg:block absolute text-xl right-[30px] top-[25px]">
       <ul>{session.user.username}</ul>
     </nav>
   );
