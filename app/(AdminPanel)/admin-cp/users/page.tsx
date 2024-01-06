@@ -327,7 +327,7 @@ export default function Users() {
         {editConfirm && (
           <div className="z-10 fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
             <div className="bg-secondTheme p-4 rounded-xl border-mainTheme border-2">
-              <p>Are you sure you want to change this user's role?</p>
+              <p>Are you sure you want to change this users role?</p>
               <div className="flex justify-center mt-4">
                 <button
                   onClick={() => setEditConfirm(false)}
