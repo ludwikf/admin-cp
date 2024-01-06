@@ -96,7 +96,7 @@ export default function Rating({ postId, readOnly = false }: any) {
                 disabled={readOnly}
               />
               <StarIcon
-                className={`w-[25px] ${
+                className={`w-[100%] ${
                   readOnly ? "cursor-default" : "cursor-pointer"
                 }`}
                 color={

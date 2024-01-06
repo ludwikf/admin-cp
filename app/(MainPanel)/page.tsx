@@ -54,9 +54,9 @@ export default function Admincp() {
 
   return (
     <main className="h-[100dvh] w-[100dvw] flex justify-center items-center">
-      <div className="h-[100%] w-[100%] bg-secondTheme sm:w-[400px] sm:h-[400px] sm:rounded-2xl flex flex-col items-center justify-between">
+      <div className="h-[100%] w-[100%] bg-secondTheme sm:w-[400px] tall:w-[800px] sm:h-[400px] tall:h-[800px] sm:rounded-2xl flex flex-col items-center justify-between">
         <FontAwesomeIcon
-          className="w-[100px] h-[100px] text-mainTheme my-5"
+          className="w-[100px] h-[100px] tall:w-[200px] tall:h-[200px] text-mainTheme my-5"
           icon={faCode}
         />
         <form
@@ -66,21 +66,21 @@ export default function Admincp() {
           <input
             id="email"
             type="text"
-            className="w-full border-0 bg-[#353535] placeholder:text-[#bebebe82] text-[#BEBEBE] rounded-full px-3 py-2 mb-5 focus:outline-none"
+            className="w-full tall:text-3xl tall:py-5 tall:px-6 border-0 bg-[#353535] placeholder:text-[#bebebe82] text-[#BEBEBE] rounded-full px-3 py-2 mb-5 focus:outline-none"
             placeholder="Email"
             required
           />
           <input
             id="password"
             type="password"
-            className="w-full border-0 bg-[#353535] placeholder:text-[#bebebe82] text-[#BEBEBE] rounded-full px-3 py-2 mb-6 focus:outline-none"
+            className="w-full tall:text-3xl tall:py-5 tall:px-6 border-0 bg-[#353535] placeholder:text-[#bebebe82] text-[#BEBEBE] rounded-full px-3 py-2 mb-6 tall:mb-12 focus:outline-none"
             placeholder="Password"
             required
           />
           <button
             type="submit"
             disabled={loading}
-            className="w-[40%] tracking-wider font-bold text-md bg-mainTheme flex justify-center text-white py-2 rounded-full hover:bg-[#ea851998]"
+            className="w-[40%] tracking-wider font-bold text-md tall:text-3xl tall:py-4 tall:px-4 bg-mainTheme flex justify-center text-white py-2 rounded-full hover:bg-[#ea851998]"
           >
             {loading ? (
               <div className="w-6 h-6">
@@ -92,7 +92,7 @@ export default function Admincp() {
           </button>
           <p className="text-red-600 mt-4 ">{error && error}</p>
         </form>
-        <div className="flex justify-center items-center my-2">
+        <div className="flex justify-center items-center mb-10 sm:my-2 tall:my-5 tall:text-3xl">
           <Link href={"/add-admin"} className="text-mainTheme">
             Create admin account
           </Link>

@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        tall: { raw: "(min-height: 1500px)" },
+      },
       colors: {
         secondTheme: "#282828",
         mainTheme: "#ffa500",

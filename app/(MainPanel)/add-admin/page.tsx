@@ -6,6 +6,8 @@ import { signIn, useSession } from "next-auth/react";
 import { ButtonSpinner } from "@/app/components/LoadingSpinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCode } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
@@ -93,10 +95,10 @@ export default function Register() {
   }
 
   return (
-    <main className="tCenter">
-      <div className="bg-secondTheme w-[400px] h-[450px] rounded-2xl flex flex-col items-center ">
+    <main className="h-[100dvh] w-[100dvw] flex justify-center items-center">
+      <div className="h-[100%] w-[100%] bg-secondTheme sm:w-[400px] tall:w-[800px] sm:h-[400px] tall:h-[800px] sm:rounded-2xl flex flex-col items-center justify-between">
         <FontAwesomeIcon
-          className="w-[100px] h-[100px] text-mainTheme my-5"
+          className="w-[100px] h-[100px] text-mainTheme my-5 tall:w-[200px] tall:h-[200px]"
           icon={faCode}
         />
         <form
@@ -105,27 +107,27 @@ export default function Register() {
         >
           <input
             type="text"
-            className="w-full border-0 bg-[#353535] placeholder:text-[#bebebe82] text-[#BEBEBE] rounded-full px-3 py-2 mb-5 focus:outline-none"
+            className="w-full border-0 tall:text-3xl tall:py-5 tall:px-6 bg-[#353535] placeholder:text-[#bebebe82] text-[#BEBEBE] rounded-full px-3 py-2 mb-5 focus:outline-none"
             placeholder="Email"
             required
           />
           <input
             type="text"
-            className="w-full border-0 bg-[#353535] placeholder:text-[#bebebe82] text-[#BEBEBE] rounded-full px-3 py-2 mb-5 focus:outline-none"
+            className="w-full border-0 tall:text-3xl tall:py-5 tall:px-6 bg-[#353535] placeholder:text-[#bebebe82] text-[#BEBEBE] rounded-full px-3 py-2 mb-5 focus:outline-none"
             placeholder="Username"
             required
           />
           <input
             type="password"
-            className="w-full border-0 bg-[#353535] placeholder:text-[#bebebe82] text-[#BEBEBE] rounded-full px-3 py-2 mb-5 focus:outline-none"
+            className="w-full border-0 tall:text-3xl tall:py-5 tall:px-6 bg-[#353535] placeholder:text-[#bebebe82] text-[#BEBEBE] rounded-full px-3 py-2 mb-5 focus:outline-none"
             placeholder="Password"
             required
           />
-          <div className="flex w-full items-center ml-4 mb-6">
+          <div className="flex w-full items-center ml-4 mb-6 tall:text-3xl">
             <input
               id="default-checkbox"
               type="checkbox"
-              className="w-5 h-5 accent-mainTheme"
+              className="w-5 h-5 tall:w-6 tall:h-6 accent-mainTheme"
             />
 
             <label
@@ -138,7 +140,7 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="w-[50%] tracking-wider font-bold text-md flex justify-center bg-mainTheme text- text-white py-2 rounded-full hover:bg-[#ea851998]"
+            className="w-[50%] tall:text-3xl tall:py-4 tall:px-4 tracking-wider font-bold text-md flex justify-center bg-mainTheme text- text-white py-2 rounded-full hover:bg-[#ea851998]"
           >
             {loading ? (
               <div className="w-6 h-6">
@@ -150,6 +152,12 @@ export default function Register() {
           </button>
           <p className="text-red-600 mt-4 ">{error && error}</p>
         </form>
+        <div className="mb-10 sm:my-2 tall:my-5 tall:text-3xl">
+          <Link href={"/"} className="text-mainTheme flex gap-0.5">
+            <ArrowLeftIcon className="w-4 tall:w-8" />
+            <p> Go back</p>
+          </Link>
+        </div>
       </div>
     </main>
   );

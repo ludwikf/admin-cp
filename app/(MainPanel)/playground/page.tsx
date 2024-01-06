@@ -95,25 +95,25 @@ export default function Playground() {
   }
 
   return (
-    <main className="max-w-screen min-h-screen flex justify-center overflow-hidden">
+    <main className="max-w-screen min-h-[100dvh] flex justify-center overflow-hidden">
       {!session && (
         <Link
           href={"/"}
-          className="absolute left-12 top-10 flex gap-0.5 hover:text-mainTheme"
+          className="absolute left-12 top-10 flex gap-0.5 hover:text-mainTheme tall:text-3xl"
         >
-          <ArrowRightOnRectangleIcon className="w-5 mr-1.5" />
+          <ArrowRightOnRectangleIcon className="w-5 mr-1.5 tall:w-9" />
           Log in
         </Link>
       )}
 
       {session && session.user.role != "admin" && (
         <button
-          className="absolute left-12 top-10 flex gap-0.5 hover:text-mainTheme"
+          className="absolute left-12 top-10 flex gap-0.5 hover:text-mainTheme tall:text-3xl"
           onClick={() => {
             signOut();
           }}
         >
-          <ArrowLeftOnRectangleIcon className="w-5 mr-1.5" />
+          <ArrowLeftOnRectangleIcon className="w-5 mr-1.5 tall:w-9" />
           Log out
         </button>
       )}
@@ -121,9 +121,9 @@ export default function Playground() {
       {session && session.user.role === "admin" && (
         <Link
           href="/admin-cp/posts"
-          className="absolute left-12 top-10 flex gap-0.5"
+          className="absolute left-12 top-10 flex gap-0.5 tall:text-3xl"
         >
-          <ArrowLeftIcon className="w-4" /> Admin Panel
+          <ArrowLeftIcon className="w-4 tall:w-9" /> Admin Panel
         </Link>
       )}
 
@@ -136,23 +136,29 @@ export default function Playground() {
           posts.map((post, index) => (
             <div
               key={index}
-              className="flex w-[50vw] h-[200px] bg-[#282828] rounded-xl overflow-hidden items-center"
+              className="flex w-[90vw] sm:w-[80vw] lg:w-[60vw] tall:w-[60vw] h-[130px] sm:h-[200px] tall:h-[300px] bg-[#282828] rounded-xl overflow-hidden items-center"
             >
-              <div className="ml-3 flex items-start w-[300px]">
-                <div className="w-full h-[180px] relative">
+              <div className="ml-3 flex items-start w-[300px] tall:w-[500px] tall:max-w-[1000px] ">
+                <div className="w-full h-[110px] sm:h-[180px] tall:h-[280px] relative ">
                   <PostImage source={post.image} />
                 </div>
               </div>
-              <div className="ml-5 mr-5 h-[180px] w-[400px] flex flex-col justify-between">
+              <div className="mx-5 py-3 h-[100%] w-[80%] flex flex-col justify-between">
                 <div>
-                  <div className="font-bold text-xl">{post.title}</div>
-                  <div className="text-[#bbb] max-w-[400px] max-h-[75px] overflow-hidden">
+                  <div className="mb-2 font-bold text-lg sm:text-xl tall:text-4xl">
+                    {post.title}
+                  </div>
+                  <div className="hidden sm:block text-[#bbb] tall:text-2xl max-w-[400px] max-h-[75px] tall:max-w-[90%] tall:max-h-[160px] overflow-hidden">
                     {post.content}
                   </div>
                 </div>
-                <div className="flex justify-between">
-                  <p className="font-bold text-lg">{post.author}</p>
-                  <Rating postId={post._id} />
+                <div className="flex justify-between items-center">
+                  <p className="font-bold text-sm sm:text-lg tall:text-3xl text-[#777] sm:text-white">
+                    {post.author}
+                  </p>
+                  <div className="w-[80px] sm:w-[130px] tall:w-[200px]">
+                    <Rating postId={post._id} />
+                  </div>
                 </div>
               </div>
             </div>
