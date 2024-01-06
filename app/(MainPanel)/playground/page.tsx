@@ -10,6 +10,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import Rating from "@/app/components/Rating";
+import { LoadingSpinner } from "@/app/components/LoadingSpinner";
+import PostImage from "@/app/components/PostImage";
 
 export default function Playground() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -18,10 +20,12 @@ export default function Playground() {
   const initialRender = useRef(true);
   const [initialFetchComplete, setInitialFetchComplete] = useState(false);
   const postIdsSet = useRef<Set<string>>(new Set());
+  const [loading, isLoading] = useState<boolean>(false);
 
   const { data: session, status }: any = useSession();
 
   const fetchPosts = async (page: number) => {
+    isLoading(true);
     try {
       const res = await fetch(`/api/get-posts?page=${page}`);
       if (res.ok) {
@@ -38,6 +42,8 @@ export default function Playground() {
       }
     } catch (error: any) {
       throw new Error(error);
+    } finally {
+      isLoading(false);
     }
   };
 
@@ -122,38 +128,37 @@ export default function Playground() {
       )}
 
       <div className="flex flex-col gap-5 mt-[100px]">
-        {posts.map((post, index) => (
-          <div
-            key={index}
-            className="flex w-[50vw] h-[200px] bg-[#282828] rounded-xl overflow-hidden items-center"
-          >
-            <div className="ml-3 flex items-start w-[300px]">
-              <div className="w-full h-[180px] relative">
-                <Image
-                  src={post.image}
-                  alt="img"
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="left"
-                  priority
-                  className="rounded-xl"
-                />
-              </div>
-            </div>
-            <div className="ml-5 mr-5 h-[180px] w-[400px] flex flex-col justify-between">
-              <div>
-                <div className="font-bold text-xl">{post.title}</div>
-                <div className="text-[#bbb] max-w-[400px] max-h-[75px] overflow-hidden">
-                  {post.content}
+        {loading ? (
+          <div className="w-[60px] h-[60px] ">
+            <LoadingSpinner />
+          </div>
+        ) : (
+          posts.map((post, index) => (
+            <div
+              key={index}
+              className="flex w-[50vw] h-[200px] bg-[#282828] rounded-xl overflow-hidden items-center"
+            >
+              <div className="ml-3 flex items-start w-[300px]">
+                <div className="w-full h-[180px] relative">
+                  <PostImage source={post.image} />
                 </div>
               </div>
-              <div className="flex justify-between">
-                <p className="font-bold text-lg">{post.author}</p>
-                <Rating postId={post._id} />
+              <div className="ml-5 mr-5 h-[180px] w-[400px] flex flex-col justify-between">
+                <div>
+                  <div className="font-bold text-xl">{post.title}</div>
+                  <div className="text-[#bbb] max-w-[400px] max-h-[75px] overflow-hidden">
+                    {post.content}
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <p className="font-bold text-lg">{post.author}</p>
+                  <Rating postId={post._id} />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
+
         {!hasMore && (
           <div className="mb-4 py-4 ">
             <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">

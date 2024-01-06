@@ -15,6 +15,7 @@ export default function Newsletter() {
   const [subject, setSubject] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: session }: any = useSession();
 
   const fetchTemplates = async () => {
@@ -34,6 +35,9 @@ export default function Newsletter() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    setIsSubmitting(true);
+
     const subject = e.target[0].value;
     const content = e.target[1].value;
 
@@ -58,6 +62,8 @@ export default function Newsletter() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -67,6 +73,7 @@ export default function Newsletter() {
   };
 
   const deleteHandler = async (id: any) => {
+    setIsSubmitting(true);
     try {
       const res = await fetch(`/api/delete-template?id=${id}`, {
         method: "DELETE",
@@ -81,6 +88,8 @@ export default function Newsletter() {
       }
     } catch (error: any) {
       throw new Error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -162,6 +171,7 @@ export default function Newsletter() {
 
                 <button
                   className="bg-mainTheme py-2 mt-4 w-[100px] text-black rounded hover:brightness-75"
+                  disabled={isSubmitting}
                   type="submit"
                 >
                   Send
@@ -202,7 +212,9 @@ export default function Newsletter() {
 
                         <TrashIcon
                           onClick={() => deleteHandler(t._id)}
-                          className="w-11 cursor-pointer hover:text-mainTheme"
+                          className={`w-7 cursor-pointer hover:text-mainTheme ${
+                            isSubmitting ? "pointer-events-none" : ""
+                          }`}
                         />
                       </div>
                     ))

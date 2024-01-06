@@ -1,11 +1,11 @@
 "use client";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-import Icon from "@/public/fav.png";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import { ButtonSpinner } from "@/app/components/LoadingSpinner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCode } from "@fortawesome/free-solid-svg-icons";
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
@@ -95,7 +95,10 @@ export default function Register() {
   return (
     <main className="tCenter">
       <div className="bg-secondTheme w-[400px] h-[450px] rounded-2xl flex flex-col items-center ">
-        <Image src={Icon} alt="icon" className="w-[100px] my-5" />
+        <FontAwesomeIcon
+          className="w-[100px] h-[100px] text-mainTheme my-5"
+          icon={faCode}
+        />
         <form
           onSubmit={handleSubmit}
           className="w-[90%] flex flex-col items-center"
@@ -135,7 +138,7 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="w-3/4 tracking-wider font-bold text-md flex justify-center bg-mainTheme text- text-white py-2 rounded-full hover:bg-[#ea851998]"
+            className="w-[50%] tracking-wider font-bold text-md flex justify-center bg-mainTheme text- text-white py-2 rounded-full hover:bg-[#ea851998]"
           >
             {loading ? (
               <div className="w-6 h-6">

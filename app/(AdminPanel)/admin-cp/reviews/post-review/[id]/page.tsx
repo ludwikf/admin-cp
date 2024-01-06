@@ -15,7 +15,8 @@ import { useParams } from "next/navigation";
 export default function PostReview() {
   const [review, setReviews] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: session }: any = useSession();
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -106,6 +107,7 @@ export default function PostReview() {
   };
 
   const deleteReview = async (reviewId: any) => {
+    setIsSubmitting(true);
     try {
       const res = await fetch(`/api/delete-review?id=${reviewId}`, {
         method: "DELETE",
@@ -123,6 +125,8 @@ export default function PostReview() {
       }
     } catch (error: any) {
       throw new Error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -226,7 +230,9 @@ export default function PostReview() {
                       <div className="flex items-center">
                         <TrashIcon
                           onClick={() => deleteReview(rev._id)}
-                          className="w-5 cursor-pointer select-none hover:text-mainTheme"
+                          className={`w-5 cursor-pointer select-none hover:text-mainTheme ${
+                            isSubmitting ? "pointer-events-none" : ""
+                          }`}
                         />
                       </div>
                     </div>

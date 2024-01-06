@@ -15,11 +15,6 @@ module.exports = {
         hostname: "firebasestorage.googleapis.com",
         pathname: "**",
       },
-      {
-        protocol: "https",
-        hostname: "static-00.iconduck.com",
-        pathname: "**",
-      },
     ],
   },
 };

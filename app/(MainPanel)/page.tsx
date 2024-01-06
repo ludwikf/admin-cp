@@ -2,11 +2,10 @@
 import React, { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import { ArrowRightIcon } from "@heroicons/react/24/solid";
-import Icon from "@/public/fav.png";
 import Link from "next/link";
 import { ButtonSpinner } from "../components/LoadingSpinner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCode } from "@fortawesome/free-solid-svg-icons";
 
 export default function Admincp() {
   const [loading, setLoading] = useState(false);
@@ -56,7 +55,10 @@ export default function Admincp() {
   return (
     <main className="tCenter">
       <div className="bg-secondTheme w-[400px] h-[400px] rounded-2xl flex flex-col items-center justify-between">
-        <Image src={Icon} alt="icon" className="w-[100px] my-5" />
+        <FontAwesomeIcon
+          className="w-[100px] h-[100px] text-mainTheme my-5"
+          icon={faCode}
+        />
         <form
           onSubmit={handleSubmit}
           className="w-[90%] h-[60%] flex flex-col items-center"

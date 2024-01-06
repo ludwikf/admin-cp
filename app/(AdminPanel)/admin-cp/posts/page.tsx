@@ -9,13 +9,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { LoadingSpinner } from "@/app/components/LoadingSpinner";
 import { useSession } from "next-auth/react";
+import PostImage from "@/app/components/PostImage";
 
 export default function Posts() {
   const [posts, setPosts] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [sortBy, setSortBy] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: session }: any = useSession();
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -141,6 +143,7 @@ export default function Posts() {
   };
 
   const deletePost = async (postId: any) => {
+    setIsSubmitting(true);
     try {
       const res = await fetch(`/api/delete-post?id=${postId}`, {
         method: "DELETE",
@@ -158,6 +161,8 @@ export default function Posts() {
       }
     } catch (error: any) {
       throw new Error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -269,17 +274,8 @@ export default function Posts() {
                 {filterPosts(searchQuery).map((post, index) => (
                   <tr key={index} className="trTable h-[100px] rounded-3xl">
                     <td className="pl-3 rounded-s-3xl w-[70px] h-">
-                      <div className="w-[150px] h-[80px] relative">
-                        <Image
-                          rel="stylesheet preload prefetch"
-                          src={post.image}
-                          alt="img"
-                          width={0}
-                          height={0}
-                          sizes="100vw"
-                          priority
-                          className="rounded-xl object-cover object-left w-full h-full"
-                        />
+                      <div className="w-[150px] h-[80px] relative flex justify-center items-center">
+                        <PostImage source={post.image} />
                       </div>
                     </td>
                     <td>{post.title}</td>
@@ -302,7 +298,9 @@ export default function Posts() {
                         </Link>
                         <TrashIcon
                           onClick={() => deletePost(post._id)}
-                          className="w-5 cursor-pointer select-none hover:text-mainTheme"
+                          className={`w-5 cursor-pointer select-none hover:text-mainTheme ${
+                            isSubmitting ? "pointer-events-none" : ""
+                          }`}
                         />
                       </div>
                     </td>

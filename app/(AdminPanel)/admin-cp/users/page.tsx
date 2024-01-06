@@ -1,6 +1,11 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { TrashIcon, ArrowPathIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import {
+  TrashIcon,
+  ArrowPathIcon,
+  XMarkIcon,
+  PencilSquareIcon,
+} from "@heroicons/react/24/solid";
 import { UserPlusIcon } from "@heroicons/react/24/outline";
 import { signOut, useSession } from "next-auth/react";
 import { LoadingSpinner } from "@/app/components/LoadingSpinner";
@@ -10,11 +15,14 @@ export default function Users() {
   const [userForm, setUserForm] = useState(false);
   const [error, setError] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
+  const [editConfirm, setEditConfirm] = useState(false);
   const [userToDelete, setUserToDelete] = useState<string | null>(null);
+  const [userToEdit, setUserToEdit] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [sortBy, setSortBy] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const initialRender = useRef(true);
@@ -143,11 +151,43 @@ export default function Users() {
     return sortUsersByColumn(sortBy, uniqueUsers);
   };
 
-  const deleteUser = async (userId: any) => {
+  const editUser = (userId: any) => {
+    setUserToEdit(userId);
+    setEditConfirm(true);
+  };
+  const handleEditUser = async () => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`/api/edit-user-role?id=${userToEdit}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ session }),
+      });
+      if (response.ok) {
+        window.location.reload();
+        if (session.user._id == userToEdit) {
+          signOut();
+        } else {
+          setEditConfirm(false);
+        }
+      } else {
+        throw new Error("Failed to edit user");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const deleteUser = (userId: any) => {
     setUserToDelete(userId);
     setShowConfirm(true);
   };
   const handleDeleteUser = async () => {
+    setIsSubmitting(true);
     try {
       const response = await fetch(`/api/delete-user?id=${userToDelete}`, {
         method: "DELETE",
@@ -170,6 +210,8 @@ export default function Users() {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -195,6 +237,7 @@ export default function Users() {
       return;
     }
 
+    setIsSubmitting(true);
     try {
       const response = await fetch("/api/register", {
         method: "POST",
@@ -231,6 +274,8 @@ export default function Users() {
       }
     } catch (error: any) {
       setError(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -259,7 +304,7 @@ export default function Users() {
       <div className="my-[25px] flex w-screen flex-col justify-center items-center">
         {showConfirm && (
           <div className="z-10 fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
-            <div className="bg-secondTheme p-4 rounded">
+            <div className="bg-secondTheme p-4 rounded-xl border-mainTheme border-2">
               <p>Are you sure you want to delete this user?</p>
               <div className="flex justify-center mt-4">
                 <button
@@ -270,6 +315,29 @@ export default function Users() {
                 </button>
                 <button
                   onClick={handleDeleteUser}
+                  disabled={isSubmitting}
+                  className="bg-mainTheme text-black px-4 py-2 rounded"
+                >
+                  Confirm
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {editConfirm && (
+          <div className="z-10 fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
+            <div className="bg-secondTheme p-4 rounded-xl border-mainTheme border-2">
+              <p>Are you sure you want to change this user's role?</p>
+              <div className="flex justify-center mt-4">
+                <button
+                  onClick={() => setEditConfirm(false)}
+                  className="bg-white px-4 py-2 mr-5 rounded text-black"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleEditUser}
+                  disabled={isSubmitting}
                   className="bg-mainTheme text-black px-4 py-2 rounded"
                 >
                   Confirm
@@ -338,6 +406,7 @@ export default function Users() {
                   <p className="text-red-600 ">{error && error}</p>
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className=" my-5 w-2/4 tracking-wider font-bold text-md bg-[#ea851998] text-white py-2 rounded-full hover:bg-[#ffa60040] transition"
                   >
                     Create
@@ -443,11 +512,19 @@ export default function Users() {
                         year: "numeric",
                       })}
                     </td>
-                    <td>{user.role}</td>
+                    <td>
+                      <div className="flex items-center gap-2">
+                        {user.role}
+                        <PencilSquareIcon
+                          onClick={() => editUser(user._id)}
+                          className="w-5 cursor-pointer select-none hover:text-mainTheme"
+                        />
+                      </div>
+                    </td>
                     <td className="rounded-e-3xl">
                       <TrashIcon
                         onClick={() => deleteUser(user._id)}
-                        className="w-5 cursor-pointer select-none"
+                        className="w-5 cursor-pointer select-none hover:text-mainTheme"
                       />
                     </td>
                   </tr>

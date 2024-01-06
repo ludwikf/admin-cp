@@ -17,6 +17,8 @@ export default function NewPost() {
   const [media, setMedia] = useState<string>("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { data: session }: any = useSession();
 
   const adjustTextareaHeight = () => {
@@ -29,12 +31,18 @@ export default function NewPost() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
     const title = e.target[0].value;
     const content = e.target[1].value;
     const author = session.user.username;
-    const image =
-      media ||
-      "https://static-00.iconduck.com/assets.00/no-image-icon-2048x2048-2t5cx953.png";
+    let image = media;
+
+    if (!media) {
+      image =
+        "https://firebasestorage.googleapis.com/v0/b/test-admincp.appspot.com/o/no-image-icon-2048x2048-2t5cx953.png?alt=media&token=91f72576-e73e-4274-90c2-c8f25b0f94de";
+    }
+
+    setIsSubmitting(true);
 
     try {
       const res = await fetch("/api/add-post", {
@@ -55,6 +63,10 @@ export default function NewPost() {
       }
     } catch (error: any) {
       throw new Error(error);
+    } finally {
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 2000);
     }
   };
 
@@ -129,17 +141,25 @@ export default function NewPost() {
                 <label className="w-[50px] relative" htmlFor="image">
                   <PlusCircleIcon className="w-10 cursor-pointer" />
                 </label>
+                <button
+                  className="bg-white text-black rounded-xl px-3 py-2 hover:brightness-50 transition-all select-none"
+                  disabled={isSubmitting}
+                  type="submit"
+                >
+                  Create post
+                </button>
               </div>
-              <div className="select-none my-5">
-                {media && <Image src={media} alt="" width={100} height={100} />}
+              <div className="select-none my-5 relative w-[200px] h-[110px]">
+                {media && (
+                  <Image
+                    src={media}
+                    alt="img"
+                    fill
+                    priority
+                    className="rounded-xl object-cover object-left"
+                  />
+                )}
               </div>
-
-              <button
-                className="bg-white text-black rounded-xl px-3 py-2 hover:brightness-50 transition-all select-none"
-                type="submit"
-              >
-                Create post
-              </button>
             </div>
           </form>
         </div>

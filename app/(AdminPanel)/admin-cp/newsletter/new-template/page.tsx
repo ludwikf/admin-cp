@@ -1,9 +1,10 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 export default function NewTemplate() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
   const { data: session }: any = useSession();
@@ -18,6 +19,9 @@ export default function NewTemplate() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    setIsSubmitting(true);
+
     const title = e.target[0].value;
     const subject = e.target[1].value;
     const content = e.target[2].value;
@@ -41,6 +45,10 @@ export default function NewTemplate() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 2000);
     }
   };
 
@@ -71,6 +79,7 @@ export default function NewTemplate() {
             <div>
               <button
                 className="bg-white text-black rounded-xl px-3 py-2 hover:brightness-50 transition-all select-none"
+                disabled={isSubmitting}
                 type="submit"
               >
                 Create template

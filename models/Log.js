@@ -20,6 +20,6 @@ const logSchema = new mongoose.Schema({
   },
 });
 
-logSchema.index({ createdAt: 1 }, { expireAfterSeconds: 86400 });
+logSchema.index({ createdAt: 1 }, { expireAfterSeconds: 259200 });
 
 export default mongoose.models.Log || mongoose.model("Log", logSchema);

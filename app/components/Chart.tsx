@@ -125,6 +125,7 @@ export function ChartVisitor() {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false,
@@ -197,8 +198,10 @@ export function ChartVisitor() {
   }, []);
 
   return (
-    <div>
-      <Line data={data} options={options} />
+    <div className="w-full h-full relative">
+      <div className="absolute inset-0 flex justify-center w-full">
+        <Line data={data} options={options} />
+      </div>
     </div>
   );
 }

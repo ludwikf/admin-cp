@@ -7,6 +7,7 @@ export default function NewTemplate() {
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
   const [content, setContent] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
   const { id } = useParams();
@@ -23,6 +24,9 @@ export default function NewTemplate() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    setIsSubmitting(true);
+
     const title = e.target[0].value;
     const subject = e.target[1].value;
     const content = e.target[2].value;
@@ -45,6 +49,8 @@ export default function NewTemplate() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -106,6 +112,7 @@ export default function NewTemplate() {
             <div>
               <button
                 className="bg-white text-black rounded-xl px-3 py-2 hover:brightness-50 transition-all select-none"
+                disabled={isSubmitting}
                 type="submit"
               >
                 Edit template

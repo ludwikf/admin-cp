@@ -36,6 +36,21 @@ export default function Logs() {
     }
   };
 
+  const filterLogs = (): any[] => {
+    let filteredLogs = logs;
+
+    const uniqueLogs = filteredLogs.filter(
+      (post, index) =>
+        index === filteredLogs.findIndex((p) => p._id === post._id)
+    );
+
+    let sortedLogs: any = uniqueLogs;
+
+    const reversedLogs = sortedLogs.reverse();
+
+    return reversedLogs;
+  };
+
   const fetchHandler = () => {
     if (initialRender.current) {
       initialRender.current = false;
@@ -126,8 +141,8 @@ export default function Logs() {
                   scrollableTarget="scrollableDiv"
                   inverse={true}
                 >
-                  {reversedLogs.map((log, index) => {
-                    const logIndex = reversedLogs.length - index - 1;
+                  {filterLogs().map((log, index) => {
+                    const logIndex = filterLogs().length - index - 1;
 
                     return (
                       <div

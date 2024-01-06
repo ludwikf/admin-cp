@@ -11,6 +11,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import Rating from "@/app/components/Rating";
+import PostImage from "@/app/components/PostImage";
 
 export default function Reviews() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -19,7 +20,7 @@ export default function Reviews() {
   const initialRender = useRef(true);
   const [initialFetchComplete, setInitialFetchComplete] = useState(false);
   const postIdsSet = useRef<Set<string>>(new Set());
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const fetchPosts = async (page: number) => {
@@ -166,16 +167,8 @@ export default function Reviews() {
                     className="flex w-[100%] h-[200px] bg-[#282828] rounded-xl overflow-hidden items-center hover:bg-[#222]"
                   >
                     <div className="ml-3 flex items-start w-[300px]">
-                      <div className="w-[400px] h-[180px] relative">
-                        <Image
-                          src={post.image}
-                          alt="img"
-                          layout="fill"
-                          objectFit="cover"
-                          objectPosition="left"
-                          priority
-                          className="rounded-xl"
-                        />
+                      <div className="w-[400px] h-[180px] flex justify-center items-center">
+                        <PostImage source={post.image} />
                       </div>
                     </div>
                     <div className="ml-5 mr-5 h-[180px] w-[100%] flex flex-col justify-between">

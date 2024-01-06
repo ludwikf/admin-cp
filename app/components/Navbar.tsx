@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { signOut } from "next-auth/react";
 import {
   HomeIcon,
@@ -16,7 +16,21 @@ import { usePathname } from "next/navigation";
 import { CommandLineIcon } from "@heroicons/react/24/outline";
 
 export default function Navbar() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const pathName = usePathname();
+
+  const handleLogout = async () => {
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      try {
+        await signOut();
+      } catch (error) {
+        console.error("Error signing out:", error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
+  };
 
   const isActive = (href: any) => {
     return pathName === href ? "bg-mainTheme text-black" : "";
@@ -124,26 +138,13 @@ export default function Navbar() {
             </Link>
             <button
               className="flex items-center hover:text-mainTheme w-[80px] "
-              onClick={() => {
-                signOut();
-              }}
+              disabled={isSubmitting}
+              onClick={handleLogout}
             >
               <ArrowLeftOnRectangleIcon className="w-5 mr-1.5" />
               Logout
             </button>
           </div>
-          {/* <div className="my-10 flex flex-col gap-2 bg-white">
-            <Link
-              href={"/admin-cp/settings"}
-              className={`flex hover:text-mainTheme ${isActive(
-                "/admin-cp/settings"
-              )} bg-secondTheme text-black`}
-            >
-              <Cog6ToothIcon className="w-5 mr-1.5" />
-              Settings
-            </Link>
-            
-          </div> */}
         </div>
       </div>
     </main>

@@ -17,6 +17,8 @@ export default function NewPost() {
   const [media, setMedia] = useState<string>("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { id } = useParams();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
@@ -32,6 +34,9 @@ export default function NewPost() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    setIsSubmitting(true);
+
     const title = e.target[0].value;
     const content = e.target[1].value;
     const image =
@@ -57,6 +62,8 @@ export default function NewPost() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -163,11 +170,14 @@ export default function NewPost() {
                 </label>
               </div>
               <div className="select-none my-5">
-                {media && <Image src={media} alt="" width={100} height={100} />}
+                {media && (
+                  <Image src={media} alt="img" width={100} height={100} />
+                )}
               </div>
 
               <button
                 className="bg-white text-black rounded-xl px-3 py-2 hover:brightness-50 transition-all select-none"
+                disabled={isSubmitting}
                 type="submit"
               >
                 Edit post

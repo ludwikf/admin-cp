@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useRef, useState } from "react";
 
 export default function Settings() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [webProps, setWebProps] = useState<any>("");
   const { data: session }: any = useSession();
 
@@ -16,6 +17,7 @@ export default function Settings() {
     const domain =
       (document.getElementById("domain") as HTMLInputElement)?.value ||
       webProps.websiteDescription;
+    setIsSubmitting(true);
     try {
       const response = await fetch("/api/edit-settings", {
         method: "PUT",
@@ -35,6 +37,8 @@ export default function Settings() {
       window.location.reload();
     } catch (error: any) {
       throw new Error(error.message || "Error updating settings");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -106,6 +110,7 @@ export default function Settings() {
               </div>
               <button
                 onClick={handleSave}
+                disabled={isSubmitting}
                 className="bg-mainTheme select-none text-black py-2 px-5 rounded-xl hover:brightness-75 transition "
               >
                 Save
