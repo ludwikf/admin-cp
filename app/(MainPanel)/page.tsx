@@ -53,8 +53,8 @@ export default function Admincp() {
   }
 
   return (
-    <main className="tCenter">
-      <div className="bg-secondTheme w-[400px] h-[400px] rounded-2xl flex flex-col items-center justify-between">
+    <main className="h-screen w-screen flex justify-center items-center">
+      <div className="h-[100%] w-[100%] bg-secondTheme sm:w-[400px] sm:h-[400px] sm:rounded-2xl flex flex-col items-center justify-between">
         <FontAwesomeIcon
           className="w-[100px] h-[100px] text-mainTheme my-5"
           icon={faCode}
@@ -102,7 +102,6 @@ export default function Admincp() {
           </Link>
         </div>
       </div>
-      <div className="w-full flex justify-center mt-2"></div>
     </main>
   );
 }
