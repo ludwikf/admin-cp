@@ -55,19 +55,19 @@ const formatDate = (dateString: string) => {
     );
   }
 };
-export async function fetchUser() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-user-new`
-  );
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  return res.json();
-}
 
 export default async function Dashboard() {
+  async function fetchUser() {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-user-new`
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+  }
   const user = await fetchUser();
   return (
     <div className="bg-secondTheme h-[250px] md:h-[100%] w-[100%] sm:w-[75%] md:w-[55%] mb-5 md:mb-0  rounded-3xl md:mr-5 flex justify-center items-center">
