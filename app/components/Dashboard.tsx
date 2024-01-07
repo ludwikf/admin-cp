@@ -58,9 +58,7 @@ const formatDate = (dateString: string) => {
 
 export async function SingleUser() {
   async function fetchUser() {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-user-new`
-    );
+    const res = await fetch("https://www.ludwikfaron.com/api/get-user-new");
 
     if (!res.ok) {
       throw new Error("Failed to fetch data");
@@ -94,9 +92,7 @@ export async function SingleUser() {
 
 export async function SingleReview() {
   async function fetchReview() {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-review-new`
-    );
+    const res = await fetch("https://www.ludwikfaron.com/api/get-review-new");
 
     if (!res.ok) {
       throw new Error("Failed to fetch data");
@@ -145,9 +141,7 @@ export async function SingleReview() {
 
 export async function SinglePost() {
   async function fetchPost() {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-post-new`
-    );
+    const res = await fetch("https://www.ludwikfaron.com/api/get-post-new");
 
     if (!res.ok) {
       throw new Error("Failed to fetch data");
