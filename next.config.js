@@ -18,14 +18,3 @@ module.exports = {
     ],
   },
 };
-
-module.exports = {
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "https://www.ludwikfaron.com/:path*",
-      },
-    ];
-  },
-};
