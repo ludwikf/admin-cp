@@ -35,7 +35,7 @@ export default function Navbar() {
   };
 
   const handleResize = () => {
-    if (window.innerWidth >= 1024) {
+    if (window.innerWidth >= 1024 && window.innerHeight > 600) {
       setExpand(true);
     } else {
       setExpand(false);
@@ -62,7 +62,7 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (window.innerWidth < 1024) {
+    if (window.innerWidth < 1024 && window.innerHeight < 450) {
       setExpand(false);
     }
   }, [pathName]);
@@ -70,30 +70,30 @@ export default function Navbar() {
   return (
     <>
       <div
-        className={`${
+        className={`${expand ? "block" : "hidden"}
+        shortnav:${
           expand ? "block" : "hidden"
-        } w-[100dvw] h-[100dvh] lg:hidden absolute backdrop-blur-md z-10`}
+        } w-[100dvw] h-[100dvh] lg:hidden shortnav:fixed fixed backdrop-blur-md z-10`}
         onClick={toggleExpand}
-      >
-        fsdfdsdfs
-      </div>
-      <div className="absolute top-7 left-7 block lg:hidden">
+      ></div>
+      <div className="absolute top-7 left-7 block shortnav:block lg:hidden">
         <Bars3Icon className="w-7 cursor-pointer" onClick={toggleExpand} />
       </div>
       <main
-        className={`z-20 hidden lg:block absolute lg:static ${
+        className={`z-20 hidden shortnav:block lg:block absolute shortnav:absolute lg:static ${
           expand ? "w-[200px]" : "w-[50px]"
         } 
-        ${expand ? "displayBlock" : "hidden"}
-        h-screen float-left`}
+        ${expand ? "displayBlock shortnav:displayBlock" : "hidden"}
+        shortnav:${expand ? "displayBlock" : "hidden"}
+        h-[100dvh] float-left`}
       >
         <div
           className={`${
-            expand ? "w-[200px]" : "w-[50px]"
-          } fixed bg-secondTheme flex flex-col list-none items-center rounded-r-2xl`}
+            expand ? "w-[200px] shortnav:w-[500px] " : "w-[50px]"
+          } fixed bg-secondTheme flex flex-col list-none items-center rounded-r-2xl z-20`}
         >
           <div className="flex flex-col justify-between items-center h-screen w-[100%]">
-            <div className="my-10 flex gap-2 items-center">
+            <div className="my-10 shortnav:my-1 flex gap-2 items-center">
               <Bars3Icon
                 className="w-7 cursor-pointer"
                 onClick={toggleExpand}
@@ -106,7 +106,7 @@ export default function Navbar() {
                 Admin Panel
               </h1>
             </div>
-            <div className="flex-1 flex flex-col gap-1">
+            <div className="flex-1 flex flex-col shortnav:flex-row shortnav:w-[100%] shortnav:items-center shortnav:justify-center shortnav:flex-wrap h-[50%] gap-1">
               <Link
                 href={"/admin-cp"}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(

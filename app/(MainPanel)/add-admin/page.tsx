@@ -96,9 +96,9 @@ export default function Register() {
 
   return (
     <main className="h-[100dvh] w-[100dvw] flex justify-center items-center">
-      <div className="h-[100%] w-[100%] bg-secondTheme sm:w-[400px] tall:w-[800px] sm:h-[400px] tall:h-[800px] sm:rounded-2xl flex flex-col items-center justify-between">
+      <div className="h-[100%] w-[100%] bg-secondTheme short:pt-3 short:bg-inherit short:w-[100%] short:h-[100%] short:rounded-none sm:w-[400px] tall:w-[800px] sm:h-[400px] tall:h-[800px] sm:rounded-2xl flex flex-col items-center justify-between">
         <FontAwesomeIcon
-          className="w-[100px] h-[100px] text-mainTheme my-5 tall:w-[200px] tall:h-[200px]"
+          className="w-[100px] h-[100px] text-mainTheme my-5 tall:w-[200px] tall:h-[200px] short:hidden"
           icon={faCode}
         />
         <form
