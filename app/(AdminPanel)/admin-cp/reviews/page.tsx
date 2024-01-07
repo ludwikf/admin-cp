@@ -180,7 +180,9 @@ export default function Reviews() {
                       </div>
                       <div className="flex justify-between">
                         <p className="font-bold text-lg">{post.author}</p>
-                        <Rating postId={post._id} readOnly={true} />
+                        <div className="w-[120px]">
+                          <Rating postId={post._id} readOnly={true} />
+                        </div>
                       </div>
                     </div>
                   </Link>

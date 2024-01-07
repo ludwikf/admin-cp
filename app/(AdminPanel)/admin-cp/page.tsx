@@ -3,40 +3,41 @@ import PostImage from "@/app/components/PostImage";
 import { StarIcon, UserCircleIcon } from "@heroicons/react/20/solid";
 import React from "react";
 
+async function fetchUser() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-user-new`
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+async function fetchReview() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-review-new`
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+async function fetchPost() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-post-new`
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
 export default async function Dashboard() {
-  async function fetchUser() {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-user-new`
-    );
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
-
-    return res.json();
-  }
-  async function fetchReview() {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-review-new`
-    );
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
-
-    return res.json();
-  }
-  async function fetchPost() {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-post-new`
-    );
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
-
-    return res.json();
-  }
   const formatDate = (dateString: string) => {
     const currentDate = new Date();
     const receivedDate = new Date(dateString);

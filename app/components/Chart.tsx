@@ -12,6 +12,7 @@ import {
   PointElement,
 } from "chart.js";
 import { Line, Pie } from "react-chartjs-2";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
@@ -19,7 +20,9 @@ export function GeneralData() {
   const [visitors, setVisitors] = useState<any>("");
   const [pageviews, setPageviews] = useState<any>("");
   const [bounceRate, setBounceRate] = useState<any>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const fetchVisitors = async () => {
+    setIsLoading(true);
     try {
       const res = await fetch(
         "https://plausible.io/api/v1/stats/aggregate?site_id=ludwikfaron.com&period=12mo&metrics=visitors",
@@ -39,9 +42,12 @@ export function GeneralData() {
       setVisitors(data.results.visitors.value);
     } catch (error) {
       console.log("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
   const fetchPageviews = async () => {
+    setIsLoading(true);
     try {
       const res = await fetch(
         "https://plausible.io/api/v1/stats/aggregate?site_id=ludwikfaron.com&period=12mo&metrics=pageviews",
@@ -61,9 +67,12 @@ export function GeneralData() {
       setPageviews(data.results.pageviews.value);
     } catch (error) {
       console.log("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
   const fetchBR = async () => {
+    setIsLoading(true);
     try {
       const res = await fetch(
         "https://plausible.io/api/v1/stats/aggregate?site_id=ludwikfaron.com&period=12mo&metrics=bounce_rate",
@@ -83,6 +92,8 @@ export function GeneralData() {
       setBounceRate(data.results.bounce_rate.value);
     } catch (error) {
       console.log("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -97,15 +108,45 @@ export function GeneralData() {
       <div>
         <div className="mb-5">
           <p className="text-[#eee]">UNIQUE VISITORS</p>
-          <span className="text-mainTheme text-3xl"> {visitors}</span>
+          <div className="h-[35px]">
+            {isLoading ? (
+              <div className="flex justify-center items-center h-[100%]">
+                <div className="w-8 h-8 ">
+                  <LoadingSpinner />
+                </div>
+              </div>
+            ) : (
+              <span className="text-mainTheme text-3xl">{visitors}</span>
+            )}
+          </div>
         </div>
         <div className="mb-5">
           <p className="text-[#eee]">TOTAL PAGEVIEWS</p>
-          <span className="text-mainTheme text-3xl"> {pageviews}</span>
+          <div className="h-[35px]">
+            {isLoading ? (
+              <div className="flex justify-center items-center h-[100%]">
+                <div className="w-8 h-8 ">
+                  <LoadingSpinner />
+                </div>
+              </div>
+            ) : (
+              <span className="text-mainTheme text-3xl"> {pageviews}</span>
+            )}
+          </div>
         </div>
         <div className="mb-5">
           <p className="text-[#eee]">BOUNCE RATE</p>
-          <span className="text-mainTheme text-3xl"> {bounceRate}%</span>
+          <div className="h-[35px]">
+            {isLoading ? (
+              <div className="flex justify-center items-center h-[100%]">
+                <div className="w-8 h-8 ">
+                  <LoadingSpinner />
+                </div>
+              </div>
+            ) : (
+              <span className="text-mainTheme text-3xl"> {bounceRate}</span>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -114,6 +155,7 @@ export function GeneralData() {
 
 export function ChartVisitor() {
   const [chartData, setChartData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -172,6 +214,7 @@ export function ChartVisitor() {
   };
 
   const fetchDevices = async () => {
+    setIsLoading(true);
     try {
       const res = await fetch(
         "https://plausible.io/api/v1/stats/timeseries?site_id=ludwikfaron.com&period=7d",
@@ -191,6 +234,8 @@ export function ChartVisitor() {
       setChartData(data.results);
     } catch (error) {
       console.log("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -201,7 +246,15 @@ export function ChartVisitor() {
   return (
     <div className="w-full h-full relative">
       <div className="absolute inset-0 flex justify-center w-full">
-        <Line data={data} options={options} />
+        {isLoading ? (
+          <div className="flex justify-center items-center h-[100%]">
+            <div className="w-16 h-16 ">
+              <LoadingSpinner />
+            </div>
+          </div>
+        ) : (
+          <Line data={data} options={options} />
+        )}
       </div>
     </div>
   );
