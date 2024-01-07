@@ -1,43 +1,59 @@
 import { ChartVisitor, GeneralData } from "@/app/components/Chart";
 import PostImage from "@/app/components/PostImage";
+import { authOptions } from "@/libs/authOptions";
 import { StarIcon, UserCircleIcon } from "@heroicons/react/20/solid";
+import { getServerSession } from "next-auth/next";
 import React from "react";
 
 async function fetchUser() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-user-new`
-  );
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-user-new`
+    );
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+  } catch (error) {
+    return null;
   }
-
-  return res.json();
 }
 async function fetchReview() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-review-new`
-  );
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-review-new`
+    );
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+  } catch (error) {
+    return null;
   }
-
-  return res.json();
 }
 async function fetchPost() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-post-new`
-  );
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-post-new`
+    );
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+  } catch (error) {
+    return null;
   }
-
-  return res.json();
 }
 
 export default async function Dashboard() {
+  const session: any = await getServerSession(authOptions);
+  const username = session?.user?.username;
   const formatDate = (dateString: string) => {
     const currentDate = new Date();
     const receivedDate = new Date(dateString);
@@ -99,9 +115,7 @@ export default async function Dashboard() {
       <div className="my-[25px] flex w-screen md:h-auto flex-col md:justify-center items-center">
         <div className="w-[100%] md:w-[90%] md:h-[14%] flex justify-center lg:justify-start mb-[20px] md:mb-[0px]">
           <div className="flex flex-col items-center lg:block">
-            <h1 className="text-3xl font-bold">
-              {/* Hello {session?.user.username} */}
-            </h1>
+            <h1 className="text-3xl font-bold">Hello {username}</h1>
             <p className="text-mainTheme">dashboard</p>
           </div>
         </div>
