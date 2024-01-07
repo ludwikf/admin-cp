@@ -1,11 +1,7 @@
 "use client";
 import { ChartVisitor, GeneralData } from "@/app/components/Chart";
+import SingleUser from "@/app/components/Dashboard";
 import React from "react";
-import {
-  SingleReview,
-  SingleUser,
-  SinglePost,
-} from "@/app/components/Dashboard";
 
 export default function Dashboard() {
   console.log("xd");
@@ -21,13 +17,13 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="w-[90%] md:h-[45%] flex flex-col md:flex-row mb-5 gap-5 md:gap-0 items-center">
-          <SinglePost />
+          {/* <SinglePost /> */}
           <div className="bg-secondTheme h-[250px] md:h-[100%] w-[100%] sm:w-[75%] md:w-[60%] rounded-3xl flex items-center justify-center order-1 md:order-2">
             <div className="w-[90%] h-[90%] ">{<ChartVisitor />}</div>
           </div>
         </div>
         <div className="w-[90%] h-[auto] md:h-[45%] flex flex-col items-center md:flex-row">
-          <SingleReview />
+          {/* <SingleReview /> */}
 
           <div className="w-[100%] md:w-[60%] md:h-[100%] rounded-3xl flex flex-col md:flex-row items-center md:items-start gap-5 md:gap-0 mt-5 md:mt-0">
             <SingleUser />
