@@ -2,61 +2,60 @@ import React from "react";
 import PostImage from "./PostImage";
 import { StarIcon, UserCircleIcon } from "@heroicons/react/20/solid";
 
-const formatDate = (dateString: string) => {
-  const currentDate = new Date();
-  const receivedDate = new Date(dateString);
+export default async function SingleUser() {
+  const formatDate = (dateString: string) => {
+    const currentDate = new Date();
+    const receivedDate = new Date(dateString);
 
-  const today = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    currentDate.getDate()
-  );
+    const today = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
 
-  const yesterday = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    currentDate.getDate() - 1
-  );
+    const yesterday = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate() - 1
+    );
 
-  const timeOptions: Intl.DateTimeFormatOptions = {
-    hour: "numeric",
-    minute: "numeric",
+    const timeOptions: Intl.DateTimeFormatOptions = {
+      hour: "numeric",
+      minute: "numeric",
+    };
+
+    if (receivedDate.toDateString() === today.toDateString()) {
+      return (
+        <div className="text-[#999] flex items-center">
+          <span className="md">Today</span>
+          <span className="mx-2">| </span>
+          <span className="text-lg md:text-xl">
+            {receivedDate.toLocaleTimeString([], timeOptions)}
+          </span>
+        </div>
+      );
+    } else if (receivedDate.toDateString() === yesterday.toDateString()) {
+      return (
+        <div className="text-[#999] flex items-center">
+          <span className="md">Yesterday</span>
+          <span className="mx-2">| </span>
+          <span className="text-lg md:text-xl">
+            {receivedDate.toLocaleTimeString([], timeOptions)}
+          </span>
+        </div>
+      );
+    } else {
+      return (
+        <div className="text-[#999] flex items-center">
+          <span className="md">{receivedDate.toLocaleDateString()}</span>
+          <span className="mx-2">|</span>
+          <span className="text-lg md:text-xl">
+            {receivedDate.toLocaleTimeString([], timeOptions)}
+          </span>
+        </div>
+      );
+    }
   };
-
-  if (receivedDate.toDateString() === today.toDateString()) {
-    return (
-      <div className="text-[#999] flex items-center">
-        <span className="md">Today</span>
-        <span className="mx-2">| </span>
-        <span className="text-lg md:text-xl">
-          {receivedDate.toLocaleTimeString([], timeOptions)}
-        </span>
-      </div>
-    );
-  } else if (receivedDate.toDateString() === yesterday.toDateString()) {
-    return (
-      <div className="text-[#999] flex items-center">
-        <span className="md">Yesterday</span>
-        <span className="mx-2">| </span>
-        <span className="text-lg md:text-xl">
-          {receivedDate.toLocaleTimeString([], timeOptions)}
-        </span>
-      </div>
-    );
-  } else {
-    return (
-      <div className="text-[#999] flex items-center">
-        <span className="md">{receivedDate.toLocaleDateString()}</span>
-        <span className="mx-2">|</span>
-        <span className="text-lg md:text-xl">
-          {receivedDate.toLocaleTimeString([], timeOptions)}
-        </span>
-      </div>
-    );
-  }
-};
-
-export default async function Dashboard() {
   async function fetchUser() {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-user-new`
