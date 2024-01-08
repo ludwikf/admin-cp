@@ -72,7 +72,7 @@ export default function Navbar() {
       <div
         className={`${expand ? "block" : "hidden"}
         shortnav:${
-          !expand ? "block" : "hidden"
+          expand ? "block" : "hidden"
         } w-[100dvw] h-[100dvh] lg:hidden shortnav:fixed fixed backdrop-blur-md z-10`}
         onClick={toggleExpand}
       ></div>
@@ -81,18 +81,18 @@ export default function Navbar() {
       </div>
       <main
         className={`z-20 hidden shortnav:block lg:block absolute shortnav:absolute lg:static ${
-          !expand ? "w-[200px]" : "w-[50px]"
+          expand ? "w-[200px]" : "w-[50px]"
         } 
-        ${!expand ? "displayBlock shortnav:displayBlock" : "hidden"}
+        ${expand ? "displayBlock shortnav:displayBlock" : "hidden"}
         shortnav:${expand ? "displayBlock" : "hidden"}
         h-[100dvh] float-left`}
       >
         <div
           className={`${
             expand ? "w-[200px] shortnav:w-[500px] " : "w-[50px]"
-          } fixed bg-secondTheme flex flex-col list-none items-center rounded-r-2xl z-20`}
+          } h-[100dvh] fixed bg-secondTheme flex flex-col list-none items-center rounded-r-2xl z-20`}
         >
-          <div className="flex flex-col justify-between items-center h-screen w-[100%]">
+          <div className="flex flex-col justify-between items-center h-[100dvh] w-[100%]">
             <div className="my-10 shortnav:my-1 flex gap-2 items-center">
               <Bars3Icon
                 className="w-7 cursor-pointer"
