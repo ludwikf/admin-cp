@@ -128,7 +128,7 @@ export default async function Dashboard() {
                 </div>
                 <div className="flex flex-col items-center xs:block">
                   <div className="flex flex-col xs:flex-row items-center short:mb-0 lg:mb-6 gap-3 min-h-[100px]">
-                    <div className="w-[140px] h-[80px] relative">
+                    <div className="w-[110px] h-[60px] xs:w-[140px] xs:h-[80px] relative">
                       <PostImage source={post[0].image} />
                     </div>
 

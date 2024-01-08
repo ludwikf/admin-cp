@@ -301,7 +301,7 @@ export default function Users() {
 
   return (
     <main className="flex h-screen">
-      <div className="my-[25px] flex w-screen flex-col justify-center items-center">
+      <div className="my-[25px] flex w-screen lg:h-auto flex-col short:justify-start lg:justify-center items-center">
         {showConfirm && (
           <div className="z-10 fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
             <div className="bg-secondTheme p-4 rounded-xl border-mainTheme border-2">
@@ -355,7 +355,7 @@ export default function Users() {
               }}
               className="absolute left-0 top-0 w-full h-full backdrop-blur-sm"
             ></div>
-            <div className="absolute tCenter w-[40vw] h-[70vh] bg-secondTheme bg-opacity-90 rounded-3xl border-2 border-mainTheme">
+            <div className="absolute tCenter w-[95dvw] md:w-[70dvw] lg:w-[40dvw] h-[70vh] bg-secondTheme bg-opacity-90 rounded-3xl border-2 border-mainTheme">
               <XMarkIcon
                 onClick={() => {
                   setError("");
@@ -366,9 +366,9 @@ export default function Users() {
               <div className="flex justify-center h-[100%]">
                 <form
                   onSubmit={handleAddUser}
-                  className="w-[50%] h-[100%] flex flex-col items-center justify-center"
+                  className="w-[90%] xs:w-[50%] h-[100%] flex flex-col items-center justify-center"
                 >
-                  <h1 className="mb-20 text-3xl">Add new account</h1>
+                  <h1 className="mb-20 text-xl md:text-2xl">Add new account</h1>
                   <input
                     type="text"
                     className="w-full border-0 bg-[#353535] placeholder:text-[#bebebe82] text-[#BEBEBE] rounded-full px-3 py-2 mb-5 focus:outline-none"
@@ -416,15 +416,15 @@ export default function Users() {
             </div>
           </div>
         )}
-        <div className="w-[90%] h-[14%] flex">
-          <div>
+        <div className="w-[100%] short:w-[100%] lg:w-[90%] short:h-[auto] lg:h-[16%] flex justify-center short:justify-center lg:justify-start mb-[20px] short:mb-[20px] lg:mb-[0px]">
+          <div className="flex flex-col items-center short:flex lg:block">
             <h1 className="text-3xl font-bold">Users</h1>
-            <p className="text-mainTheme">Manage user accounts</p>
+            <p className="text-mainTheme">Manage user account</p>
           </div>
         </div>
-        <div className="w-[90%] h-[90%] flex flex-col items-end">
+        <div className="w-[90%] h-auto lg:h-[90%] flex flex-col items-end">
           <div className="flex justify-between w-full ">
-            <div className="flex items-center mb-3 gap-3 select-none">
+            <div className="flex items-center mb-3 gap-1.5 xs:gap-3 select-none">
               <button
                 onClick={handleRefreshUsers}
                 disabled={isLoading}
@@ -439,7 +439,7 @@ export default function Users() {
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className=" bg-[#161616] rounded-3xl px-5 p-1.5 w-[200px] text-white focus:outline-none focus:ring-0 border-2 focus:border-mainTheme placeholder:text-[#666]"
+                  className=" bg-[#161616] rounded-3xl px-5 p-1.5 mr-2 xs:mr-0 w-[180px] xs:w-[200px] text-white focus:outline-none focus:ring-0 border-2 focus:border-mainTheme placeholder:text-[#666]"
                 />
               </div>
             </div>
@@ -453,11 +453,14 @@ export default function Users() {
             </div>
           </div>
 
-          <div className="w-full h-full relative">
+          <div
+            className="w-full h-full relative overflow-x-auto lg:overflow-x-hidden hideScrollbar"
+            onScroll={handleScroll}
+          >
             <table className="w-[100%]">
-              <tbody className="trTable">
+              <tbody className="trTable w-full">
                 <tr className="bg-[#ffa60040] h-10 font-bold w-[100%] select-none">
-                  <td className="w-[30%] pl-10 rounded-s-3xl ">
+                  <td className="min-w-[190px] lg:w-[30%] pl-10 rounded-s-3xl ">
                     <p
                       onClick={() => {
                         toggleSortOrder("username");
@@ -467,7 +470,7 @@ export default function Users() {
                       Username
                     </p>
                   </td>
-                  <td className="w-[30%] ">
+                  <td className="min-w-[200px] lg:w-[30%] ">
                     <p
                       onClick={() => {
                         toggleSortOrder("email");
@@ -477,7 +480,7 @@ export default function Users() {
                       Email
                     </p>
                   </td>
-                  <td className="w-[20%] ">
+                  <td className="min-w-[150px] lg:w-[20%] ">
                     <p
                       onClick={() => {
                         toggleSortOrder("createdAt");
@@ -487,7 +490,7 @@ export default function Users() {
                       Created At
                     </p>
                   </td>
-                  <td className="w-[15%] ">
+                  <td className="min-w-[150px] lg:w-[15%] ">
                     <p
                       onClick={() => {
                         toggleSortOrder("role");
@@ -497,7 +500,7 @@ export default function Users() {
                       Role
                     </p>
                   </td>
-                  <td className="rounded-e-3xl">
+                  <td className="min-w-[30px] lg:w-auto rounded-e-3xl">
                     <TrashIcon className="w-5 hidden" />
                   </td>
                 </tr>
@@ -530,17 +533,17 @@ export default function Users() {
                   </tr>
                 ))}
                 {!hasMore && (
-                  <tr className="mb-4 py-4 ">
+                  <tr className="mb-4 py-4 hidden lg:table-row">
                     <td
                       colSpan={5}
                       className="text-center py-2 text-mainTheme border-t-2 border-mainTheme"
                     >
-                      No More Posts to Display
+                      No more users to display
                     </td>
                   </tr>
                 )}
                 {isLoading && hasMore && (
-                  <tr>
+                  <tr className="hidden lg:table-row">
                     <td colSpan={5} className="w-full h-full relative">
                       <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
                         <LoadingSpinner />
@@ -552,6 +555,22 @@ export default function Users() {
             </table>
           </div>
         </div>
+        {!hasMore && (
+          <div className="w-[90%] mb-4 py-4 lg:hidden">
+            <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
+              No more users to display
+            </div>
+          </div>
+        )}
+        {isLoading && hasMore && (
+          <div className="lg:hidden">
+            <div className="w-full h-full relative">
+              <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
+                <LoadingSpinner />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );

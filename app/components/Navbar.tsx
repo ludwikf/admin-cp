@@ -62,18 +62,26 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (window.innerWidth < 1024 && window.innerHeight < 450) {
+    if (window.innerWidth < 1024) {
       setExpand(false);
     }
   }, [pathName]);
+
+  useEffect(() => {
+    if (expand && window.innerWidth < 1024) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [expand]);
 
   return (
     <>
       <div
         className={`${expand ? "block" : "hidden"}
-        shortnav:${
-          expand ? "block" : "hidden"
-        } w-[100dvw] h-[100dvh] lg:hidden shortnav:fixed fixed backdrop-blur-md z-10`}
+         shortnav:${
+           expand ? "block" : "hidden"
+         } w-[100dvw] h-[100dvh] lg:hidden shortnav:fixed fixed backdrop-blur-md z-10`}
         onClick={toggleExpand}
       ></div>
       <div className="absolute top-7 left-7 block shortnav:block lg:hidden">
@@ -90,7 +98,9 @@ export default function Navbar() {
         <div
           className={`${
             expand ? "w-[200px] shortnav:w-[500px] " : "w-[50px]"
-          } h-[100dvh] fixed bg-secondTheme flex flex-col list-none items-center rounded-r-2xl z-20`}
+          } h-[100dvh] fixed bg-secondTheme shortnav:${
+            expand ? "displayBlock" : "hidden"
+          } flex flex-col list-none items-center rounded-r-2xl z-20`}
         >
           <div className="flex flex-col justify-between items-center h-[100dvh] w-[100%]">
             <div className="my-10 shortnav:my-1 flex gap-2 items-center">
