@@ -73,19 +73,19 @@ export default function Navbar() {
         className={`${expand ? "block" : "hidden"}
         shortnav:${
           expand ? "block" : "hidden"
-        } w-[100dvw] h-[100dvh] lg:hidden shortnav:fixed fixed backdrop-blur-md z-10`}
+        } w-[100dvw] h-[100svh] lg:hidden shortnav:fixed fixed backdrop-blur-md z-10`}
         onClick={toggleExpand}
       ></div>
       <div className="absolute top-7 left-7 block shortnav:block lg:hidden">
         <Bars3Icon className="w-7 cursor-pointer" onClick={toggleExpand} />
       </div>
       <main
-        className={`z-20 hidden shortnav:block lg:block absolute shortnav:absolute lg:static ${
+        className={`z-20 hidden shortnav:block lg:block  shortnav:absolute lg:static ${
           expand ? "w-[200px]" : "w-[50px]"
         } 
         ${expand ? "displayBlock shortnav:displayBlock" : "hidden"}
         shortnav:${expand ? "displayBlock" : "hidden"}
-        h-[100dvh] float-left`}
+        h-[100svh] float-left`}
       >
         <div
           className={`${
