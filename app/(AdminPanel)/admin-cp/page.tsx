@@ -149,7 +149,7 @@ export default async function Dashboard() {
             </div>
           </div>
           <div className="bg-secondTheme h-[250px] short:h-[250px] lg:h-[100%] w-[100%] sm:w-[75%] short:w-[75%] lg:w-[60%] rounded-3xl flex items-center justify-center order-1 short:order-1 lg:order-2">
-            <div className="w-[90%] h-[90%] ">{<ChartVisitor />}</div>
+            <div className="w-[90%] h-[90%]">{<ChartVisitor />}</div>
           </div>
         </div>
         <div className="w-[90%] h-[auto] short:h-[auto] lg:h-[45%] flex flex-col items-center short:flex-col lg:flex-row">

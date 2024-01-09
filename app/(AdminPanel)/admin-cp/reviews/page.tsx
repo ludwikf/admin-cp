@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import Rating from "@/app/components/Rating";
 import PostImage from "@/app/components/PostImage";
+import { LoadingSpinner } from "@/app/components/LoadingSpinner";
 
 export default function Reviews() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -23,23 +24,25 @@ export default function Reviews() {
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchPosts = async (page: number) => {
+  const fetchReviews = async (page: number) => {
+    setIsLoading(true);
     try {
       const res = await fetch(`/api/get-posts?page=${page}`);
-      if (res.ok) {
-        const data: any[] = await res.json();
-        if (data.length === 0) {
-          setHasMore(false);
-        } else {
-          const uniquePosts = data.filter(
-            (post) => !postIdsSet.current.has(post._id)
-          );
-          setPosts((prevPosts) => [...prevPosts, ...uniquePosts]);
-          uniquePosts.forEach((post) => postIdsSet.current.add(post._id));
-        }
+
+      if (!res.ok) {
+        throw new Error("Error fetching posts");
+      }
+
+      const data = await res.json();
+      if (data.length === 0) {
+        setHasMore(false);
+      } else {
+        setPosts((prevPosts) => [...prevPosts, ...data]);
       }
     } catch (error: any) {
       throw new Error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -47,7 +50,7 @@ export default function Reviews() {
     if (hasMore) {
       if (!initialRender.current) {
         try {
-          await fetchPosts(page);
+          await fetchReviews(page);
         } catch (error) {
           console.error("Error fetching posts:", error);
         }
@@ -85,7 +88,7 @@ export default function Reviews() {
 
       fetchHandler();
     } catch (error) {
-      console.error("Error refreshing posts:", error);
+      throw new Error("Error refreshing reviews");
     } finally {
       setIsLoading(false);
     }
@@ -122,9 +125,9 @@ export default function Reviews() {
 
   return (
     <main className="flex h-screen">
-      <div className="my-[25px] flex w-screen flex-col justify-center items-center">
-        <div className="w-[90%] h-[16%] flex">
-          <div>
+      <div className="my-[25px] flex w-screen lg:h-auto flex-col short:justify-start lg:justify-center items-center">
+        <div className="w-[100%] short:w-[100%] lg:w-[90%] short:h-[auto] lg:h-[18%] flex justify-center short:justify-center lg:justify-start mb-[20px] short:mb-[20px] lg:mb-[0px]">
+          <div className="flex flex-col items-center short:flex lg:block">
             <h1 className="text-3xl font-bold">Reviews</h1>
             <p className="text-mainTheme mb-1">Manage user feedback</p>
             <Link
@@ -152,7 +155,7 @@ export default function Reviews() {
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className=" bg-[#161616] rounded-3xl px-5 p-1.5 w-[200px] text-white focus:outline-none focus:ring-0 border-2 focus:border-mainTheme placeholder:text-[#666]"
+                  className=" bg-[#161616] rounded-3xl px-5 p-1.5 w-[180px] xs:w-[200px] text-white focus:outline-none focus:ring-0 border-2 focus:border-mainTheme placeholder:text-[#666]"
                 />
               </div>
             </div>
@@ -166,15 +169,17 @@ export default function Reviews() {
                     key={index}
                     className="flex w-[100%] h-[200px] bg-[#282828] rounded-xl overflow-hidden items-center hover:bg-[#222]"
                   >
-                    <div className="ml-3 flex items-start w-[300px]">
-                      <div className="w-[400px] h-[180px] flex justify-center items-center">
+                    <div className="ml-3 hidden md:flex items-start w-[300px]">
+                      <div className="lg:flex w-[400px] h-[180px] justify-center items-center">
                         <PostImage source={post.image} />
                       </div>
                     </div>
                     <div className="ml-5 mr-5 h-[180px] w-[100%] flex flex-col justify-between">
                       <div>
-                        <div className="font-bold text-xl">{post.title}</div>
-                        <div className="text-[#bbb] max-w-[400px] max-h-[75px] overflow-hidden">
+                        <div className="font-bold text-lg xs:text-xl">
+                          {post.title}
+                        </div>
+                        <div className="text-[#bbb] text-md max-w-[400px] max-h-[75px] overflow-hidden">
                           {post.content}
                         </div>
                       </div>
@@ -191,7 +196,16 @@ export default function Reviews() {
               {!hasMore && (
                 <div className="mb-4 py-4 ">
                   <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
-                    No More Posts to Display
+                    No more reviews to display
+                  </div>
+                </div>
+              )}
+              {isLoading && hasMore && (
+                <div className="">
+                  <div className="w-full h-full relative">
+                    <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
+                      <LoadingSpinner />
+                    </div>
                   </div>
                 </div>
               )}

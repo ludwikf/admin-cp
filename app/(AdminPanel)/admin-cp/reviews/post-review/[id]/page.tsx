@@ -156,7 +156,7 @@ export default function PostReview() {
         <div className="w-[90%] h-[16%] flex items-center ">
           <Link
             href={"/admin-cp/reviews"}
-            className="hover:text-[#ccc] flex text-lg"
+            className="hover:text-[#ccc] flex text-lg mt-5 lg:mt-0"
           >
             <ArrowLeftIcon className="w-6 mr-1" /> Go back
           </Link>
@@ -178,7 +178,7 @@ export default function PostReview() {
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className=" bg-[#161616] rounded-3xl px-5 p-1.5 w-[200px] text-white focus:outline-none focus:ring-0 border-2 focus:border-mainTheme placeholder:text-[#666]"
+                  className=" bg-[#161616] rounded-3xl px-5 p-1.5 w-[180px] xs:w-[200px] text-white focus:outline-none focus:ring-0 border-2 focus:border-mainTheme placeholder:text-[#666]"
                 />
               </div>
             </div>
@@ -244,27 +244,14 @@ export default function PostReview() {
                   </div>
                 ))}
               </div>
-              {(() => {
-                if (review.length == 0) {
-                  return (
-                    <div className="mb-4 py-4">
-                      <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
-                        No reviews for this post yet
-                      </div>
-                    </div>
-                  );
-                } else if (!hasMore) {
-                  return (
-                    <div className="mb-4 py-4">
-                      <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
-                        No more reviews to display
-                      </div>
-                    </div>
-                  );
-                }
-                return null;
-              })()}
 
+              {!hasMore && (
+                <div className="mb-4 py-4 ">
+                  <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
+                    No more reviews to display
+                  </div>
+                </div>
+              )}
               {isLoading && hasMore && (
                 <div>
                   <div className="w-full h-full relative">
@@ -274,6 +261,15 @@ export default function PostReview() {
                   </div>
                 </div>
               )}
+              {!isLoading &&
+                initialFetchComplete &&
+                filterReviews(searchQuery).length === 0 && (
+                  <div className="mb-4 py-4 ">
+                    <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
+                      No reviews for this post yet
+                    </div>
+                  </div>
+                )}
             </div>
           </div>
         </div>

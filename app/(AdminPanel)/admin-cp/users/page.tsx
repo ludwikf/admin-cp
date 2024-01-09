@@ -78,7 +78,7 @@ export default function Users() {
 
       fetchHandler();
     } catch (error) {
-      console.error("Error refreshing posts:", error);
+      throw new Error("Error refreshing users");
     } finally {
       setIsLoading(false);
     }
@@ -416,13 +416,13 @@ export default function Users() {
             </div>
           </div>
         )}
-        <div className="w-[100%] short:w-[100%] lg:w-[90%] short:h-[auto] lg:h-[16%] flex justify-center short:justify-center lg:justify-start mb-[20px] short:mb-[20px] lg:mb-[0px]">
+        <div className="w-[100%] short:w-[100%] lg:w-[90%] short:h-[auto] lg:h-[14%] flex justify-center short:justify-center lg:justify-start mb-[20px] short:mb-[20px] lg:mb-[0px]">
           <div className="flex flex-col items-center short:flex lg:block">
             <h1 className="text-3xl font-bold">Users</h1>
             <p className="text-mainTheme">Manage user account</p>
           </div>
         </div>
-        <div className="w-[90%] h-auto lg:h-[90%] flex flex-col items-end">
+        <div className="w-[90%] h-auto lg:h-[86%] flex flex-col items-end">
           <div className="flex justify-between w-full ">
             <div className="flex items-center mb-3 gap-1.5 xs:gap-3 select-none">
               <button

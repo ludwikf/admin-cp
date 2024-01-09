@@ -128,7 +128,7 @@ export default function Posts() {
 
       fetchHandler();
     } catch (error) {
-      console.error("Error refreshing posts:", error);
+      throw new Error("Error refreshing posts");
     } finally {
       setIsLoading(false);
     }
@@ -190,7 +190,7 @@ export default function Posts() {
   return (
     <main className="flex h-screen">
       <div className="my-[25px] flex w-screen lg:h-auto flex-col short:justify-start lg:justify-center items-center">
-        <div className="w-[100%] short:w-[100%] lg:w-[90%] short:h-[auto] lg:h-[18%] flex justify-center short:justify-center lg:justify-start mb-[20px] short:mb-[20px] lg:mb-[0px]">
+        <div className="w-[100%] short:w-[100%] lg:w-[90%] short:h-[auto] lg:h-[16%] flex justify-center short:justify-center lg:justify-start mb-[20px] short:mb-[20px] lg:mb-[0px]">
           <div className="flex flex-col items-center short:flex lg:block">
             <h1 className="text-3xl font-bold">Posts</h1>
             <p className="text-mainTheme mb-1">Add content to your page</p>
@@ -202,7 +202,7 @@ export default function Posts() {
             </Link>
           </div>
         </div>
-        <div className="w-[90%] h-auto lg:h-[90%] flex flex-col items-end">
+        <div className="w-[90%] h-auto lg:h-[84%] flex flex-col items-end">
           <div className="flex justify-between w-full ">
             <div className="flex items-center mb-3 gap-1.5 xs:gap-3 select-none">
               <button

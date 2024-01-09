@@ -11,6 +11,7 @@ import {
   ChartBarIcon,
   FireIcon,
   Bars3Icon,
+  CodeBracketIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -88,11 +89,10 @@ export default function Navbar() {
         <Bars3Icon className="w-7 cursor-pointer" onClick={toggleExpand} />
       </div>
       <main
-        className={`z-20 hidden shortnav:block lg:block absolute shortnav:absolute lg:static ${
+        className={`z-20 hidden lg:block absolute shortnav:absolute lg:static ${
           expand ? "w-[200px]" : "w-[50px]"
         } 
-        ${expand ? "displayBlock shortnav:displayBlock" : "hidden"}
-        shortnav:${expand ? "displayBlock" : "hidden"}
+        ${expand ? "displayBlock" : "hidden"}
         h-[100dvh] float-left`}
       >
         <div
@@ -103,7 +103,7 @@ export default function Navbar() {
           } flex flex-col list-none items-center rounded-r-2xl z-20`}
         >
           <div className="flex flex-col justify-between items-center h-[100dvh] w-[100%]">
-            <div className="my-10 shortnav:my-1 flex gap-2 items-center">
+            <div className="my-10 shortnav:my-1 -7 flex gap-2 items-center">
               <Bars3Icon
                 className="w-7 cursor-pointer"
                 onClick={toggleExpand}
@@ -116,7 +116,7 @@ export default function Navbar() {
                 Admin Panel
               </h1>
             </div>
-            <div className="flex-1 flex flex-col shortnav:flex-row shortnav:w-[100%] shortnav:items-center shortnav:justify-center shortnav:flex-wrap h-[50%] gap-1">
+            <div className="flex-1 flex flex-col shortnav:flex-row shortnav:w-[100%] shortnav:items-center shortnav:justify-center shortnav:flex-wrap h-[50%] gap-1 tallmd:gap-1.5">
               <Link
                 href={"/admin-cp"}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
@@ -132,7 +132,7 @@ export default function Navbar() {
                   </p>
                 </div>
               </Link>
-              <span className="my-2"></span>
+              <span className="my-2 tallmd:hidden"></span>
               <Link
                 href={"/admin-cp/users"}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
@@ -178,7 +178,7 @@ export default function Navbar() {
                   </p>
                 </div>
               </Link>
-              <span className="my-2"></span>
+              <span className="my-2 tallmd:hidden"></span>
               <Link
                 href={"/admin-cp/newsletter"}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
@@ -221,6 +221,22 @@ export default function Navbar() {
                   <CommandLineIcon className="w-5 mr-1.5" />
                   <p className={`${expand ? "block" : "hidden"} select-none`}>
                     Logs
+                  </p>
+                </div>
+              </Link>
+              <span className="mt-3 tallmd:hidden"></span>
+              <Link
+                href={"/playground"}
+                className={`hover:bg-mainTheme hover:text-black ${isActive(
+                  "/playground"
+                )}  ${
+                  expand ? "w-[150px]" : "w-[36px]"
+                } h-[35px] flex justify-start items-center rounded-xl`}
+              >
+                <div className={`flex ml-2`}>
+                  <CodeBracketIcon className="w-5 mr-1.5" />
+                  <p className={`${expand ? "block" : "hidden"} select-none`}>
+                    Playground
                   </p>
                 </div>
               </Link>

@@ -194,7 +194,7 @@ export function ChartVisitor() {
   };
 
   const formatDate = (dateString: any) => {
-    const options: Intl.DateTimeFormatOptions = { weekday: "long" };
+    const options: Intl.DateTimeFormatOptions = { weekday: "short" };
     return new Date(dateString).toLocaleDateString("en-US", options);
   };
 

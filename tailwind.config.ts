@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       screens: {
         tall: { raw: "(min-height: 1500px)" },
+        tallmd: { raw: "(max-height: 600px)" },
         short: { raw: "((min-width: 640px) and (max-height: 450px))" },
         shortnav: { raw: "(max-height: 450px)" },
         xs: "400px",
