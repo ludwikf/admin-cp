@@ -27,6 +27,7 @@ export default function Users() {
   const [hasMore, setHasMore] = useState<boolean>(true);
   const initialRender = useRef(true);
   const [initialFetchComplete, setInitialFetchComplete] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const { data: session }: any = useSession();
 
@@ -85,11 +86,14 @@ export default function Users() {
   };
 
   const handleScroll = () => {
-    const { scrollTop, clientHeight, scrollHeight } =
-      document.documentElement || document.body;
-
-    if (scrollTop + clientHeight >= scrollHeight - 20) {
-      setPage((prevPage) => prevPage + 1);
+    if (
+      containerRef.current &&
+      containerRef.current.scrollTop + containerRef.current.clientHeight >=
+        containerRef.current.scrollHeight
+    ) {
+      if (hasMore) {
+        setPage((prevPage) => prevPage + 1);
+      }
     }
   };
 
@@ -280,13 +284,6 @@ export default function Users() {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
     if (!initialFetchComplete) {
       fetchHandler();
       setInitialFetchComplete(true);
@@ -422,7 +419,7 @@ export default function Users() {
             <p className="text-mainTheme">Manage user account</p>
           </div>
         </div>
-        <div className="w-[90%] h-auto lg:h-[86%] flex flex-col items-end">
+        <div className="w-[90%] h-[86%] flex flex-col items-end">
           <div className="flex justify-between w-full ">
             <div className="flex items-center mb-3 gap-1.5 xs:gap-3 select-none">
               <button
@@ -456,6 +453,7 @@ export default function Users() {
           <div
             className="w-full h-full relative overflow-x-auto lg:overflow-x-hidden hideScrollbar"
             onScroll={handleScroll}
+            ref={containerRef}
           >
             <table className="w-[100%]">
               <tbody className="trTable w-full">
@@ -532,45 +530,26 @@ export default function Users() {
                     </td>
                   </tr>
                 ))}
-                {!hasMore && (
-                  <tr className="mb-4 py-4 hidden lg:table-row">
-                    <td
-                      colSpan={5}
-                      className="text-center py-2 text-mainTheme border-t-2 border-mainTheme"
-                    >
-                      No more users to display
-                    </td>
-                  </tr>
-                )}
-                {isLoading && hasMore && (
-                  <tr className="hidden lg:table-row">
-                    <td colSpan={5} className="w-full h-full relative">
-                      <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
-                        <LoadingSpinner />
-                      </div>
-                    </td>
-                  </tr>
-                )}
               </tbody>
             </table>
+            {!hasMore && (
+              <div className="w-[100%] mb-4 py-4 lg:hidden">
+                <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
+                  No more users to display
+                </div>
+              </div>
+            )}
+            {isLoading && hasMore && (
+              <div className="lg:hidden">
+                <div className="w-full h-full relative">
+                  <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
+                    <LoadingSpinner />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-        {!hasMore && (
-          <div className="w-[90%] mb-4 py-4 lg:hidden">
-            <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
-              No more users to display
-            </div>
-          </div>
-        )}
-        {isLoading && hasMore && (
-          <div className="lg:hidden">
-            <div className="w-full h-full relative">
-              <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
-                <LoadingSpinner />
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </main>
   );

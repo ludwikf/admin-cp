@@ -24,6 +24,7 @@ export default function Posts() {
   const [hasMore, setHasMore] = useState<boolean>(true);
   const initialRender = useRef(true);
   const [initialFetchComplete, setInitialFetchComplete] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const fetchPosts = async (page: number) => {
     setIsLoading(true);
@@ -125,7 +126,6 @@ export default function Posts() {
       setSearchQuery("");
       setSortOrder("");
       setSortBy("");
-      initialRender.current = true;
 
       fetchHandler();
     } catch (error) {
@@ -136,11 +136,14 @@ export default function Posts() {
   };
 
   const handleScroll = () => {
-    const { scrollTop, clientHeight, scrollHeight } =
-      document.documentElement || document.body;
-
-    if (scrollTop + clientHeight >= scrollHeight - 20) {
-      setPage((prevPage) => prevPage + 1);
+    if (
+      containerRef.current &&
+      containerRef.current.scrollTop + containerRef.current.clientHeight >=
+        containerRef.current.scrollHeight
+    ) {
+      if (hasMore) {
+        setPage((prevPage) => prevPage + 1);
+      }
     }
   };
 
@@ -167,13 +170,6 @@ export default function Posts() {
       setIsSubmitting(false);
     }
   };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   useEffect(() => {
     if (!initialFetchComplete) {
@@ -203,9 +199,9 @@ export default function Posts() {
             </Link>
           </div>
         </div>
-        <div className="w-[90%] h-auto lg:h-[84%] flex flex-col items-end">
+        <div className="w-[90%] h-[84%] flex flex-col items-end">
           <div className="flex justify-between w-full ">
-            <div className="flex items-center mb-3 gap-1.5 xs:gap-3 select-none">
+            <div className="flex items-center mb-3 gap-1.5 lg:gap-3 select-none">
               <button
                 onClick={handleRefreshPosts}
                 disabled={isLoading}
@@ -220,24 +216,25 @@ export default function Posts() {
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="  bg-[#161616] rounded-3xl px-5 p-1.5 mr-2 xs:mr-0 w-[180px] xs:w-[200px] text-white focus:outline-none focus:ring-0 border-2 focus:border-mainTheme placeholder:text-[#666]"
+                  className="  bg-[#161616] rounded-3xl px-5 p-1.5 mr-2 lg:mr-0 w-[180px] lg:w-[200px] text-white focus:outline-none focus:ring-0 border-2 focus:border-mainTheme placeholder:text-[#666]"
                 />
               </div>
             </div>
 
             <Link
               href={"/admin-cp/posts/new-post"}
-              className="text-center xs:bg-white xs:text-black xs:px-3 xs:py-2 rounded-full xs:rounded-xl hover:brightness-50 transition-all mb-3"
+              className="text-center lg:bg-white lg:text-black lg:px-3 lg:py-2 rounded-full lg:rounded-xl hover:brightness-50 transition-all mb-3"
             >
-              <span className="hidden xs:block">Add new</span>
-              <span className="xs:hidden">
+              <span className="hidden lg:block">Add new</span>
+              <span className="lg:hidden">
                 <PlusCircleIcon className="w-10" />
               </span>
             </Link>
           </div>
           <div
-            className="w-full h-full relative overflow-x-auto lg:overflow-x-hidden hideScrollbar"
+            className="w-full h-full relative overflow-x-auto lg:overflow-x-hidden "
             onScroll={handleScroll}
+            ref={containerRef}
           >
             <table className="w-[100%]">
               <tbody className="trTable">
@@ -314,45 +311,26 @@ export default function Posts() {
                     </td>
                   </tr>
                 ))}
-                {!hasMore && (
-                  <tr className="mb-4 py-4 hidden lg:table-row">
-                    <td
-                      colSpan={5}
-                      className="text-center py-2 text-mainTheme border-t-2 border-mainTheme"
-                    >
-                      No more users to display
-                    </td>
-                  </tr>
-                )}
-                {isLoading && hasMore && (
-                  <tr className="hidden lg:table-row">
-                    <td colSpan={5} className="w-full h-full relative">
-                      <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
-                        <LoadingSpinner />
-                      </div>
-                    </td>
-                  </tr>
-                )}
               </tbody>
             </table>
+            {!hasMore && (
+              <div className="w-[100%] mb-4 py-4 lg:hidden">
+                <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
+                  No More Posts to Display
+                </div>
+              </div>
+            )}
+            {isLoading && hasMore && (
+              <div className="lg:hidden">
+                <div className="w-full h-full relative">
+                  <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
+                    <LoadingSpinner />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-        {!hasMore && (
-          <div className="w-[90%] mb-4 py-4 lg:hidden">
-            <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
-              No More Posts to Display
-            </div>
-          </div>
-        )}
-        {isLoading && hasMore && (
-          <div className="lg:hidden">
-            <div className="w-full h-full relative">
-              <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
-                <LoadingSpinner />
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </main>
   );
