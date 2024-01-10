@@ -123,19 +123,19 @@ export default function Newsletter() {
 
   return (
     <main className="flex min-h-screen">
-      <div className="my-[25px] flex w-screen flex-col justify-center items-center">
-        <div className="w-[90%] h-[16vh] flex">
-          <div>
+      <div className="my-[25px] flex w-screen lg:h-auto flex-col short:justify-start lg:justify-center items-center">
+        <div className="w-[100%] short:w-[100%] lg:w-[90%] short:h-[auto] lg:h-[18%] flex justify-center short:justify-center lg:justify-start mb-[20px] short:mb-[20px] lg:mb-[0px]">
+          <div className="flex flex-col items-center short:flex lg:block">
             <h1 className="text-3xl font-bold">Newsletter</h1>
-            <p className="text-mainTheme">Send an e-mail to your subscribers</p>
+            <p className="text-mainTheme">Send an e-mail to subscribers</p>
           </div>
         </div>
         <div className="w-[90%] h-[84vh] flex flex-col items-center">
-          <div className="w-full flex">
-            <div className="w-[70%]">
+          <div className="w-full flex flex-col lg:flex-row mb-7 lg:mb-0">
+            <div className="lg:w-[70%] order-2 lg:order-1">
               <form
                 onSubmit={handleSubmit}
-                className="flex flex-col items-start"
+                className="flex flex-col items-center lg:items-start"
               >
                 <div className="flex flex-col mb-5 w-full">
                   <label htmlFor="subject" className="text-lg">
@@ -165,7 +165,7 @@ export default function Newsletter() {
                     }}
                     ref={textareaRef}
                     id="content"
-                    className="rounded-xl w-full h-[300px] p-2 bg-inherit text-lg bg-secondTheme focus:outline-none resize-none"
+                    className="rounded-xl w-full h-[300px] p-2 bg-inherit text-md bg-secondTheme focus:outline-none resize-none"
                   />
                 </div>
 
@@ -178,7 +178,7 @@ export default function Newsletter() {
                 </button>
               </form>
             </div>
-            <div className="w-[30%] flex flex-col items-end">
+            <div className="lg:w-[30%] mb-2 lg:mb-0 flex flex-col items-center lg:items-end order-1 lg:order-2">
               <div className="w-[90%]  flex flex-col justify-center items-center">
                 <div className="flex justify-between mt-7">
                   <Link
@@ -198,7 +198,7 @@ export default function Newsletter() {
                       <div key={t._id} className="flex gap-1.5">
                         <li
                           onClick={() => setUseTemplate(t)}
-                          className="w-[100%] break-all text-center my-2 text-lg hover:text-mainTheme cursor-pointer select-none"
+                          className="w-[100%] break-all text-center my-2 lg:text-lg hover:text-mainTheme cursor-pointer select-none"
                         >
                           {t.title}
                         </li>
@@ -224,7 +224,9 @@ export default function Newsletter() {
             </div>
           </div>
           <div className="w-full flex flex-col items-center">
-            <h1 className="text-2xl text-mainTheme font-bold mb-5">Preview</h1>{" "}
+            <h1 className="text-2xl text-mainTheme font-bold mb-2 lg:mb-5">
+              Preview
+            </h1>{" "}
             <div className="w-[100%] border-t-2 border-[#222] mb-10 ">
               {preview && (
                 <div className="flex items-center justify-start bg-white">

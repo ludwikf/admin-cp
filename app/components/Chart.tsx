@@ -106,7 +106,7 @@ export function GeneralData() {
   return (
     <div>
       <div>
-        <div className="mb-5">
+        <div className="mb-5 flex flex-col items-center lg:block">
           <p className="text-[#eee]">UNIQUE VISITORS</p>
           <div className="h-[35px]">
             {isLoading ? (
@@ -120,7 +120,7 @@ export function GeneralData() {
             )}
           </div>
         </div>
-        <div className="mb-5">
+        <div className="mb-5 flex flex-col items-center lg:block">
           <p className="text-[#eee]">TOTAL PAGEVIEWS</p>
           <div className="h-[35px]">
             {isLoading ? (
@@ -134,7 +134,7 @@ export function GeneralData() {
             )}
           </div>
         </div>
-        <div className="mb-5">
+        <div className="mb-5 flex flex-col items-center lg:block">
           <p className="text-[#eee]">BOUNCE RATE</p>
           <div className="h-[35px]">
             {isLoading ? (

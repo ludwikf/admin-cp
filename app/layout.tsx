@@ -20,11 +20,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
-        <PlausibleProvider
-          domain="ludwikfaron.com"
-          trackLocalhost={true}
-          enabled={true}
-        />
+        <PlausibleProvider domain="ludwikfaron.com" />
         <title>{webProps.websiteTitle || "Ludwik's Cp"}</title>
         <meta name="description" content={webProps.websiteDescription} />
       </head>

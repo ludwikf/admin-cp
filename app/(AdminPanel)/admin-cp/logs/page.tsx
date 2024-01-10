@@ -102,15 +102,15 @@ export default function Logs() {
   const reversedLogs = [...logs].reverse();
 
   return (
-    <main className="flex min-h-screen">
-      <div className="w-screen flex my-[25px] justify-center items-center flex-col">
-        <div className="w-[90%] h-[16vh] flex">
-          <div>
+    <main className="flex min-h-[100dvh]">
+      <div className="my-[25px] flex w-screen lg:h-auto flex-col short:justify-start lg:justify-center items-center">
+        <div className="w-[100%] short:w-[100%] lg:w-[90%] short:h-[auto] lg:h-[16%] flex justify-center short:justify-center lg:justify-start mb-[20px] short:mb-[20px] lg:mb-[0px]">
+          <div className="flex flex-col items-center short:flex lg:block">
             <h1 className="text-3xl font-bold">Logs</h1>
             <p className="text-mainTheme mb-1">Track user actions</p>
           </div>
         </div>
-        <div className="w-[90%] h-full flex flex-col items-start">
+        <div className="w-[90%] lg:h-[84%] flex flex-col items-start">
           <div className="bg-secondTheme w-full h-full rounded-3xl flex flex-col justify-center items-center">
             <div>
               <button
@@ -121,10 +121,10 @@ export default function Logs() {
                 <ArrowPathIcon className="w-8" />
               </button>
             </div>
-            <div className="bg-black w-[95%] h-[90%] rounded-xl flex justify-center items-start">
+            <div className="bg-black w-[95%] h-[90%] rounded-xl flex justify-center items-start mb-1">
               <div
                 ref={logContainerRef}
-                className="w-[95%] flex flex-col gap-1 max-h-[480px] overflow-auto hideScrollbar mt-5"
+                className="w-[95%] h-[93%] flex flex-col gap-1 max-h-[480px] overflow-auto hideScrollbar mt-5"
                 id="scrollableDiv"
               >
                 <InfiniteScroll
@@ -132,7 +132,7 @@ export default function Logs() {
                   next={fetchMoreData}
                   hasMore={hasMore}
                   loader={
-                    <div className="w-full flex justify-center">
+                    <div className="flex justify-center w-full mb-5">
                       <div className="w-[50px] h-[50px] overflow-hidden">
                         <LoadingSpinner />
                       </div>
@@ -152,23 +152,21 @@ export default function Logs() {
                             logIndex % 2 === 0 ? "#191919" : "transparent",
                         }}
                       >
-                        <p>
+                        <p className=" overflow-x-hidden">
                           {new Date(log.createdAt).toLocaleString("en-GB", {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric",
                             hour: "2-digit",
                             minute: "2-digit",
-                            second: "2-digit",
                           })}
                           <span className="text-yellow-400">
                             {" "}
                             {log.actionType}{" "}
                           </span>
-                          (<span className="text-[#777]">{log.user.id}</span>){" "}
                           {log.user.email} {log.user.username} ::{" "}
                           <span
-                            className={`
+                            className={`inline-block
                           ${
                             log.details.includes("created") ||
                             log.details.includes("send") ||

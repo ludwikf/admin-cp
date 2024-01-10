@@ -300,7 +300,7 @@ export default function Users() {
   }, [page, initialFetchComplete]);
 
   return (
-    <main className="flex h-screen">
+    <main className="flex h-[100dvh]">
       <div className="my-[25px] flex w-screen lg:h-auto flex-col short:justify-start lg:justify-center items-center">
         {showConfirm && (
           <div className="z-10 fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">

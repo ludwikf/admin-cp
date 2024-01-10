@@ -125,6 +125,7 @@ export default function Posts() {
       setSearchQuery("");
       setSortOrder("");
       setSortBy("");
+      initialRender.current = true;
 
       fetchHandler();
     } catch (error) {
@@ -188,7 +189,7 @@ export default function Posts() {
   }, [page, initialFetchComplete]);
 
   return (
-    <main className="flex h-screen">
+    <main className="flex h-[100dvh]">
       <div className="my-[25px] flex w-screen lg:h-auto flex-col short:justify-start lg:justify-center items-center">
         <div className="w-[100%] short:w-[100%] lg:w-[90%] short:h-[auto] lg:h-[16%] flex justify-center short:justify-center lg:justify-start mb-[20px] short:mb-[20px] lg:mb-[0px]">
           <div className="flex flex-col items-center short:flex lg:block">
@@ -264,12 +265,12 @@ export default function Posts() {
                       Author
                     </p>
                   </td>
-                  <td className="min-w-[200px] lg:w-[15%]">
+                  <td className="min-w-[120px] lg:w-[15%]">
                     <p
                       onClick={() => {
                         toggleSortOrder("createdAt");
                       }}
-                      className="min-w-[200px] lg:w-[30%] cursor-pointer "
+                      className="min-w-[120px] lg:w-[30%] cursor-pointer "
                     >
                       Created At
                     </p>

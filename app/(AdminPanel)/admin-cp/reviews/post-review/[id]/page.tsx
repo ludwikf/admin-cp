@@ -248,7 +248,7 @@ export default function PostReview() {
               {!hasMore && (
                 <div className="mb-4 py-4 ">
                   <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
-                    No more reviews to display
+                    No reviews to display
                   </div>
                 </div>
               )}
@@ -261,15 +261,6 @@ export default function PostReview() {
                   </div>
                 </div>
               )}
-              {!isLoading &&
-                initialFetchComplete &&
-                filterReviews(searchQuery).length === 0 && (
-                  <div className="mb-4 py-4 ">
-                    <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
-                      No reviews for this post yet
-                    </div>
-                  </div>
-                )}
             </div>
           </div>
         </div>

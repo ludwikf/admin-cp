@@ -116,16 +116,19 @@ export default function NewPost() {
     <main className="flex h-screen">
       <div className="my-[25px] flex w-screen flex-col justify-center items-center">
         <div className="w-[90%] min-h-[100%] flex mb-5">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-5 w-full mt-5 lg:mt-0"
+          >
             <input
-              className="bg-inherit text-5xl mt-10 placeholder:text-[#999] focus:outline-none"
+              className="bg-inherit text-3xl lg:text-5xl mt-10 placeholder:text-[#999] focus:outline-none"
               type="text"
               placeholder="Title"
               required
             />
             <textarea
               ref={textareaRef}
-              className="bg-inherit text-2xl placeholder:text-[#999] focus:outline-none resize-none"
+              className="bg-inherit text-lg lg:text-2xl placeholder:text-[#999] focus:outline-none resize-none"
               placeholder="Content"
               onInput={adjustTextareaHeight}
               required

@@ -60,14 +60,14 @@ export default function Settings() {
 
   return (
     <main className="flex min-h-screen">
-      <div className="w-screen flex my-[25px] justify-center items-center flex-col">
-        <div className="w-[90%] h-[10vh] flex">
-          <div>
+      <div className="my-[25px] flex w-screen lg:h-auto flex-col short:justify-start lg:justify-center items-center">
+        <div className="w-[100%] short:w-[100%] lg:w-[90%] short:h-[auto] lg:h-[16%] flex justify-center short:justify-center lg:justify-start mb-[20px] short:mb-[20px] lg:mb-[0px]">
+          <div className="flex flex-col items-center short:flex lg:block">
             <h1 className="text-3xl font-bold">Settings</h1>
           </div>
         </div>
-        <div className="w-[90%] h-full flex flex-col items-center">
-          <div className="bg-secondTheme w-4/5 h-full rounded-3xl flex justify-center">
+        <div className="w-[100%] lg:w-[90%] h-full flex flex-col items-center">
+          <div className="bg-secondTheme w-full lg:w-4/5 h-full lg:rounded-3xl flex justify-center">
             <div className="w-4/5">
               <div className="flex flex-col my-10">
                 <label htmlFor="webTitle" className="text-lg">
@@ -111,7 +111,7 @@ export default function Settings() {
               <button
                 onClick={handleSave}
                 disabled={isSubmitting}
-                className="bg-mainTheme select-none text-black py-2 px-5 rounded-xl hover:brightness-75 transition "
+                className="bg-mainTheme select-none mb-5 text-black py-2 px-5 rounded-xl hover:brightness-75 transition "
               >
                 Save
               </button>
