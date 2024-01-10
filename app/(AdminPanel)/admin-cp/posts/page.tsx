@@ -232,7 +232,7 @@ export default function Posts() {
             </Link>
           </div>
           <div
-            className="w-full h-full relative overflow-x-auto lg:overflow-x-hidden "
+            className="w-full h-full relative overflow-x-auto lg:overflow-x-hidden hideScrollbar"
             onScroll={handleScroll}
             ref={containerRef}
           >
@@ -314,14 +314,14 @@ export default function Posts() {
               </tbody>
             </table>
             {!hasMore && (
-              <div className="w-[100%] mb-4 py-4 lg:hidden">
+              <div className="w-[100%] mb-4 py-4">
                 <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
                   No More Posts to Display
                 </div>
               </div>
             )}
             {isLoading && hasMore && (
-              <div className="lg:hidden">
+              <div>
                 <div className="w-full h-full relative">
                   <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
                     <LoadingSpinner />

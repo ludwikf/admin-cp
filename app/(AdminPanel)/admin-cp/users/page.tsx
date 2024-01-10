@@ -413,15 +413,15 @@ export default function Users() {
             </div>
           </div>
         )}
-        <div className="w-[100%] short:w-[100%] lg:w-[90%] short:h-[auto] lg:h-[14%] flex justify-center short:justify-center lg:justify-start mb-[20px] short:mb-[20px] lg:mb-[0px]">
+        <div className="w-[100%] short:w-[100%] lg:w-[90%] short:h-[auto] lg:h-[12%] flex justify-center short:justify-center lg:justify-start mb-[20px] short:mb-[20px] lg:mb-[0px]">
           <div className="flex flex-col items-center short:flex lg:block">
             <h1 className="text-3xl font-bold">Users</h1>
             <p className="text-mainTheme">Manage user account</p>
           </div>
         </div>
-        <div className="w-[90%] h-[86%] flex flex-col items-end">
+        <div className="w-[90%] h-[88%] flex flex-col items-end">
           <div className="flex justify-between w-full ">
-            <div className="flex items-center mb-3 gap-1.5 xs:gap-3 select-none">
+            <div className="flex items-center mb-3 gap-1.5 lg:gap-3 select-none">
               <button
                 onClick={handleRefreshUsers}
                 disabled={isLoading}
@@ -436,7 +436,7 @@ export default function Users() {
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className=" bg-[#161616] rounded-3xl px-5 p-1.5 mr-2 xs:mr-0 w-[180px] xs:w-[200px] text-white focus:outline-none focus:ring-0 border-2 focus:border-mainTheme placeholder:text-[#666]"
+                  className="  bg-[#161616] rounded-3xl px-5 p-1.5 mr-2 lg:mr-0 w-[180px] lg:w-[200px] text-white focus:outline-none focus:ring-0 border-2 focus:border-mainTheme placeholder:text-[#666]"
                 />
               </div>
             </div>
@@ -456,7 +456,7 @@ export default function Users() {
             ref={containerRef}
           >
             <table className="w-[100%]">
-              <tbody className="trTable w-full">
+              <tbody className="trTable">
                 <tr className="bg-[#ffa60040] h-10 font-bold w-[100%] select-none">
                   <td className="min-w-[190px] lg:w-[30%] pl-10 rounded-s-3xl ">
                     <p
@@ -533,14 +533,14 @@ export default function Users() {
               </tbody>
             </table>
             {!hasMore && (
-              <div className="w-[100%] mb-4 py-4 lg:hidden">
+              <div className="w-[100%] mb-4 py-4">
                 <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
                   No more users to display
                 </div>
               </div>
             )}
             {isLoading && hasMore && (
-              <div className="lg:hidden">
+              <div>
                 <div className="w-full h-full relative">
                   <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
                     <LoadingSpinner />

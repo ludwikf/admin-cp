@@ -20,9 +20,9 @@ export default function Reviews() {
   const [hasMore, setHasMore] = useState<boolean>(true);
   const initialRender = useRef(true);
   const [initialFetchComplete, setInitialFetchComplete] = useState(false);
-  const postIdsSet = useRef<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const fetchReviews = async (page: number) => {
     setIsLoading(true);
@@ -95,20 +95,16 @@ export default function Reviews() {
   };
 
   const handleScroll = () => {
-    const { scrollTop, clientHeight, scrollHeight } =
-      document.documentElement || document.body;
-
-    if (scrollTop + clientHeight >= scrollHeight - 20) {
-      setPage((prevPage) => prevPage + 1);
+    if (
+      containerRef.current &&
+      containerRef.current.scrollTop + containerRef.current.clientHeight >=
+        containerRef.current.scrollHeight
+    ) {
+      if (hasMore) {
+        setPage((prevPage) => prevPage + 1);
+      }
     }
   };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   useEffect(() => {
     if (!initialFetchComplete) {
@@ -124,7 +120,7 @@ export default function Reviews() {
   }, [page, initialFetchComplete]);
 
   return (
-    <main className="flex h-screen">
+    <main className="flex h-screen" onScroll={handleScroll} ref={containerRef}>
       <div className="my-[25px] flex w-screen lg:h-auto flex-col short:justify-start lg:justify-center items-center">
         <div className="w-[100%] short:w-[100%] lg:w-[90%] short:h-[auto] lg:h-[18%] flex justify-center short:justify-center lg:justify-start mb-[20px] short:mb-[20px] lg:mb-[0px]">
           <div className="flex flex-col items-center short:flex lg:block">
