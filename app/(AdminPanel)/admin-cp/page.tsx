@@ -154,7 +154,7 @@ export default async function Dashboard() {
         </div>
         <div className="w-[90%] h-[auto] short:h-[auto] lg:h-[45%] flex flex-col items-center short:flex-col lg:flex-row">
           <div className="bg-secondTheme h-[250px] short:h-[250px] lg:h-[100%] w-[100%] sm:w-[75%] short:w-[75%] lg:w-[40%] rounded-3xl short:mr-0 lg:mr-5 flex justify-center items-center">
-            <div className="w-[80%] h-[80%] flex flex-col items-start">
+            <div className="w-[80%] h-[80%] flex flex-col items-center">
               <div className="flex flex-col items-center xs:block">
                 <div className="text-xl short:text-xl lg:text-3xl mb-2 xs:mb-5">
                   Latest Review
@@ -166,7 +166,9 @@ export default async function Dashboard() {
                   </div>
 
                   <div className="w-full flex items-center justify-between">
-                    <div>{review[0]?.user.username}</div>
+                    <div className="mt-0.5 mr-2">
+                      {review[0]?.user.username}
+                    </div>
                     <div className="flex">
                       {[...Array(5)].map((star, index) => {
                         const currentRating = index + 1;
