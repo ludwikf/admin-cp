@@ -530,24 +530,27 @@ export default function Users() {
                     </td>
                   </tr>
                 ))}
+                {!hasMore && (
+                  <tr className="mb-4 py-4 ">
+                    <td
+                      colSpan={5}
+                      className="text-center py-2 text-mainTheme border-t-2 border-mainTheme"
+                    >
+                      No more users to display
+                    </td>
+                  </tr>
+                )}
+                {isLoading && hasMore && (
+                  <tr>
+                    <td colSpan={5} className="w-full h-full relative">
+                      <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
+                        <LoadingSpinner />
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
-            {!hasMore && (
-              <div className="w-[100%] mb-4 py-4">
-                <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
-                  No more users to display
-                </div>
-              </div>
-            )}
-            {isLoading && hasMore && (
-              <div>
-                <div className="w-full h-full relative">
-                  <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
-                    <LoadingSpinner />
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
