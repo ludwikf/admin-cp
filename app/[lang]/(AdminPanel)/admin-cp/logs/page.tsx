@@ -1,4 +1,4 @@
-import LogsMain from "@/app/ui/logs/logsMain";
+import LogsMain from "@/app/ui/logs/LogsMain";
 import { Locale } from "@/i18n.config";
 import { getDictionary } from "@/libs/dictionary";
 
