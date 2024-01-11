@@ -14,19 +14,27 @@ import {
   CodeBracketIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { CommandLineIcon } from "@heroicons/react/24/outline";
+import { Locale } from "@/i18n.config";
 
-export default function Navbar() {
+export default function Navbar({
+  locale,
+  params: { lang },
+}: {
+  locale: any;
+  params: { lang: Locale };
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [expand, setExpand] = useState(false);
   const pathName = usePathname();
-
+  const navbar = locale.navbar;
   const handleLogout = async () => {
     if (!isSubmitting) {
       setIsSubmitting(true);
       try {
         await signOut();
+        redirect(`/${lang}/`);
       } catch (error) {
         console.error("Error signing out:", error);
       } finally {
@@ -118,9 +126,9 @@ export default function Navbar() {
             </div>
             <div className="flex-1 flex flex-col shortnav:flex-row shortnav:w-[100%] shortnav:items-center shortnav:justify-center shortnav:flex-wrap h-[50%] gap-1 tallmd:gap-1.5">
               <Link
-                href={"/admin-cp"}
+                href={`/${lang}/admin-cp`}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
-                  "/admin-cp"
+                  `/${lang}/admin-cp`
                 )}  ${
                   expand ? "w-[150px]" : "w-[36px]"
                 } h-[35px] flex justify-start items-center rounded-xl`}
@@ -128,15 +136,15 @@ export default function Navbar() {
                 <div className={`flex ml-2`}>
                   <HomeIcon className="w-5 mr-1.5" />
                   <p className={`${expand ? "block" : "hidden"} select-none`}>
-                    Dashboard
+                    {navbar.dashboard}
                   </p>
                 </div>
               </Link>
               <span className="my-2 tallmd:hidden"></span>
               <Link
-                href={"/admin-cp/users"}
+                href={`/${lang}/admin-cp/users`}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
-                  "/admin-cp/users"
+                  `/${lang}/admin-cp/users`
                 )}  ${
                   expand ? "w-[150px]" : "w-[36px]"
                 } h-[35px] flex justify-start items-center rounded-xl`}
@@ -144,14 +152,14 @@ export default function Navbar() {
                 <div className={`flex ml-2`}>
                   <UsersIcon className="w-5 mr-1.5" />
                   <p className={`${expand ? "block" : "hidden"} select-none`}>
-                    Users
+                    {navbar.users}
                   </p>
                 </div>
               </Link>
               <Link
-                href={"/admin-cp/posts"}
+                href={`/${lang}/admin-cp/posts`}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
-                  "/admin-cp/posts"
+                  `/${lang}/admin-cp/posts`
                 )}  ${
                   expand ? "w-[150px]" : "w-[36px]"
                 } h-[35px] flex justify-start items-center rounded-xl`}
@@ -159,14 +167,14 @@ export default function Navbar() {
                 <div className={`flex ml-2`}>
                   <BookOpenIcon className="w-5 mr-1.5" />
                   <p className={`${expand ? "block" : "hidden"} select-none`}>
-                    Posts
+                    {navbar.posts}
                   </p>
                 </div>
               </Link>
               <Link
-                href={"/admin-cp/reviews"}
+                href={`/${lang}/admin-cp/reviews`}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
-                  "/admin-cp/reviews"
+                  `/${lang}/admin-cp/reviews`
                 )}  ${
                   expand ? "w-[150px]" : "w-[36px]"
                 } h-[35px] flex justify-start items-center rounded-xl`}
@@ -174,15 +182,15 @@ export default function Navbar() {
                 <div className={`flex ml-2`}>
                   <FireIcon className="w-5 mr-1.5" />
                   <p className={`${expand ? "block" : "hidden"} select-none`}>
-                    Reviews
+                    {navbar.reviews}
                   </p>
                 </div>
               </Link>
               <span className="my-2 tallmd:hidden"></span>
               <Link
-                href={"/admin-cp/newsletter"}
+                href={`/${lang}/admin-cp/newsletter`}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
-                  "/admin-cp/newsletter"
+                  `/${lang}/admin-cp/newsletter`
                 )}  ${
                   expand ? "w-[150px]" : "w-[36px]"
                 } h-[35px] flex justify-start items-center rounded-xl`}
@@ -190,14 +198,14 @@ export default function Navbar() {
                 <div className={`flex ml-2`}>
                   <NewspaperIcon className="w-5 mr-1.5" />
                   <p className={`${expand ? "block" : "hidden"} select-none`}>
-                    Newsletter
+                    {navbar.newsletter}
                   </p>
                 </div>
               </Link>
               <Link
-                href={"/admin-cp/analytics"}
+                href={`/${lang}/admin-cp/analytics`}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
-                  "/admin-cp/analytics"
+                  `/${lang}/admin-cp/analytics`
                 )}  ${
                   expand ? "w-[150px]" : "w-[36px]"
                 } h-[35px] flex justify-start items-center rounded-xl`}
@@ -205,14 +213,14 @@ export default function Navbar() {
                 <div className={`flex ml-2`}>
                   <ChartBarIcon className="w-5 mr-1.5" />
                   <p className={`${expand ? "block" : "hidden"} select-none`}>
-                    Analytics
+                    {navbar.analytics}
                   </p>
                 </div>
               </Link>
               <Link
-                href={"/admin-cp/logs"}
+                href={`/${lang}/admin-cp/logs`}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
-                  "/admin-cp/logs"
+                  `/${lang}/admin-cp/logs`
                 )}  ${
                   expand ? "w-[150px]" : "w-[36px]"
                 } h-[35px] flex justify-start items-center rounded-xl`}
@@ -220,13 +228,13 @@ export default function Navbar() {
                 <div className={`flex ml-2`}>
                   <CommandLineIcon className="w-5 mr-1.5" />
                   <p className={`${expand ? "block" : "hidden"} select-none`}>
-                    Logs
+                    {navbar.logs}
                   </p>
                 </div>
               </Link>
               <span className="mt-3 tallmd:hidden"></span>
               <Link
-                href={"/playground"}
+                href={`/${lang}/playground`}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
                   "/playground"
                 )}  ${
@@ -236,7 +244,7 @@ export default function Navbar() {
                 <div className={`flex ml-2`}>
                   <CodeBracketIcon className="w-5 mr-1.5" />
                   <p className={`${expand ? "block" : "hidden"} select-none`}>
-                    Playground
+                    {navbar.playground}
                   </p>
                 </div>
               </Link>
@@ -245,12 +253,12 @@ export default function Navbar() {
               <Link
                 className={`ml-1 flex hover:text-mainTheme ${
                   expand ? "w-[150px]" : "w-[26px]"
-                } ${isActive2("/admin-cp/settings")}`}
-                href={"/admin-cp/settings"}
+                } ${isActive2(`/${lang}/admin-cp/settings`)}`}
+                href={`/${lang}/admin-cp/settings`}
               >
                 <Cog6ToothIcon className="w-5 mr-1.5" />
                 <p className={`${expand ? "block" : "hidden"} select-none`}>
-                  Settings
+                  {navbar.settings}
                 </p>
               </Link>
               <button
@@ -262,7 +270,7 @@ export default function Navbar() {
               >
                 <ArrowLeftOnRectangleIcon className="w-5 mr-1.5" />
                 <p className={`${expand ? "block" : "hidden"} select-none`}>
-                  Logout
+                  {navbar.logout}
                 </p>
               </button>
             </div>

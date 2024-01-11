@@ -8,9 +8,14 @@ module.exports = {
 };
 
 module.exports = {
-  i18n: {
-    locales: ["en", "pl"],
-    defaultLoacle: "en",
+  async redirects() {
+    return [
+      {
+        source: "/api/:path*/",
+        destination: "/",
+        permanent: true,
+      },
+    ];
   },
 };
 

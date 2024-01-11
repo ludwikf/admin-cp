@@ -1,0 +1,73 @@
+{
+  "navbar": {
+    "dashboard": "Panel",
+    "users": "Użytkownicy",
+    "posts": "Posty",
+    "reviews": "Opinie",
+    "newsletter": "Newsletter",
+    "analytics": "Analityka",
+    "logs": "Logi",
+    "playground": "Playground",
+    "settings": "Ustawienia",
+    "logout": "Wyloguj"
+  },
+  "dashboard": {
+    "title": "Witaj",
+    "description": "Panel",
+    "today": "Dzisiaj",
+    "yesterday": "Wczoraj",
+    "post": {
+      "title": "Najnowszy Post"
+    },
+    "review": {
+      "title": "Najnowsza Recenzja"
+    },
+    "user": {
+      "title": "Nowy Użytkownik"
+    },
+    "generalData": {
+      "visitors": "UNIKALNI ODWIEDZAJĄCY",
+      "pageviews": "WSZYSTKIE ODSŁONY",
+      "br": "WSPÓŁCZYNNIK ODRZUCEŃ"
+    },
+    "visitors": {
+      "title": "Odwiedzający"
+    }
+  },
+  "logs": {
+    "title": "Logi",
+    "description": "Śledź akcje użytkowników"
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "description": "Wyślij e-mail do subskrybentów",
+    "send": "Wyślij",
+    "new": "Nowy Szablon",
+    "preview": "Podgląd",
+    "input": {
+      "title": "Temat",
+      "content": "Wiadomość"
+    }
+  },
+  "analytics": {
+    "title": "Analytika",
+    "description": "Monitoruj wydajność witryny",
+    "generalData": {
+      "visitors": "UNIKALNI ODWIEDZAJĄCY",
+      "pageviews": "WSZYSTKIE ODSŁONY",
+      "br": "WSPÓŁCZYNNIK ODRZUCEŃ"
+    },
+    "visitors": {
+      "title": "Odwiedzający"
+    },
+    "countries": {
+      "title": "Kraje"
+    },
+    "devices": {
+      "title": "Urządzenia"
+    },
+    "pages": {
+      "title": "Najpopularniejsze"
+    }
+  }
+}

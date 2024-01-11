@@ -16,7 +16,7 @@ import { LoadingSpinner } from "./LoadingSpinner";
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
-export function GeneralData() {
+export function GeneralData({ locale }: any) {
   const [visitors, setVisitors] = useState<any>("");
   const [pageviews, setPageviews] = useState<any>("");
   const [bounceRate, setBounceRate] = useState<any>("");
@@ -41,7 +41,7 @@ export function GeneralData() {
       const data = await res.json();
       setVisitors(data.results.visitors.value);
     } catch (error) {
-      console.log("Error fetching data:", error);
+      throw new Error("Error fetching data");
     } finally {
       setIsLoading(false);
     }
@@ -66,7 +66,7 @@ export function GeneralData() {
       const data = await res.json();
       setPageviews(data.results.pageviews.value);
     } catch (error) {
-      console.log("Error fetching data:", error);
+      throw new Error("Error fetching data");
     } finally {
       setIsLoading(false);
     }
@@ -91,7 +91,7 @@ export function GeneralData() {
       const data = await res.json();
       setBounceRate(data.results.bounce_rate.value);
     } catch (error) {
-      console.log("Error fetching data:", error);
+      throw new Error("Error fetching data");
     } finally {
       setIsLoading(false);
     }
@@ -107,7 +107,7 @@ export function GeneralData() {
     <div>
       <div>
         <div className="mb-5 flex flex-col items-center lg:block">
-          <p className="text-[#eee]">UNIQUE VISITORS</p>
+          <p className="text-[#eee]">{locale.generalData.visitors}</p>
           <div className="h-[35px]">
             {isLoading ? (
               <div className="flex justify-center items-center h-[100%]">
@@ -121,7 +121,7 @@ export function GeneralData() {
           </div>
         </div>
         <div className="mb-5 flex flex-col items-center lg:block">
-          <p className="text-[#eee]">TOTAL PAGEVIEWS</p>
+          <p className="text-[#eee]">{locale.generalData.pageviews}</p>
           <div className="h-[35px]">
             {isLoading ? (
               <div className="flex justify-center items-center h-[100%]">
@@ -135,7 +135,7 @@ export function GeneralData() {
           </div>
         </div>
         <div className="mb-5 flex flex-col items-center lg:block">
-          <p className="text-[#eee]">BOUNCE RATE</p>
+          <p className="text-[#eee]">{locale.generalData.br}</p>
           <div className="h-[35px]">
             {isLoading ? (
               <div className="flex justify-center items-center h-[100%]">
@@ -153,7 +153,7 @@ export function GeneralData() {
   );
 }
 
-export function ChartVisitor() {
+export function ChartVisitor({ locale, lang }: any) {
   const [chartData, setChartData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   ChartJS.register(
@@ -175,7 +175,7 @@ export function ChartVisitor() {
       },
       title: {
         display: true,
-        text: "Visitors",
+        text: `${locale.visitors.title}`,
         color: "#aaa",
         font: {
           size: 15,
@@ -195,7 +195,7 @@ export function ChartVisitor() {
 
   const formatDate = (dateString: any) => {
     const options: Intl.DateTimeFormatOptions = { weekday: "short" };
-    return new Date(dateString).toLocaleDateString("en-US", options);
+    return new Date(dateString).toLocaleDateString(`${lang}`, options);
   };
 
   const dates = chartData.map((c) => formatDate(c.date));
@@ -233,7 +233,7 @@ export function ChartVisitor() {
       const data = await res.json();
       setChartData(data.results);
     } catch (error) {
-      console.log("Error fetching data:", error);
+      throw new Error("Error fetching data");
     } finally {
       setIsLoading(false);
     }
@@ -260,7 +260,7 @@ export function ChartVisitor() {
   );
 }
 
-export function ChartCountry() {
+export function ChartCountry({ locale }: any) {
   const [chartData, setChartData] = useState<any[]>([]);
 
   const options = {
@@ -271,7 +271,7 @@ export function ChartCountry() {
       },
       title: {
         display: true,
-        text: "Countries",
+        text: `${locale.countries.title}`,
         color: "#aaa",
         font: {
           size: 15,
@@ -326,7 +326,7 @@ export function ChartCountry() {
       const data = await res.json();
       setChartData(data.results);
     } catch (error) {
-      console.log("Error fetching data:", error);
+      throw new Error("Error fetching data");
     }
   };
   useEffect(() => {
@@ -339,7 +339,7 @@ export function ChartCountry() {
   );
 }
 
-export function ChartDevice() {
+export function ChartDevice({ locale }: any) {
   const [chartData, setChartData] = useState<any[]>([]);
 
   const options = {
@@ -350,7 +350,7 @@ export function ChartDevice() {
       },
       title: {
         display: true,
-        text: "Devices",
+        text: `${locale.devices.title}`,
         color: "#aaa",
         font: {
           size: 15,
@@ -405,7 +405,7 @@ export function ChartDevice() {
       const data = await res.json();
       setChartData(data.results);
     } catch (error) {
-      console.log("Error fetching data:", error);
+      throw new Error("Error fetching data");
     }
   };
   useEffect(() => {
@@ -418,7 +418,7 @@ export function ChartDevice() {
   );
 }
 
-export function ChartPage() {
+export function ChartPage({ locale }: any) {
   const [chartData, setChartData] = useState<any[]>([]);
 
   const options = {
@@ -429,7 +429,7 @@ export function ChartPage() {
       },
       title: {
         display: true,
-        text: "Top Pages",
+        text: `${locale.pages.title}`,
         color: "#aaa",
         font: {
           size: 15,
@@ -484,7 +484,7 @@ export function ChartPage() {
       const data = await res.json();
       setChartData(data.results);
     } catch (error) {
-      console.log("Error fetching data:", error);
+      throw new Error("Error fetching data");
     }
   };
   useEffect(() => {

@@ -1,0 +1,73 @@
+{
+  "navbar": {
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "posts": "Posts",
+    "reviews": "Reviews",
+    "newsletter": "Newsletter",
+    "analytics": "Analytics",
+    "logs": "Logs",
+    "playground": "Playground",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "dashboard": {
+    "title": "Hello",
+    "description": "Dashboard",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "post": {
+      "title": "Latest Post"
+    },
+    "review": {
+      "title": "Latest Review"
+    },
+    "user": {
+      "title": "New User"
+    },
+    "generalData": {
+      "visitors": "UNIQUE VISITORS",
+      "pageviews": "TOTAL PAGEVIEWS",
+      "br": "BOUNCE RATE"
+    },
+    "visitors": {
+      "title": "Visitors"
+    }
+  },
+  "logs": {
+    "title": "Logs",
+    "description": "Track user actions"
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "description": "Send an e-mail to subscribers",
+    "send": "Send",
+    "new": "Create Template",
+    "preview": "Preview",
+    "input": {
+      "title": "Subject",
+      "content": "Content"
+    }
+  },
+  "analytics": {
+    "title": "Analytics",
+    "description": "Monitor website performance",
+    "generalData": {
+      "visitors": "UNIQUE VISITORS",
+      "pageviews": "TOTAL PAGEVIEWS",
+      "br": "BOUNCE RATE"
+    },
+    "visitors": {
+      "title": "Visitors"
+    },
+    "countries": {
+      "title": "Countries"
+    },
+    "devices": {
+      "title": "Devices"
+    },
+    "pages": {
+      "title": "Top Pages"
+    }
+  }
+}
