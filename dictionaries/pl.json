@@ -38,6 +38,50 @@
     "title": "Logi",
     "description": "Śledź akcje użytkowników"
   },
+  "users": {
+    "title": "Użytkownicy",
+    "description": "Zarządzaj kontami użytkowników",
+    "playground": "Zobacz playground",
+    "search": "Wyszukaj...",
+    "table": {
+      "username": "Login",
+      "email": "Email",
+      "createdAt": "Data Utworzenia",
+      "role": "Rola"
+    },
+    "confirm": {
+      "titleRole": "Czy na pewno chcesz zmienić rolę tego użytkownika?",
+      "titleDelete": "Czy na pewno chcesz usunąć tego użytkownika?",
+      "confirm": "Potwierdź",
+      "cancel": "Anuluj"
+    },
+    "newUser": {
+      "title": "Dodaj nowe konto",
+      "username": "Login",
+      "email": "Email",
+      "password": "Hasło",
+      "confirm": "Stwórz"
+    }
+  },
+  "posts": {
+    "title": "Posty",
+    "description": "Dodaj treść do swojej strony",
+    "playground": "Zobacz playground",
+    "search": "Wyszukaj...",
+    "new": "Stwórz nowy",
+    "table": {
+      "image": "Zdjęcie",
+      "title": "Tytuł",
+      "author": "Autor",
+      "createdAt": "Data Utworzenia"
+    }
+  },
+  "reviews": {
+    "title": "Opinie",
+    "description": "Zarządzaj opiniami użytkowników",
+    "playground": "Zobacz playground",
+    "search": "Wyszukaj..."
+  },
   "newsletter": {
     "title": "Newsletter",
     "description": "Wyślij e-mail do subskrybentów",
@@ -69,5 +113,26 @@
     "pages": {
       "title": "Najpopularniejsze"
     }
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "inputTitle": "Tytuł Strony",
+    "inputDescription": "Opis Strony",
+    "inputDomain": "Domena Email",
+    "save": "Zapisz"
+  },
+  "form": {
+    "title": "Tytuł",
+    "subject": "Temat",
+    "content": "Treść",
+    "edit": "Edytuj",
+    "create": "Stwórz",
+    "login": "Zaloguj się",
+    "register": "Założ konto",
+    "back": "Wróć",
+    "goToRegister": "Stwórz konto administratora",
+    "username": "Login",
+    "email": "Email",
+    "password": "Hasło"
   }
 }

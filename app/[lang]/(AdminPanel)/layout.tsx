@@ -7,7 +7,6 @@ import UserProfile from "../../components/UserProfile";
 import { authOptions } from "@/libs/authOptions";
 import { getDictionary } from "@/libs/dictionary";
 import { Locale } from "@/i18n.config";
-import { generateStaticParams } from "../layout";
 
 const SS3 = Roboto({ subsets: ["latin"], weight: "400" });
 

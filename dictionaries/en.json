@@ -38,6 +38,50 @@
     "title": "Logs",
     "description": "Track user actions"
   },
+  "users": {
+    "title": "Users",
+    "description": "Manage user accounts",
+    "playground": "Go to playground",
+    "search": "Search...",
+    "table": {
+      "username": "Username",
+      "email": "Email",
+      "createdAt": "Created At",
+      "role": "Role"
+    },
+    "confirm": {
+      "titleRole": "Are you sure you want to change this users role?",
+      "titleDelete": "Are you sure you want to delete this user?",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    },
+    "newUser": {
+      "title": "Add new account",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "confirm": "Create"
+    }
+  },
+  "posts": {
+    "title": "Posts",
+    "description": "Add content to your page",
+    "playground": "Go to playground",
+    "new": "Add new",
+    "search": "Search...",
+    "table": {
+      "image": "Image",
+      "title": "Title",
+      "author": "Author",
+      "createdAt": "Created At"
+    }
+  },
+  "reviews": {
+    "title": "Reviews",
+    "description": "Manage user feedback",
+    "playground": "Go to playground",
+    "search": "Search..."
+  },
   "newsletter": {
     "title": "Newsletter",
     "description": "Send an e-mail to subscribers",
@@ -69,5 +113,26 @@
     "pages": {
       "title": "Top Pages"
     }
+  },
+  "settings": {
+    "title": "Settings",
+    "inputTitle": "Website Title",
+    "inputDescription": "Website Description",
+    "inputDomain": "Email Domain",
+    "save": "Save"
+  },
+  "form": {
+    "title": "Title",
+    "subject": "Subject",
+    "content": "Content",
+    "edit": "Edit",
+    "create": "Create",
+    "login": "Login",
+    "register": "Register",
+    "back": "Go back",
+    "goToRegister": "Create admin account",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password"
   }
 }
