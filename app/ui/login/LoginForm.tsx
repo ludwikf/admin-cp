@@ -6,12 +6,21 @@ import Link from "next/link";
 import { ButtonSpinner } from "../../components/LoadingSpinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCode } from "@fortawesome/free-solid-svg-icons";
+import CustomLink from "@/app/components/CustomLink";
+import { i18n } from "@/i18n.config";
+import GetLocale from "@/app/components/GetLocale";
 
 export default function LoginForm({ locale, lang }: any) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [error, setError] = useState("");
   const { status: sessionStatus, data: session }: any = useSession();
+
+  // const getLocale = (href: string, lang: string) => {
+  //   const isDefaultLang = lang === i18n.defaultLocale;
+  //   const path = isDefaultLang ? href : `/${lang}${href}`;
+  //   return path;
+  // };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -30,7 +39,7 @@ export default function LoginForm({ locale, lang }: any) {
         setError("Invalid email or password");
       } else {
         setError("");
-        router.replace(`/${lang}/admin-cp`);
+        router.replace(`${GetLocale("/admin-cp", lang)}`);
       }
     } catch (error) {
       setError("An error occurred. Please try again.");
@@ -42,9 +51,9 @@ export default function LoginForm({ locale, lang }: any) {
   useEffect(() => {
     if (sessionStatus === "authenticated") {
       if (session && session.user.role === "admin") {
-        return router.replace(`${lang}/admin-cp`);
+        return router.replace(`${GetLocale("/admin-cp", lang)}`);
       }
-      router.replace(`${lang}/playground`);
+      router.replace(`${GetLocale("/playground", lang)}`);
     }
   }, [sessionStatus, router]);
 
@@ -93,16 +102,21 @@ export default function LoginForm({ locale, lang }: any) {
           <p className="text-red-600 mt-4 ">{error && error}</p>
         </form>
         <div className="flex justify-center items-center mb-10 sm:my-2 tall:my-5 tall:text-3xl">
-          <Link href={`/${lang}/add-admin`} className="text-mainTheme">
+          <CustomLink
+            href={`/add-admin`}
+            lang={lang}
+            className="text-mainTheme"
+          >
             {locale.goToRegister}
-          </Link>
+          </CustomLink>
           <span className="mx-5 text-[#666]">||</span>
-          <Link
-            href={`/${lang}/playground`}
+          <CustomLink
+            href={`/playground`}
+            lang={lang}
             className="text-mainTheme flex gap-0.5"
           >
             Playground
-          </Link>
+          </CustomLink>
         </div>
       </div>
     </>

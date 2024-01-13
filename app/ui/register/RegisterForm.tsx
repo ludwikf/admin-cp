@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCode } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import CustomLink from "@/app/components/CustomLink";
+import GetLocale from "@/app/components/GetLocale";
 
 export default function RegisterForm({ locale, lang }: any) {
   const [loading, setLoading] = useState(false);
@@ -17,7 +19,7 @@ export default function RegisterForm({ locale, lang }: any) {
 
   useEffect(() => {
     if (sessionStatus === "authenticated") {
-      router.replace(`/${lang}/admin-cp`);
+      router.replace(`${GetLocale("/admin-cp", lang)}`);
     }
   }, [sessionStatus, router]);
 
@@ -81,7 +83,7 @@ export default function RegisterForm({ locale, lang }: any) {
           email,
           password,
         });
-        router.push(`/${lang}/admin-cp`);
+        router.push(`${GetLocale("/admin-cp", lang)}`);
       }
     } catch (error) {
       setError("Error, try again");
@@ -153,10 +155,14 @@ export default function RegisterForm({ locale, lang }: any) {
           <p className="text-red-600 mt-4 ">{error && error}</p>
         </form>
         <div className="mb-10 sm:my-2 tall:my-5 tall:text-3xl">
-          <Link href={`/${lang}/`} className="text-mainTheme flex gap-0.5">
+          <CustomLink
+            href={`/`}
+            lang={lang}
+            className="text-mainTheme flex gap-0.5"
+          >
             <ArrowLeftIcon className="w-4 tall:w-8" />
             <p>{locale.back}</p>
-          </Link>
+          </CustomLink>
         </div>
       </div>
     </>

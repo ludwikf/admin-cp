@@ -16,7 +16,9 @@ import {
 import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
 import { CommandLineIcon } from "@heroicons/react/24/outline";
-import { Locale } from "@/i18n.config";
+import { Locale, i18n } from "@/i18n.config";
+import CustomLink from "./CustomLink";
+import GetLocale from "./GetLocale";
 
 export default function Navbar({
   locale,
@@ -34,7 +36,7 @@ export default function Navbar({
       setIsSubmitting(true);
       try {
         await signOut();
-        redirect(`/${lang}/`);
+        redirect(`${GetLocale("/", lang)}`);
       } catch (error) {
         console.error("Error signing out:", error);
       } finally {
@@ -56,10 +58,14 @@ export default function Navbar({
   };
 
   const isActive = (href: any) => {
-    return pathName === href ? "bg-mainTheme text-black" : "";
+    const isDefaultLang = lang === i18n.defaultLocale;
+    const path = isDefaultLang ? href : `/${lang}${href}`;
+    return pathName === path ? "bg-mainTheme text-black" : "";
   };
   const isActive2 = (href: any) => {
-    return pathName === href ? "text-mainTheme" : "";
+    const isDefaultLang = lang === i18n.defaultLocale;
+    const path = isDefaultLang ? href : `/${lang}${href}`;
+    return pathName === path ? "text-mainTheme" : "";
   };
 
   useEffect(() => {
@@ -125,10 +131,11 @@ export default function Navbar({
               </h1>
             </div>
             <div className="flex-1 flex flex-col shortnav:flex-row shortnav:w-[100%] shortnav:items-center shortnav:justify-center shortnav:flex-wrap h-[50%] gap-1 tallmd:gap-1.5">
-              <Link
-                href={`/${lang}/admin-cp`}
+              <CustomLink
+                href={`/admin-cp`}
+                lang={lang}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
-                  `/${lang}/admin-cp`
+                  `/admin-cp`
                 )}  ${
                   expand ? "w-[150px]" : "w-[36px]"
                 } h-[35px] flex justify-start items-center rounded-xl`}
@@ -139,12 +146,13 @@ export default function Navbar({
                     {navbar.dashboard}
                   </p>
                 </div>
-              </Link>
+              </CustomLink>
               <span className="my-2 tallmd:hidden"></span>
-              <Link
-                href={`/${lang}/admin-cp/users`}
+              <CustomLink
+                href={`/admin-cp/users`}
+                lang={lang}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
-                  `/${lang}/admin-cp/users`
+                  `/admin-cp/users`
                 )}  ${
                   expand ? "w-[150px]" : "w-[36px]"
                 } h-[35px] flex justify-start items-center rounded-xl`}
@@ -155,11 +163,12 @@ export default function Navbar({
                     {navbar.users}
                   </p>
                 </div>
-              </Link>
-              <Link
-                href={`/${lang}/admin-cp/posts`}
+              </CustomLink>
+              <CustomLink
+                href={`/admin-cp/posts`}
+                lang={lang}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
-                  `/${lang}/admin-cp/posts`
+                  `/admin-cp/posts`
                 )}  ${
                   expand ? "w-[150px]" : "w-[36px]"
                 } h-[35px] flex justify-start items-center rounded-xl`}
@@ -170,11 +179,12 @@ export default function Navbar({
                     {navbar.posts}
                   </p>
                 </div>
-              </Link>
-              <Link
-                href={`/${lang}/admin-cp/reviews`}
+              </CustomLink>
+              <CustomLink
+                href={`/admin-cp/reviews`}
+                lang={lang}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
-                  `/${lang}/admin-cp/reviews`
+                  `/admin-cp/reviews`
                 )}  ${
                   expand ? "w-[150px]" : "w-[36px]"
                 } h-[35px] flex justify-start items-center rounded-xl`}
@@ -185,12 +195,13 @@ export default function Navbar({
                     {navbar.reviews}
                   </p>
                 </div>
-              </Link>
+              </CustomLink>
               <span className="my-2 tallmd:hidden"></span>
-              <Link
-                href={`/${lang}/admin-cp/newsletter`}
+              <CustomLink
+                href={`/admin-cp/newsletter`}
+                lang={lang}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
-                  `/${lang}/admin-cp/newsletter`
+                  `/admin-cp/newsletter`
                 )}  ${
                   expand ? "w-[150px]" : "w-[36px]"
                 } h-[35px] flex justify-start items-center rounded-xl`}
@@ -201,11 +212,12 @@ export default function Navbar({
                     {navbar.newsletter}
                   </p>
                 </div>
-              </Link>
-              <Link
-                href={`/${lang}/admin-cp/analytics`}
+              </CustomLink>
+              <CustomLink
+                href={`/admin-cp/analytics`}
+                lang={lang}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
-                  `/${lang}/admin-cp/analytics`
+                  `/admin-cp/analytics`
                 )}  ${
                   expand ? "w-[150px]" : "w-[36px]"
                 } h-[35px] flex justify-start items-center rounded-xl`}
@@ -216,11 +228,12 @@ export default function Navbar({
                     {navbar.analytics}
                   </p>
                 </div>
-              </Link>
-              <Link
-                href={`/${lang}/admin-cp/logs`}
+              </CustomLink>
+              <CustomLink
+                href={`/admin-cp/logs`}
+                lang={lang}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
-                  `/${lang}/admin-cp/logs`
+                  `/admin-cp/logs`
                 )}  ${
                   expand ? "w-[150px]" : "w-[36px]"
                 } h-[35px] flex justify-start items-center rounded-xl`}
@@ -231,10 +244,11 @@ export default function Navbar({
                     {navbar.logs}
                   </p>
                 </div>
-              </Link>
+              </CustomLink>
               <span className="mt-3 tallmd:hidden"></span>
-              <Link
-                href={`/${lang}/playground`}
+              <CustomLink
+                href={`/playground`}
+                lang={lang}
                 className={`hover:bg-mainTheme hover:text-black ${isActive(
                   "/playground"
                 )}  ${
@@ -247,20 +261,21 @@ export default function Navbar({
                     {navbar.playground}
                   </p>
                 </div>
-              </Link>
+              </CustomLink>
             </div>
             <div className="flex flex-col items-center gap-3 my-10">
-              <Link
+              <CustomLink
                 className={`ml-1 flex hover:text-mainTheme ${
                   expand ? "w-[150px]" : "w-[26px]"
-                } ${isActive2(`/${lang}/admin-cp/settings`)}`}
-                href={`/${lang}/admin-cp/settings`}
+                } ${isActive2(`/admin-cp/settings`)}`}
+                href={`/admin-cp/settings`}
+                lang={lang}
               >
                 <Cog6ToothIcon className="w-5 mr-1.5" />
                 <p className={`${expand ? "block" : "hidden"} select-none`}>
                   {navbar.settings}
                 </p>
-              </Link>
+              </CustomLink>
               <button
                 className={`ml-1 flex items-center hover:text-mainTheme ${
                   expand ? "w-[150px]" : "w-[26px]"

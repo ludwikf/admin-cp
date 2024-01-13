@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Rating from "@/app/components/Rating";
 import PostImage from "@/app/components/PostImage";
 import { LoadingSpinner } from "@/app/components/LoadingSpinner";
+import CustomLink from "@/app/components/CustomLink";
 
 export default function ReviewsMain({ locale, lang }: any) {
   const [posts, setPosts] = useState<any[]>([]);
@@ -131,8 +132,9 @@ export default function ReviewsMain({ locale, lang }: any) {
         <div className="w-[100%]">
           <div className="flex flex-col gap-5">
             {filterPosts(searchQuery).map((post, index) => (
-              <Link
-                href={`/${lang}/admin-cp/reviews/post-review/${post._id}`}
+              <CustomLink
+                href={`/admin-cp/reviews/post-review/${post._id}`}
+                lang={lang}
                 key={index}
                 className="flex w-[100%] h-[200px] bg-[#282828] rounded-xl overflow-hidden items-center hover:bg-[#222]"
               >
@@ -157,7 +159,7 @@ export default function ReviewsMain({ locale, lang }: any) {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </CustomLink>
             ))}
           </div>
           {!hasMore && (

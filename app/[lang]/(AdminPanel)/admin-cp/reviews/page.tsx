@@ -3,6 +3,7 @@ import React from "react";
 import ReviewsMain from "@/app/ui/reviews/ReviewsMain";
 import { Locale } from "@/i18n.config";
 import { getDictionary } from "@/libs/dictionary";
+import CustomLink from "@/app/components/CustomLink";
 
 export default async function Reviews({
   params: { lang },
@@ -17,12 +18,13 @@ export default async function Reviews({
           <div className="flex flex-col items-center short:flex lg:block">
             <h1 className="text-3xl font-bold">{reviews.title}</h1>
             <p className="text-mainTheme mb-1">{reviews.description}</p>
-            <Link
-              href={`/${lang}/playground`}
+            <CustomLink
+              href={`/playground`}
+              lang={lang}
               className="text-[#888] hover:text-[#ccc]"
             >
               Go to playground
-            </Link>
+            </CustomLink>
           </div>
         </div>
         <div className="w-[90%] h-[84%] flex flex-col items-end">

@@ -8,11 +8,30 @@ import { i18n } from "@/i18n.config";
 export default function UserProfile() {
   const { data: session, status }: any = useSession();
   const pathname = usePathname();
+
   const redirectedPathName = (locale: string) => {
     if (!pathname) return "/";
-    const segments = pathname.split("/");
-    segments[1] = locale;
-    return segments.join("/");
+    const pathnameIsMissingLocale = i18n.locales.every(
+      (locale) =>
+        !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
+    );
+    if (pathnameIsMissingLocale) {
+      if (locale === i18n.defaultLocale) return pathname;
+      return `/${locale}${pathname}`;
+    } else {
+      if (locale === i18n.defaultLocale) {
+        const segments = pathname.split("/");
+        const isHome = segments.length === 2;
+        if (isHome) return "/";
+
+        segments.splice(1, 1);
+        return segments.join("/");
+      }
+
+      const segments = pathname.split("/");
+      segments[1] = locale;
+      return segments.join("/");
+    }
   };
 
   if (status === "loading") {
@@ -22,7 +41,7 @@ export default function UserProfile() {
     return null;
   }
   return (
-    <nav className="absolute text-xl right-[10px] xs:right-[30px] top-[28px] flex gap-3">
+    <nav className="absolute text-xl right-[10px] xs:right-[30px] top-[28px] flex gap-3 select-none">
       {session && session.user.username && (
         <ul className="hidden lg:block ">{session.user.username}</ul>
       )}

@@ -6,6 +6,7 @@ import Navbar from "../../components/Navbar";
 import { authOptions } from "@/libs/authOptions";
 import { getDictionary } from "@/libs/dictionary";
 import { Locale } from "@/i18n.config";
+import GetLocale from "@/app/components/GetLocale";
 
 const SS3 = Roboto({ subsets: ["latin"], weight: "400" });
 
@@ -20,11 +21,11 @@ export default async function RootLayout({
   const dictionary = await getDictionary(lang);
 
   if (!session) {
-    redirect("/");
+    redirect(`${GetLocale("/", lang)}`);
   }
 
   if ((session.user as { role?: string })?.role !== "admin") {
-    redirect("/playground");
+    redirect(`${GetLocale("/playground", lang)}`);
   }
 
   return (

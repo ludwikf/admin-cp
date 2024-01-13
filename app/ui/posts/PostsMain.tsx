@@ -11,6 +11,7 @@ import Link from "next/link";
 import { LoadingSpinner } from "@/app/components/LoadingSpinner";
 import { useSession } from "next-auth/react";
 import PostImage from "@/app/components/PostImage";
+import CustomLink from "@/app/components/CustomLink";
 
 export default function PostsMain({ locale, lang }: any) {
   const [posts, setPosts] = useState<any[]>([]);
@@ -207,15 +208,16 @@ export default function PostsMain({ locale, lang }: any) {
           </div>
         </div>
 
-        <Link
-          href={`/${lang}/admin-cp/posts/new-post`}
+        <CustomLink
+          href={`/admin-cp/posts/new-post`}
+          lang={lang}
           className="text-center lg:bg-white lg:text-black lg:px-3 lg:py-2 rounded-full lg:rounded-xl hover:brightness-50 transition-all mb-3"
         >
           <span className="hidden lg:block">{locale.new}</span>
           <span className="lg:hidden">
             <PlusCircleIcon className="w-10" />
           </span>
-        </Link>
+        </CustomLink>
       </div>
       <div
         className="w-full h-full relative overflow-x-auto lg:overflow-x-hidden hideScrollbar"
@@ -280,13 +282,14 @@ export default function PostsMain({ locale, lang }: any) {
                 </td>
                 <td className="rounded-e-3xl">
                   <div className="flex gap-5 lg:gap-1">
-                    <Link
+                    <CustomLink
                       rel="stylesheet"
-                      href={`/${lang}/admin-cp/posts/edit-post/${post._id}`}
+                      href={`/admin-cp/posts/edit-post/${post._id}`}
+                      lang={lang}
                       className="cursor-pointer select-none hover:text-mainTheme"
                     >
                       <PencilSquareIcon className="w-6 lg:w-5" />
-                    </Link>
+                    </CustomLink>
                     <TrashIcon
                       onClick={() => deletePost(post._id)}
                       className={`w-6 lg:w-5 cursor-pointer select-none hover:text-mainTheme ${

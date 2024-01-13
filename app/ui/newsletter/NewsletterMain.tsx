@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { LoadingSpinner } from "@/app/components/LoadingSpinner";
 import { useSession } from "next-auth/react";
+import CustomLink from "@/app/components/CustomLink";
 
 export default function NewsletterMain({ locale, lang }: any) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -172,12 +173,13 @@ export default function NewsletterMain({ locale, lang }: any) {
         <div className="lg:w-[30%] mb-2 lg:mb-0 flex flex-col items-center lg:items-end order-1 lg:order-2">
           <div className="w-[90%]  flex flex-col justify-center items-center">
             <div className="flex justify-between mt-7">
-              <Link
-                href={`/${lang}/admin-cp/newsletter/new-template`}
+              <CustomLink
+                href={`/admin-cp/newsletter/new-template`}
+                lang={lang}
                 className="bg-white text-black px-3 py-2 rounded-xl hover:brightness-50 transition-all mb-3"
               >
                 {locale.new}
-              </Link>
+              </CustomLink>
             </div>
             <ul className="w-ful flex flex-col items-center">
               {isLoading ? (
@@ -193,13 +195,14 @@ export default function NewsletterMain({ locale, lang }: any) {
                     >
                       {t.title}
                     </li>
-                    <Link
+                    <CustomLink
                       rel="stylesheet"
-                      href={`/${lang}/admin-cp/newsletter/edit-template/${t._id}`}
+                      href={`/admin-cp/newsletter/edit-template/${t._id}`}
+                      lang={lang}
                       className="cursor-pointer flex hover:text-mainTheme"
                     >
                       <PencilSquareIcon className="w-5" />
-                    </Link>
+                    </CustomLink>
 
                     <TrashIcon
                       onClick={() => deleteHandler(t._id)}
