@@ -5,7 +5,7 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { LoadingSpinner } from "@/app/components/LoadingSpinner";
 import { useSession } from "next-auth/react";
 
-export default function NewsletterMain({ locale }: any) {
+export default function NewsletterMain({ locale, lang }: any) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [preview, setPreview] = useState<string>("");
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -173,7 +173,7 @@ export default function NewsletterMain({ locale }: any) {
           <div className="w-[90%]  flex flex-col justify-center items-center">
             <div className="flex justify-between mt-7">
               <Link
-                href={"/admin-cp/newsletter/new-template"}
+                href={`/${lang}/admin-cp/newsletter/new-template`}
                 className="bg-white text-black px-3 py-2 rounded-xl hover:brightness-50 transition-all mb-3"
               >
                 {locale.new}
@@ -195,7 +195,7 @@ export default function NewsletterMain({ locale }: any) {
                     </li>
                     <Link
                       rel="stylesheet"
-                      href={`/admin-cp/newsletter/edit-template/${t._id}`}
+                      href={`/${lang}/admin-cp/newsletter/edit-template/${t._id}`}
                       className="cursor-pointer flex hover:text-mainTheme"
                     >
                       <PencilSquareIcon className="w-5" />

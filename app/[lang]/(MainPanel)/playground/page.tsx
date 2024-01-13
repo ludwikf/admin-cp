@@ -15,14 +15,14 @@ export default async function Playground({
   return (
     <main className="max-w-screen min-h-[100dvh] flex justify-center overflow-hidden">
       <Link
-        href={"/"}
+        href={`/${lang}/`}
         className="absolute left-12 top-10 flex gap-0.5 hover:text-mainTheme tall:text-3xl"
       >
         <ArrowLeftIcon className="w-5 mr-1.5 tall:w-9" />
         {form.back}
       </Link>
 
-      <PlaygroundMain />
+      <PlaygroundMain locale={form} lang={lang} />
     </main>
   );
 }

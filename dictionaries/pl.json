@@ -43,6 +43,7 @@
     "description": "Zarządzaj kontami użytkowników",
     "playground": "Zobacz playground",
     "search": "Wyszukaj...",
+    "noMore": "Brak kolejnych użytkowników do wyświetlenia",
     "table": {
       "username": "Login",
       "email": "Email",
@@ -68,7 +69,8 @@
     "description": "Dodaj treść do swojej strony",
     "playground": "Zobacz playground",
     "search": "Wyszukaj...",
-    "new": "Stwórz nowy",
+    "noMore": "Brak kolejnych postów do wyświetlenia",
+    "new": "Nowy post",
     "table": {
       "image": "Zdjęcie",
       "title": "Tytuł",
@@ -80,7 +82,8 @@
     "title": "Opinie",
     "description": "Zarządzaj opiniami użytkowników",
     "playground": "Zobacz playground",
-    "search": "Wyszukaj..."
+    "search": "Wyszukaj...",
+    "noMore": "Brak kolejnych opinii do wyświetlenia"
   },
   "newsletter": {
     "title": "Newsletter",
@@ -133,6 +136,9 @@
     "goToRegister": "Stwórz konto administratora",
     "username": "Login",
     "email": "Email",
-    "password": "Hasło"
+    "search": "Wyszukaj...",
+    "password": "Hasło",
+    "noMore": "Brak kolejnych postów do wyświetlenia",
+    "noMoreReview": "Brak opinii do wyświetlenia"
   }
 }

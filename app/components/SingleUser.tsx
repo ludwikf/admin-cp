@@ -1,95 +1,95 @@
-import React from "react";
-import PostImage from "./PostImage";
-import { StarIcon, UserCircleIcon } from "@heroicons/react/20/solid";
+// import React from "react";
+// import PostImage from "./PostImage";
+// import { StarIcon, UserCircleIcon } from "@heroicons/react/20/solid";
 
-export default async function SingleUser() {
-  const formatDate = (dateString: string) => {
-    const currentDate = new Date();
-    const receivedDate = new Date(dateString);
+// export default async function SingleUser() {
+//   const formatDate = (dateString: string) => {
+//     const currentDate = new Date();
+//     const receivedDate = new Date(dateString);
 
-    const today = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      currentDate.getDate()
-    );
+//     const today = new Date(
+//       currentDate.getFullYear(),
+//       currentDate.getMonth(),
+//       currentDate.getDate()
+//     );
 
-    const yesterday = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      currentDate.getDate() - 1
-    );
+//     const yesterday = new Date(
+//       currentDate.getFullYear(),
+//       currentDate.getMonth(),
+//       currentDate.getDate() - 1
+//     );
 
-    const timeOptions: Intl.DateTimeFormatOptions = {
-      hour: "numeric",
-      minute: "numeric",
-    };
+//     const timeOptions: Intl.DateTimeFormatOptions = {
+//       hour: "numeric",
+//       minute: "numeric",
+//     };
 
-    if (receivedDate.toDateString() === today.toDateString()) {
-      return (
-        <div className="text-[#999] flex items-center">
-          <span className="md">Today</span>
-          <span className="mx-2">| </span>
-          <span className="text-lg md:text-xl">
-            {receivedDate.toLocaleTimeString([], timeOptions)}
-          </span>
-        </div>
-      );
-    } else if (receivedDate.toDateString() === yesterday.toDateString()) {
-      return (
-        <div className="text-[#999] flex items-center">
-          <span className="md">Yesterday</span>
-          <span className="mx-2">| </span>
-          <span className="text-lg md:text-xl">
-            {receivedDate.toLocaleTimeString([], timeOptions)}
-          </span>
-        </div>
-      );
-    } else {
-      return (
-        <div className="text-[#999] flex items-center">
-          <span className="md">{receivedDate.toLocaleDateString()}</span>
-          <span className="mx-2">|</span>
-          <span className="text-lg md:text-xl">
-            {receivedDate.toLocaleTimeString([], timeOptions)}
-          </span>
-        </div>
-      );
-    }
-  };
-  async function fetchUser() {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-user-new`
-    );
+//     if (receivedDate.toDateString() === today.toDateString()) {
+//       return (
+//         <div className="text-[#999] flex items-center">
+//           <span className="md">Today</span>
+//           <span className="mx-2">| </span>
+//           <span className="text-lg md:text-xl">
+//             {receivedDate.toLocaleTimeString([], timeOptions)}
+//           </span>
+//         </div>
+//       );
+//     } else if (receivedDate.toDateString() === yesterday.toDateString()) {
+//       return (
+//         <div className="text-[#999] flex items-center">
+//           <span className="md">Yesterday</span>
+//           <span className="mx-2">| </span>
+//           <span className="text-lg md:text-xl">
+//             {receivedDate.toLocaleTimeString([], timeOptions)}
+//           </span>
+//         </div>
+//       );
+//     } else {
+//       return (
+//         <div className="text-[#999] flex items-center">
+//           <span className="md">{receivedDate.toLocaleDateString()}</span>
+//           <span className="mx-2">|</span>
+//           <span className="text-lg md:text-xl">
+//             {receivedDate.toLocaleTimeString([], timeOptions)}
+//           </span>
+//         </div>
+//       );
+//     }
+//   };
+//   async function fetchUser() {
+//     const res = await fetch(
+//       `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-user-new`
+//     );
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
+//     if (!res.ok) {
+//       throw new Error("Failed to fetch data");
+//     }
 
-    return res.json();
-  }
-  const user = await fetchUser();
-  return (
-    <div className="bg-secondTheme h-[250px] md:h-[100%] w-[100%] sm:w-[75%] md:w-[55%] mb-5 md:mb-0  rounded-3xl md:mr-5 flex justify-center items-center">
-      <div className="w-[80%] h-[70%] flex flex-col items-center">
-        <div className="flex flex-col items-center xs:block">
-          <div className="text-xl md:text-3xl mb-3 xs:mb-6">New User</div>
-          <div className="flex items-center mb-6 gap-2">
-            <div>
-              <UserCircleIcon className="w-16 mt-1" />
-            </div>
-            <div>
-              <div className="text-xl xs:text-2xl text-mainTheme mb-1">
-                {user[0]?.username}
-              </div>
-              <div className="text-sm xs:text-md">{user[0]?.email}</div>
-            </div>
-          </div>
-          <div>{user[0]?.createdAt && formatDate(user[0].createdAt)}</div>
-        </div>
-      </div>
-    </div>
-  );
-}
+//     return res.json();
+//   }
+//   const user = await fetchUser();
+//   return (
+//     <div className="bg-secondTheme h-[250px] md:h-[100%] w-[100%] sm:w-[75%] md:w-[55%] mb-5 md:mb-0  rounded-3xl md:mr-5 flex justify-center items-center">
+//       <div className="w-[80%] h-[70%] flex flex-col items-center">
+//         <div className="flex flex-col items-center xs:block">
+//           <div className="text-xl md:text-3xl mb-3 xs:mb-6">New User</div>
+//           <div className="flex items-center mb-6 gap-2">
+//             <div>
+//               <UserCircleIcon className="w-16 mt-1" />
+//             </div>
+//             <div>
+//               <div className="text-xl xs:text-2xl text-mainTheme mb-1">
+//                 {user[0]?.username}
+//               </div>
+//               <div className="text-sm xs:text-md">{user[0]?.email}</div>
+//             </div>
+//           </div>
+//           <div>{user[0]?.createdAt && formatDate(user[0].createdAt)}</div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
 
 // export async function SingleReview() {
 //   async function fetchReview() {

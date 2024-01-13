@@ -18,7 +18,7 @@ export default async function Reviews({
             <h1 className="text-3xl font-bold">{reviews.title}</h1>
             <p className="text-mainTheme mb-1">{reviews.description}</p>
             <Link
-              href={"/playground"}
+              href={`/${lang}/playground`}
               className="text-[#888] hover:text-[#ccc]"
             >
               Go to playground
@@ -26,7 +26,7 @@ export default async function Reviews({
           </div>
         </div>
         <div className="w-[90%] h-[84%] flex flex-col items-end">
-          <ReviewsMain locale={reviews} />
+          <ReviewsMain locale={reviews} lang={lang} />
         </div>
       </div>
     </main>

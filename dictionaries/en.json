@@ -43,6 +43,7 @@
     "description": "Manage user accounts",
     "playground": "Go to playground",
     "search": "Search...",
+    "noMore": "No more users to display",
     "table": {
       "username": "Username",
       "email": "Email",
@@ -69,6 +70,7 @@
     "playground": "Go to playground",
     "new": "Add new",
     "search": "Search...",
+    "noMore": "No more posts to display",
     "table": {
       "image": "Image",
       "title": "Title",
@@ -80,7 +82,8 @@
     "title": "Reviews",
     "description": "Manage user feedback",
     "playground": "Go to playground",
-    "search": "Search..."
+    "search": "Search...",
+    "noMore": "No more reviews to display"
   },
   "newsletter": {
     "title": "Newsletter",
@@ -133,6 +136,9 @@
     "goToRegister": "Create admin account",
     "username": "Username",
     "email": "Email",
-    "password": "Password"
+    "search": "Search...",
+    "password": "Password",
+    "noMore": "No more posts to display",
+    "noMoreReview": "No reviews to display"
   }
 }

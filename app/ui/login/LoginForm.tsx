@@ -7,7 +7,7 @@ import { ButtonSpinner } from "../../components/LoadingSpinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCode } from "@fortawesome/free-solid-svg-icons";
 
-export default function LoginForm({ locale }: any) {
+export default function LoginForm({ locale, lang }: any) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [error, setError] = useState("");
@@ -30,7 +30,7 @@ export default function LoginForm({ locale }: any) {
         setError("Invalid email or password");
       } else {
         setError("");
-        router.replace("/admin-cp");
+        router.replace(`/${lang}/admin-cp`);
       }
     } catch (error) {
       setError("An error occurred. Please try again.");
@@ -42,9 +42,9 @@ export default function LoginForm({ locale }: any) {
   useEffect(() => {
     if (sessionStatus === "authenticated") {
       if (session && session.user.role === "admin") {
-        return router.replace("/admin-cp");
+        return router.replace(`${lang}/admin-cp`);
       }
-      router.replace("/playground");
+      router.replace(`${lang}/playground`);
     }
   }, [sessionStatus, router]);
 
@@ -93,11 +93,14 @@ export default function LoginForm({ locale }: any) {
           <p className="text-red-600 mt-4 ">{error && error}</p>
         </form>
         <div className="flex justify-center items-center mb-10 sm:my-2 tall:my-5 tall:text-3xl">
-          <Link href={"/add-admin"} className="text-mainTheme">
+          <Link href={`/${lang}/add-admin`} className="text-mainTheme">
             {locale.goToRegister}
           </Link>
           <span className="mx-5 text-[#666]">||</span>
-          <Link href={"/playground"} className="text-mainTheme flex gap-0.5">
+          <Link
+            href={`/${lang}/playground`}
+            className="text-mainTheme flex gap-0.5"
+          >
             Playground
           </Link>
         </div>

@@ -9,7 +9,7 @@ import { faCode } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
-export default function RegisterForm({ locale }: any) {
+export default function RegisterForm({ locale, lang }: any) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -17,7 +17,7 @@ export default function RegisterForm({ locale }: any) {
 
   useEffect(() => {
     if (sessionStatus === "authenticated") {
-      router.replace("/admin-cp");
+      router.replace(`/${lang}/admin-cp`);
     }
   }, [sessionStatus, router]);
 
@@ -81,7 +81,7 @@ export default function RegisterForm({ locale }: any) {
           email,
           password,
         });
-        router.push("/admin-cp");
+        router.push(`/${lang}/admin-cp`);
       }
     } catch (error) {
       setError("Error, try again");
@@ -153,7 +153,7 @@ export default function RegisterForm({ locale }: any) {
           <p className="text-red-600 mt-4 ">{error && error}</p>
         </form>
         <div className="mb-10 sm:my-2 tall:my-5 tall:text-3xl">
-          <Link href={"/"} className="text-mainTheme flex gap-0.5">
+          <Link href={`/${lang}/`} className="text-mainTheme flex gap-0.5">
             <ArrowLeftIcon className="w-4 tall:w-8" />
             <p>{locale.back}</p>
           </Link>

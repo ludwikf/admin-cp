@@ -1,19 +1,11 @@
 "use client";
-import {
-  ArrowLeftIcon,
-  ArrowLeftOnRectangleIcon,
-  ArrowRightOnRectangleIcon,
-} from "@heroicons/react/24/solid";
-import Image from "next/image";
-import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
-import { signOut } from "next-auth/react";
 import Rating from "@/app/components/Rating";
 import { LoadingSpinner } from "@/app/components/LoadingSpinner";
 import PostImage from "@/app/components/PostImage";
 
-export default function PlaygroundMain() {
+export default function PlaygroundMain({ locale }: any) {
   const [posts, setPosts] = useState<any[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -130,7 +122,7 @@ export default function PlaygroundMain() {
       {!hasMore && (
         <div className="mb-4 py-4 ">
           <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
-            No More Posts to Display
+            {locale.noMore}
           </div>
         </div>
       )}

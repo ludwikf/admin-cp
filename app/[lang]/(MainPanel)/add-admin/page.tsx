@@ -12,7 +12,7 @@ export default async function Register({
   const { form } = await getDictionary(lang);
   return (
     <main className="h-[100dvh] w-[100dvw] flex justify-center items-center">
-      <RegisterForm locale={form} />
+      <RegisterForm locale={form} lang={lang} />
     </main>
   );
 }

@@ -530,7 +530,7 @@ export default function UsersMain({ locale }: any) {
                   colSpan={5}
                   className="text-center py-2 text-mainTheme border-t-2 border-mainTheme"
                 >
-                  No more users to display
+                  {locale.noMore}
                 </td>
               </tr>
             )}

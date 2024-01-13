@@ -23,7 +23,9 @@ export default function UserProfile() {
   }
   return (
     <nav className="absolute text-xl right-[10px] xs:right-[30px] top-[28px] flex gap-3">
-      <ul className="hidden lg:block ">{session.user.username}</ul>
+      {session && session.user.username && (
+        <ul className="hidden lg:block ">{session.user.username}</ul>
+      )}
       <ul className="flex text-[15px]">
         <li>
           <Link href={redirectedPathName(i18n.locales[0])}>

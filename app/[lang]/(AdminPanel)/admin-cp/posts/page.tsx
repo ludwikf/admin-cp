@@ -18,7 +18,7 @@ export default async function Posts({
             <h1 className="text-3xl font-bold">{posts.title}</h1>
             <p className="text-mainTheme mb-1">{posts.description}</p>
             <Link
-              href={"/playground"}
+              href={`/${lang}/playground`}
               className="text-[#888] hover:text-[#ccc]"
             >
               {posts.playground}
@@ -26,7 +26,7 @@ export default async function Posts({
           </div>
         </div>
         <div className="w-[90%] h-[84%] flex flex-col items-end">
-          <PostsMain locale={posts} />
+          <PostsMain locale={posts} lang={lang} />
         </div>
       </div>
     </main>

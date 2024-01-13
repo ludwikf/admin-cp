@@ -1,20 +1,14 @@
 "use client";
-import {
-  ArrowLeftIcon,
-  ArrowLeftOnRectangleIcon,
-  ArrowPathIcon,
-  ArrowRightOnRectangleIcon,
-} from "@heroicons/react/24/solid";
-import Image from "next/image";
+import { ArrowPathIcon } from "@heroicons/react/24/solid";
+
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
-import { signOut } from "next-auth/react";
+
 import Rating from "@/app/components/Rating";
 import PostImage from "@/app/components/PostImage";
 import { LoadingSpinner } from "@/app/components/LoadingSpinner";
 
-export default function ReviewsMain({ locale }: any) {
+export default function ReviewsMain({ locale, lang }: any) {
   const [posts, setPosts] = useState<any[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -138,7 +132,7 @@ export default function ReviewsMain({ locale }: any) {
           <div className="flex flex-col gap-5">
             {filterPosts(searchQuery).map((post, index) => (
               <Link
-                href={`/admin-cp/reviews/post-review/${post._id}`}
+                href={`/${lang}/admin-cp/reviews/post-review/${post._id}`}
                 key={index}
                 className="flex w-[100%] h-[200px] bg-[#282828] rounded-xl overflow-hidden items-center hover:bg-[#222]"
               >
@@ -169,7 +163,7 @@ export default function ReviewsMain({ locale }: any) {
           {!hasMore && (
             <div className="mb-4 py-4 ">
               <div className="text-center py-2 text-mainTheme border-t-2 border-mainTheme">
-                No more reviews to display
+                {locale.noMore}
               </div>
             </div>
           )}

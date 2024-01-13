@@ -18,7 +18,7 @@ export default async function Newsletter({
           </div>
         </div>
         <div className="w-[90%] h-[84vh] flex flex-col items-center">
-          <NewsletterMain locale={newsletter} />
+          <NewsletterMain locale={newsletter} lang={lang} />
         </div>
       </div>
     </main>

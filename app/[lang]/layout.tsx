@@ -8,6 +8,7 @@ import { getWebSettings } from "../components/WebSettings";
 import React from "react";
 import { Locale, i18n } from "@/i18n.config";
 import { getDictionary } from "@/libs/dictionary";
+import UserProfile from "../components/UserProfile";
 
 const SS3 = Roboto({ subsets: ["latin"], weight: "400" });
 
@@ -32,7 +33,11 @@ export default async function RootLayout({
         <meta name="description" content={webProps.websiteDescription} />
       </head>
       <body className={SS3.className}>
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <SessionProvider session={session}>
+          {" "}
+          <UserProfile />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );

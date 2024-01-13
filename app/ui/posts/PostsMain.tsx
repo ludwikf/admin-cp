@@ -12,7 +12,7 @@ import { LoadingSpinner } from "@/app/components/LoadingSpinner";
 import { useSession } from "next-auth/react";
 import PostImage from "@/app/components/PostImage";
 
-export default function PostsMain({ locale }: any) {
+export default function PostsMain({ locale, lang }: any) {
   const [posts, setPosts] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("");
@@ -199,7 +199,7 @@ export default function PostsMain({ locale }: any) {
             <input
               id="search"
               type="text"
-              placeholder="Search..."
+              placeholder={locale.search}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="  bg-[#161616] rounded-3xl px-5 p-1.5 mr-2 lg:mr-0 w-[180px] lg:w-[200px] text-white focus:outline-none focus:ring-0 border-2 focus:border-mainTheme placeholder:text-[#666]"
@@ -208,7 +208,7 @@ export default function PostsMain({ locale }: any) {
         </div>
 
         <Link
-          href={"/admin-cp/posts/new-post"}
+          href={`/${lang}/admin-cp/posts/new-post`}
           className="text-center lg:bg-white lg:text-black lg:px-3 lg:py-2 rounded-full lg:rounded-xl hover:brightness-50 transition-all mb-3"
         >
           <span className="hidden lg:block">{locale.new}</span>
@@ -282,7 +282,7 @@ export default function PostsMain({ locale }: any) {
                   <div className="flex gap-5 lg:gap-1">
                     <Link
                       rel="stylesheet"
-                      href={`/admin-cp/posts/edit-post/${post._id}`}
+                      href={`/${lang}/admin-cp/posts/edit-post/${post._id}`}
                       className="cursor-pointer select-none hover:text-mainTheme"
                     >
                       <PencilSquareIcon className="w-6 lg:w-5" />
@@ -303,7 +303,7 @@ export default function PostsMain({ locale }: any) {
                   colSpan={5}
                   className="text-center py-2 text-mainTheme border-t-2 border-mainTheme"
                 >
-                  No More Posts to Display
+                  {locale.noMore}
                 </td>
               </tr>
             )}

@@ -12,7 +12,7 @@ export default async function Admincp({
 
   return (
     <main className="h-[100dvh] w-[100dvw] flex justify-center items-center">
-      <LoginForm locale={form} />
+      <LoginForm locale={form} lang={lang} />
     </main>
   );
 }
