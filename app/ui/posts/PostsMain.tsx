@@ -220,7 +220,7 @@ export default function PostsMain({ locale, lang }: any) {
         </CustomLink>
       </div>
       <div
-        className="w-full h-full relative overflow-x-auto lg:overflow-x-hidden hideScrollbar"
+        className="w-full h-[100dvh] relative overflow-x-auto lg:overflow-x-hidden hideScrollbar"
         onScroll={handleScroll}
         ref={containerRef}
       >
@@ -301,17 +301,17 @@ export default function PostsMain({ locale, lang }: any) {
               </tr>
             ))}
             {!hasMore && (
-              <tr className="mb-4 py-4 ">
+              <tr className="mb-4 py-4">
                 <td
                   colSpan={5}
                   className="text-center py-2 text-mainTheme border-t-2 border-mainTheme"
                 >
-                  {locale.noMore}
+                  <p className=" hidden lg:block"> {locale.noMore}</p>
                 </td>
               </tr>
             )}
             {isLoading && hasMore && (
-              <tr>
+              <tr className="hidden lg:table-row">
                 <td colSpan={5} className="w-full h-full relative">
                   <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
                     <LoadingSpinner />

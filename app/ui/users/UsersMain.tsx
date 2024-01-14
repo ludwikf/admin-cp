@@ -445,7 +445,7 @@ export default function UsersMain({ locale }: any) {
       </div>
 
       <div
-        className="w-full h-full relative overflow-x-auto lg:overflow-x-hidden hideScrollbar"
+        className="w-full h-[100dvh] relative overflow-x-auto lg:overflow-x-hidden hideScrollbar"
         onScroll={handleScroll}
         ref={containerRef}
       >
@@ -530,12 +530,12 @@ export default function UsersMain({ locale }: any) {
                   colSpan={5}
                   className="text-center py-2 text-mainTheme border-t-2 border-mainTheme"
                 >
-                  {locale.noMore}
+                  <p className="hidden lg:block"> {locale.noMore}</p>
                 </td>
               </tr>
             )}
             {isLoading && hasMore && (
-              <tr>
+              <tr className="hidden lg:table-row">
                 <td colSpan={5} className="w-full h-full relative">
                   <div className="w-[50px] h-[50px] absolute left-[50%] top-3 -translate-x-1/2">
                     <LoadingSpinner />
