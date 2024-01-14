@@ -13,7 +13,6 @@ import {
   Bars3Icon,
   CodeBracketIcon,
 } from "@heroicons/react/24/solid";
-import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
 import { CommandLineIcon } from "@heroicons/react/24/outline";
 import { Locale, i18n } from "@/i18n.config";

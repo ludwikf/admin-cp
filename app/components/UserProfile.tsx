@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React from "react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { i18n } from "@/i18n.config";
 
@@ -34,6 +34,15 @@ export default function UserProfile() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      console.log("logouting");
+      await signOut();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (status === "loading") {
     return null;
   }
@@ -42,8 +51,12 @@ export default function UserProfile() {
   }
   return (
     <nav className="absolute text-xl right-[10px] xs:right-[30px] top-[28px] flex gap-3 select-none">
-      {session && session.user.username && (
-        <ul className="hidden lg:block ">{session.user.username}</ul>
+      {session && session.user.role === "user" ? (
+        <ul className="cursor-pointer" onClick={handleLogout}>
+          Logout
+        </ul>
+      ) : (
+        <ul className="hidden lg:block ">{session?.user?.username}</ul>
       )}
       <ul className="flex text-[15px]">
         <li>
