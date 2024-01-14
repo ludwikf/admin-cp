@@ -43,7 +43,6 @@ export async function POST(req: any) {
 
     return Response.json(results);
   } catch (error) {
-    console.log(error);
     return Response.json({ error });
   }
 }

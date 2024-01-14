@@ -1,6 +1,5 @@
 import React from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
-import Link from "next/link";
 import PostReviewMain from "@/app/ui/reviews/post-review/PostReviewMain";
 import { Locale } from "@/i18n.config";
 import { getDictionary } from "@/libs/dictionary";

@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import PostsMain from "@/app/ui/posts/PostsMain";
 import { Locale } from "@/i18n.config";
 import { getDictionary } from "@/libs/dictionary";

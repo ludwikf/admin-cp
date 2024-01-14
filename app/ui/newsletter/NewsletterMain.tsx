@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { LoadingSpinner } from "@/app/components/LoadingSpinner";
@@ -62,7 +61,7 @@ export default function NewsletterMain({ locale, lang }: any) {
         window.location.reload();
       }
     } catch (error) {
-      console.log(error);
+      throw new Error("Error submitting");
     } finally {
       setIsSubmitting(false);
     }

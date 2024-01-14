@@ -1,13 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  ArrowLeftIcon,
-  ArrowPathIcon,
-  StarIcon,
-  TrashIcon,
-} from "@heroicons/react/24/solid";
-import Image from "next/image";
-import Link from "next/link";
+import { ArrowPathIcon, StarIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { LoadingSpinner } from "@/app/components/LoadingSpinner";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";

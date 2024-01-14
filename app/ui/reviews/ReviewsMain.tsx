@@ -1,9 +1,6 @@
 "use client";
 import { ArrowPathIcon } from "@heroicons/react/24/solid";
-
-import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-
 import Rating from "@/app/components/Rating";
 import PostImage from "@/app/components/PostImage";
 import { LoadingSpinner } from "@/app/components/LoadingSpinner";

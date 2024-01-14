@@ -1,5 +1,4 @@
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
-import Link from "next/link";
 import React from "react";
 import PlaygroundMain from "@/app/ui/playground/PlaygroundMain";
 import { Locale } from "@/i18n.config";

@@ -1,8 +1,7 @@
 import SettingsMain from "@/app/ui/settings/SettingsMain";
 import { Locale } from "@/i18n.config";
 import { getDictionary } from "@/libs/dictionary";
-import { useSession } from "next-auth/react";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 
 export default async function Settings({
   params: { lang },

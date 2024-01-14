@@ -54,9 +54,7 @@ export default function NewPostMain({ locale }: any) {
       });
 
       if (!res.ok) {
-        res.json().then((e) => {
-          console.log(e);
-        });
+        throw new Error("Error submitting");
       }
       if (res.status === 200) {
         router.push("/admin-cp/posts");

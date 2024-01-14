@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React from "react";
 import ReviewsMain from "@/app/ui/reviews/ReviewsMain";
 import { Locale } from "@/i18n.config";

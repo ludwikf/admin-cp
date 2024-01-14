@@ -6,7 +6,6 @@ import { signIn, useSession } from "next-auth/react";
 import { ButtonSpinner } from "@/app/components/LoadingSpinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCode } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import CustomLink from "@/app/components/CustomLink";
 import GetLocale from "@/app/components/GetLocale";

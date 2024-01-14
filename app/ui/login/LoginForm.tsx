@@ -2,12 +2,10 @@
 import React, { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { ButtonSpinner } from "../../components/LoadingSpinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCode } from "@fortawesome/free-solid-svg-icons";
 import CustomLink from "@/app/components/CustomLink";
-import { i18n } from "@/i18n.config";
 import GetLocale from "@/app/components/GetLocale";
 
 export default function LoginForm({ locale, lang }: any) {
@@ -15,12 +13,6 @@ export default function LoginForm({ locale, lang }: any) {
   const router = useRouter();
   const [error, setError] = useState("");
   const { status: sessionStatus, data: session }: any = useSession();
-
-  // const getLocale = (href: string, lang: string) => {
-  //   const isDefaultLang = lang === i18n.defaultLocale;
-  //   const path = isDefaultLang ? href : `/${lang}${href}`;
-  //   return path;
-  // };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();

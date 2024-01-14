@@ -7,7 +7,6 @@ import SessionProvider from "@/libs/SessionProvider";
 import { getWebSettings } from "../components/WebSettings";
 import React from "react";
 import { Locale, i18n } from "@/i18n.config";
-import { getDictionary } from "@/libs/dictionary";
 import UserProfile from "../components/UserProfile";
 
 const SS3 = Roboto({ subsets: ["latin"], weight: "400" });
