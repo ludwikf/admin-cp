@@ -15,7 +15,7 @@ export default async function Playground({
   return (
     <main className="max-w-screen min-h-[100dvh] flex justify-center overflow-hidden">
       <CustomLink
-        href={`/`}
+        href={`/admin-cp`}
         lang={lang}
         className="absolute left-12 top-10 flex gap-0.5 hover:text-mainTheme tall:text-3xl"
       >
