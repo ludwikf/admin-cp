@@ -1,6 +1,5 @@
 import { Roboto } from "next/font/google";
 import "./globals.css";
-import PlausibleProvider from "next-plausible";
 
 import { getServerSession } from "next-auth/next";
 import SessionProvider from "@/libs/SessionProvider";
@@ -27,7 +26,6 @@ export default async function RootLayout({
   return (
     <html lang={params.lang}>
       <head>
-        <PlausibleProvider domain="ludwikfaron.com" />
         <title>{webProps.websiteTitle || "Ludwik's Cp"}</title>
         <meta name="description" content={webProps.websiteDescription} />
       </head>
