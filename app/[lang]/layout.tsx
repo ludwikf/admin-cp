@@ -27,7 +27,11 @@ export default async function RootLayout({
   return (
     <html lang={params.lang}>
       <head>
-        <PlausibleProvider domain="ludwik-admincp.netlify.app" />
+        <PlausibleProvider
+          domain="ludwik-admincp.netlify.app"
+          trackLocalhost={true}
+          enabled
+        />
         <title>{webProps.websiteTitle || "Ludwik's Cp"}</title>
         <meta name="description" content={webProps.websiteDescription} />
       </head>
