@@ -130,7 +130,7 @@ export default async function Dashboard({
         </div>
         <div className="w-[90%] short:h-auto lg:h-[45%] flex flex-col short:flex-col lg:flex-row mb-5 gap-5 short:gap-5 lg:gap-0 items-center">
           <div className="bg-secondTheme h-[250px] short:h-[250px] lg:h-[100%] w-[100%] sm:w-[75%] short:w-[75%] lg:w-[40%] rounded-3xl short:mr-0 lg:mr-5 flex justify-center items-center order-2 short:order-2 lg:order-1">
-            <div className="w-[85%] h-[85%] short:w-[85%] lg:w-[80%] short:h-[85%] lg:h-[80%] flex flex-col items-center short:items-center lg:items-start">
+            <div className="w-[85%] h-[85%] short:w-[85%] lg:w-[80%] short:h-[85%] lg:h-[80%] flex flex-col items-center short:items-center lg:items-center">
               <div className="flex flex-col items-center short:flex lg:block">
                 <div className="text-xl short:text-xl lg:text-2xl mb-3 xs:mb-6">
                   {dashboard.post.title}

@@ -51,7 +51,7 @@ export default function UserProfile() {
   }
   return (
     <nav className="absolute text-xl right-[10px] xs:right-[30px] top-[28px] flex gap-3 select-none">
-      {session ? (
+      {session && session.user.role === "user" ? (
         <ul className="cursor-pointer" onClick={handleLogout}>
           Logout
         </ul>
