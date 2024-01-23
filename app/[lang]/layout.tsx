@@ -27,17 +27,12 @@ export default async function RootLayout({
   return (
     <html lang={params.lang}>
       <head>
-        <PlausibleProvider
-          domain="ludwik-admincp.netlify.app"
-          trackLocalhost={true}
-          enabled
-        />
+        <PlausibleProvider domain="ludwikfaron.com" />
         <title>{webProps.websiteTitle || "Ludwik's Cp"}</title>
         <meta name="description" content={webProps.websiteDescription} />
       </head>
       <body className={SS3.className}>
         <SessionProvider session={session}>
-          {" "}
           <UserProfile />
           {children}
         </SessionProvider>
