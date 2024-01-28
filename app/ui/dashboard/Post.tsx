@@ -2,22 +2,23 @@ import FormatDate from "@/app/components/FormatDate";
 import PostImage from "@/app/components/PostImage";
 import React from "react";
 
-export default async function Post({ dict }: any) {
-  async function fetchPost() {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-post-new`
-      );
+async function fetchPost() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-post-new`
+    );
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch data");
-      }
-
-      return res.json();
-    } catch (error) {
-      return null;
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
     }
+
+    return res.json();
+  } catch (error) {
+    return null;
   }
+}
+
+export default async function Post({ dict }: any) {
   const post = await fetchPost();
   return (
     <div className="w-[85%] h-[85%] short:w-[85%] lg:w-[80%] short:h-[85%] lg:h-[80%] flex flex-col items-center short:items-center lg:items-center">

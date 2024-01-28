@@ -2,22 +2,23 @@ import FormatDate from "@/app/components/FormatDate";
 import { UserCircleIcon } from "@heroicons/react/20/solid";
 import React from "react";
 
-export default async function User({ dict }: any) {
-  async function fetchUser() {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-user-new`
-      );
+async function fetchUser() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-user-new`
+    );
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch data");
-      }
-
-      return res.json();
-    } catch (error) {
-      return null;
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
     }
+
+    return res.json();
+  } catch (error) {
+    return null;
   }
+}
+
+export default async function User({ dict }: any) {
   const user = await fetchUser();
   return (
     <div className="w-[80%] h-[70%] flex flex-col items-center">

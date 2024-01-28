@@ -2,22 +2,23 @@ import FormatDate from "@/app/components/FormatDate";
 import { StarIcon } from "@heroicons/react/20/solid";
 import React from "react";
 
-export default async function Review({ dict }: any) {
-  async function fetchReview() {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-review-new`
-      );
+async function fetchReview() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-review-new`
+    );
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch data");
-      }
-
-      return res.json();
-    } catch (error) {
-      return null;
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
     }
+
+    return res.json();
+  } catch (error) {
+    return null;
   }
+}
+
+export default async function Review({ dict }: any) {
   const review = await fetchReview();
   return (
     <div className="w-[80%] h-[80%] flex flex-col items-center">
