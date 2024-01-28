@@ -20,6 +20,13 @@ const config: Config = {
         mainTheme: "#ffa500",
       },
     },
+    keyframes: {
+      shimmer: {
+        "100%": {
+          transform: "translateX(100%)",
+        },
+      },
+    },
   },
   plugins: [],
 };
