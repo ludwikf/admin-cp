@@ -1,9 +1,40 @@
 import FormatDate from "@/app/components/FormatDate";
-import { fetchUser } from "@/app/libs/data";
 import { UserCircleIcon } from "@heroicons/react/20/solid";
 import React from "react";
 
+async function fetchUser() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-user-new`
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+  } catch (error) {
+    return null;
+  }
+}
+
 export default async function User({ dict }: any) {
+  // const fetchUser = async () => {
+  //   try {
+  //     const res = await fetch(
+  //       `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-user-new`
+  //     );
+
+  //     if (!res.ok) {
+  //       throw new Error("Failed to fetch data");
+  //     }
+
+  //     return res.json();
+  //   } catch (error) {
+  //     return null;
+  //   }
+  // };
+
   const user = await fetchUser();
   return (
     <div className="w-[80%] h-[70%] flex flex-col items-center">
