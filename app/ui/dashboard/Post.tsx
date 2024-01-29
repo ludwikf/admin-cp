@@ -1,22 +1,7 @@
 import FormatDate from "@/app/components/FormatDate";
 import PostImage from "@/app/components/PostImage";
+import { fetchPost } from "@/app/libs/data";
 import React from "react";
-
-async function fetchPost() {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-post-new`
-    );
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
-
-    return res.json();
-  } catch (error) {
-    return null;
-  }
-}
 
 export default async function Post({ dict }: any) {
   const post = await fetchPost();

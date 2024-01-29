@@ -1,22 +1,7 @@
 import FormatDate from "@/app/components/FormatDate";
+import { fetchReview } from "@/app/libs/data";
 import { StarIcon } from "@heroicons/react/20/solid";
 import React from "react";
-
-async function fetchReview() {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WEB_URL}/api/get-review-new`
-    );
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
-
-    return res.json();
-  } catch (error) {
-    return null;
-  }
-}
 
 export default async function Review({ dict }: any) {
   const review = await fetchReview();
