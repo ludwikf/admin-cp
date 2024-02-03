@@ -27,7 +27,10 @@ export default async function RootLayout({
     <html lang={params.lang}>
       <head>
         <title>{webProps.websiteTitle || "Ludwik's Cp"}</title>
-        <meta name="description" content={webProps.websiteDescription} />
+        <meta
+          name="Ludwik's control panel"
+          content={webProps.websiteDescription}
+        />
       </head>
       <body className={SS3.className}>
         <SessionProvider session={session}>
