@@ -27,6 +27,7 @@ export default async function Review({ dict }: any) {
         <div className="flex flex-col items-center xs:block">
           <div className="text-xl short:text-xl lg:text-2xl mb-2 xs:mb-5">
             {dict.review.title}
+            {/* vmanage */}
           </div>
 
           <div className="flex flex-col items-center justify-center mb-5 gap-2 min-h-[100px]">
