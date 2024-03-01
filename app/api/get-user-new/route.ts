@@ -5,7 +5,10 @@ import { NextResponse } from "next/server";
 export const GET = async () => {
   try {
     await connectMongoDB();
-    const data = await User.find().sort({ createdAt: -1 }).limit(1);
+    const data = await User.find()
+      .sort({ createdAt: -1 })
+      .limit(1)
+      .select("-password");
 
     return new NextResponse(JSON.stringify(data));
   } catch (error: any) {
