@@ -34,7 +34,7 @@ export default function LoginForm({ locale, lang }: any) {
         router.replace(`${GetLocale("/admin-cp", lang)}`);
       }
     } catch (error) {
-      setError("An error occurred. Please try again.");
+      setError("An error occurred. Please try again");
     } finally {
       setLoading(false);
     }
