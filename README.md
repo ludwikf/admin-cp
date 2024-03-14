@@ -38,4 +38,4 @@ License
 Copyright (c) 2024 Lufajs - Released under the MIT license.
 
 Contact
-If you have any questions or suggestions regarding the admin control panel, feel free to contact at faronludwik@gmail.com.
+If you have any questions or suggestions regarding the admin control panel, feel free to contact at faronludwik@gmail.com
