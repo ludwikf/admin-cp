@@ -31,6 +31,11 @@ export default async function RootLayout({
           name="Ludwik's control panel"
           content={webProps.websiteDescription}
         />
+        <script
+          defer
+          data-domain="ludwikfaron.com"
+          src="https://plausible.io/js/script.js"
+        ></script>
       </head>
       <body className={SS3.className}>
         <SessionProvider session={session}>
