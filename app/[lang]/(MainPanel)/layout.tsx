@@ -15,7 +15,6 @@ export default async function RootLayout({
   return (
     <main className={SS3.className}>
       <SessionProvider session={session}>{children}</SessionProvider>
-      {/* 50 */}
     </main>
   );
 }
