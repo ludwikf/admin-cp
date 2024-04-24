@@ -1,6 +1,7 @@
 import React from "react";
 import UsersMain from "@/app/ui/users/UsersMain";
 import { Locale } from "@/i18n.config";
+
 import { getDictionary } from "@/libs/dictionary";
 
 export default async function Users({

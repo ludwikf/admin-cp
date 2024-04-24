@@ -38,6 +38,7 @@
     "title": "Logs",
     "description": "Track user actions"
   },
+
   "users": {
     "title": "Users",
     "description": "Manage user accounts",
