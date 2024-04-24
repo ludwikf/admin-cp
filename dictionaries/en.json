@@ -140,6 +140,23 @@
     "search": "Search...",
     "password": "Password",
     "noMore": "No more posts to display",
-    "noMoreReview": "No reviews to display"
+    "noMoreReview": "No reviews to display",
+    "i1": "Let me present you",
+    "i2": "Admin Control Panel",
+    "i3": "This project was entirely developed by",
+    "i4": "Ludwik Faron",
+    "i5": ". I provide a version of it as a Headless CMS ready for integration. The complete documentation is available on",
+    "i6": "Github",
+    "i7": ". Here, I present its appearance.",
+    "i8": "To get Started",
+    "i9": "Login with",
+    "i10": "guest",
+    "i11": "account",
+    "i12": "Email - ",
+    "i13": "guest@test.com",
+    "i14": "Password -",
+    "i15": "guest",
+    "i16": "Or create new admin account here",
+    "i17": "Create admin account"
   }
 }

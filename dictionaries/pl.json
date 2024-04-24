@@ -139,6 +139,23 @@
     "search": "Wyszukaj...",
     "password": "Hasło",
     "noMore": "Brak kolejnych postów do wyświetlenia",
-    "noMoreReview": "Brak opinii do wyświetlenia"
+    "noMoreReview": "Brak opinii do wyświetlenia",
+    "i1": "Prezentuję",
+    "i2": "Panel administracyjny",
+    "i3": "Ten projekt został w całości opracowany przez",
+    "i4": "Ludwika Farona",
+    "i5": ". Udostępniam wersję jako Headless CMS gotową do integracji. Pełna dokumentacja jest dostępna na",
+    "i6": "Githubie",
+    "i7": ". Tutaj przedstawiam jego wygląd.",
+    "i8": "Aby zacząć",
+    "i9": "Zaloguj się na konto",
+    "i10": "gościa",
+    "i11": "",
+    "i12": "Email - ",
+    "i13": "guest@test.com",
+    "i14": "Hasło -",
+    "i15": "guest",
+    "i16": "Lub utwórz nowe konto administratora tutaj",
+    "i17": "Stwórz konto administratora"
   }
 }

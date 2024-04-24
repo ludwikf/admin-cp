@@ -7,12 +7,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCode } from "@fortawesome/free-solid-svg-icons";
 import CustomLink from "@/app/components/CustomLink";
 import GetLocale from "@/app/components/GetLocale";
+import { InformationCircleIcon as InfSolid } from "@heroicons/react/24/solid";
+import { InformationCircleIcon as InfOut } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/20/solid";
+import Link from "next/link";
 
 export default function LoginForm({ locale, lang }: any) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [error, setError] = useState("");
   const { status: sessionStatus, data: session }: any = useSession();
+  const [info, setInfo] = useState(false);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -55,7 +60,79 @@ export default function LoginForm({ locale, lang }: any) {
 
   return (
     <>
-      <div className="bg-secondTheme short:bg-inherit short:pt-3 w-[100%] short:w-[100%] short:h-[100%] short:rounded-none sm:w-[400px] tall:w-[800px] h-[100%] sm:h-[400px] tall:h-[800px] sm:rounded-2xl flex flex-col items-center justify-between">
+      <div className="bg-secondTheme relative short:bg-inherit short:pt-3 w-[100%] short:w-[100%] short:h-[100%] short:rounded-none sm:w-[400px] tall:w-[800px] h-[100%] sm:h-[400px] tall:h-[800px] sm:rounded-2xl flex flex-col items-center justify-between">
+        {info && (
+          <div
+            className={`absolute w-[100%] h-[100%] bg-mainTheme rounded-2xl ${
+              info ? "fade-in" : "fade-out"
+            }`}
+            onMouseLeave={() => setInfo(false)}
+          >
+            <InfSolid className="w-10 text-secondTheme absolute right-3 top-3 hidden sm:block" />
+            <XMarkIcon
+              className="w-10 text-secondTheme absolute right-3 top-3 sm:hidden"
+              onClick={() => setInfo(false)}
+            />
+
+            <div className="w-full h-full p-5 text-black">
+              <div className="flex flex-col text-center">
+                <span>{locale.i1}</span>
+                <span className="font-bold text-2xl">{locale.i2}</span>
+              </div>
+              <div className="text-center my-2 text-sm">
+                {locale.i3}{" "}
+                <Link
+                  href={"https://www.ludwikfaron.com/"}
+                  target="_blank"
+                  className="font-bold"
+                >
+                  {locale.i4}
+                </Link>
+                {locale.i5}{" "}
+                <Link
+                  href={"https://github.com/ludwikf"}
+                  target="_blank"
+                  className="font-bold"
+                >
+                  {locale.i6}
+                </Link>
+                {locale.i7}
+              </div>
+              <div className="text-center font-bold text-xl my-4">
+                {locale.i8}
+              </div>
+              <div className="text-center">
+                <div className="mb-1 mt-2">
+                  {locale.i9} <span className="font-bold">{locale.i10}</span>{" "}
+                  {locale.i11}
+                </div>
+                <div className="flex justify-center gap-3">
+                  <div>
+                    <span className="font-bold">{locale.i12}</span>
+                    {locale.i13}
+                  </div>
+                  <div>
+                    <span className="font-bold">{locale.i14} </span>
+                    {locale.i15}
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4 text-center">
+                <div>{locale.i16}</div>
+                <Link href={"/add-admin"} className="font-bold">
+                  {locale.i17}
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <InfOut
+          className={`w-10 text-mainTheme absolute ${
+            !info ? "fade-in" : "fade-out"
+          } right-3 top-3 ${info && "hidden"}`}
+          onMouseEnter={() => setInfo(true)}
+        />
         <FontAwesomeIcon
           className="w-[100px] h-[100px] tall:w-[200px] tall:h-[200px] text-mainTheme my-5 short:hidden"
           icon={faCode}
